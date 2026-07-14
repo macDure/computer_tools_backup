@@ -1,0 +1,15 @@
+● v2raya.service - v2rayA Service
+     Loaded: loaded (/usr/lib/systemd/system/v2raya.service; enabled; preset: enabled)
+     Active: active (running) since Sat 2026-07-04 18:07:36 CST; 11min ago
+       Docs: https://github.com/v2rayA/v2rayA/wiki
+   Main PID: 45878 (v2raya)
+      Tasks: 46 (limit: 37590)
+     Memory: 115.1M (peak: 117.7M)
+        CPU: 2.306s
+     CGroup: /system.slice/v2raya.service
+             ├─45878 /usr/bin/v2raya --log-disable-timestamp
+             ├─45970 /usr/bin/v2raya_core run --config=/etc/v2raya/config.json
+             └─46020 /usr/local/bin/tinytun run --config /etc/v2raya/tinytun.yaml
+
+Jul 04 18:07:36 mac-ThinkPad-T14p-Gen-3 systemd[1]: Started v2raya.service - v2rayA Service.
+Jul 04 18:07:36 mac-ThinkPad-T14p-Gen-3 v2raya[45878]: [DEBUG] main.main started

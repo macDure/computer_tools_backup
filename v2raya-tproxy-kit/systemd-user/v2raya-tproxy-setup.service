@@ -1,0 +1,16 @@
+[Unit]
+Description=Configure v2rayA tproxy after login
+After=default.target network-online.target
+
+[Service]
+Type=oneshot
+ExecStartPre=/usr/bin/sleep 8
+ExecStart=/home/mac/v2raya-tproxy-kit/scripts/v2raya_set_tproxy.sh
+TimeoutStartSec=90
+Restart=on-failure
+RestartSec=15
+StartLimitIntervalSec=180
+StartLimitBurst=5
+
+[Install]
+WantedBy=default.target

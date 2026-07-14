@@ -1,0 +1,17 @@
+v2rayA tproxy kit manifest
+Updated: 2026-07-05 14:54:21 CST
+
+Active bundle path:
+/home/mac/v2raya-tproxy-kit
+
+Included files:
+-rw------- mac mac 34 /home/mac/v2raya-tproxy-kit/credentials/v2raya-web-credentials.txt
+-rw-r--r-- mac mac 21791 /home/mac/v2raya-tproxy-kit/v2raya_install_guide.md
+-rw-rw-r-- mac mac 0 /home/mac/v2raya-tproxy-kit/MANIFEST.txt
+-rw-rw-r-- mac mac 1925 /home/mac/v2raya-tproxy-kit/README.md
+-rw-rw-r-- mac mac 221 /home/mac/v2raya-tproxy-kit/systemd-user/v2raya-tproxy-setup.service
+-rw-rw-r-- mac mac 32803050 /home/mac/v2raya-tproxy-kit/installers/installer_debian_x64_2.4.6.deb
+-rw-rw-r-- mac mac 4588158 /home/mac/v2raya-tproxy-kit/installers/tinytun-v0.0.3-alpha.2-x86_64-unknown-linux-gnu.zip
+-rwxr-xr-x mac mac 106055694 /home/mac/v2raya-tproxy-kit/installers/v2rayN-linux-64.tar.gz
+-rwxr-xr-x mac mac 2147 /home/mac/v2raya-tproxy-kit/scripts/v2raya_import_subscription.sh
+-rwxr-xr-x mac mac 5094 /home/mac/v2raya-tproxy-kit/scripts/v2raya_set_tproxy.sh

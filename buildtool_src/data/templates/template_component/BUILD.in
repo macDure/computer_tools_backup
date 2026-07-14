@@ -1,0 +1,34 @@
+load("//tools:apollo_package.bzl", "apollo_cc_library", "apollo_cc_binary", "apollo_package", "apollo_component")
+load("//tools:cpplint.bzl", "cpplint")
+
+package(default_visibility = ["//visibility:public"])
+
+filegroup(
+    name = "{{target_name}}_files",
+    srcs = glob([
+        "dag/**",
+        "launch/**",
+        "conf/**",
+    ]),
+)
+
+apollo_component(
+    name = "lib{{ target_name }}_component.so",
+    srcs = [
+        "{{ target_name }}_component.cc",
+    ],
+    hdrs = [
+        "{{ target_name }}_component.h",
+    ],
+    linkstatic = True,
+    deps = [
+        "//cyber",
+        "//{{ package_path }}/proto:{{ target_name }}_proto",
+{% for dep in build_dependencies %}        "{{ dep }}",
+{% endfor %}
+    ],
+)
+
+apollo_package()
+
+cpplint()

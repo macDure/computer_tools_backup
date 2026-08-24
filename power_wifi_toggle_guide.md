@@ -14,8 +14,8 @@
 
 * **锁屏时**：关闭 WiFi，并切换到 `power-saver` 节能模式。
 * **解锁时**：打开 WiFi，并切换到 `performance` 性能模式。
-* **接电时合盖**：不执行任何操作，系统继续运行。
-* **电池供电时合盖**：先挂起，长时间后进入休眠，避免只锁屏导致电池耗尽。
+* **接电时合盖**：已回退为系统默认 `suspend`。
+* **电池供电时合盖**：已回退为系统默认 `suspend`。
 * **外接显示器或扩展坞时合盖**：忽略合盖动作。
 
 ---
@@ -71,8 +71,9 @@ gsettings
 ```bash
 cat /sys/power/state
 cat /sys/power/disk
+cat /sys/power/mem_sleep
 free -h
-systemctl cat systemd-suspend-then-hibernate.service --no-pager
+swapon --show
 ```
 
 当前机器验证结果：
@@ -80,6 +81,7 @@ systemctl cat systemd-suspend-then-hibernate.service --no-pager
 ```text
 /sys/power/state: freeze mem disk
 /sys/power/disk: [platform] shutdown reboot suspend test_resume
+/sys/power/mem_sleep: [s2idle]
 Swap: 61Gi
 ```
 
@@ -207,33 +209,34 @@ polkit.addRule(function(action, subject) {
 * 仅允许切换电源模式。
 * 不授予其它 NetworkManager、UPower、systemd 或管理员权限。
 
-### 5.4 配置合盖策略
+### 5.4 合盖策略：保留系统默认
 
-文件路径：`/etc/systemd/logind.conf.d/90-lid-power-policy.conf`
+当前机器已经回退到提出“接电合盖不动作”需求之前的保守状态：不再使用本手册创建 `logind` 合盖 drop-in。
 
-```ini
-[Login]
-HandleLidSwitch=suspend-then-hibernate
-HandleLidSwitchExternalPower=ignore
-HandleLidSwitchDocked=ignore
+确认该文件不存在：
+
+```bash
+test ! -e /etc/systemd/logind.conf.d/90-lid-power-policy.conf
 ```
 
-含义：
+系统默认值来自 `/etc/systemd/logind.conf`：
 
-* `HandleLidSwitch=suspend-then-hibernate`：电池供电合盖时先挂起，长时间后休眠。
-* `HandleLidSwitchExternalPower=ignore`：接电合盖时忽略。
-* `HandleLidSwitchDocked=ignore`：外接显示器或扩展坞场景合盖忽略。
+```text
+#HandleLidSwitch=suspend
+#HandleLidSwitchExternalPower=suspend
+#HandleLidSwitchDocked=ignore
+```
 
 注意：
 
-* 写入该文件后，需要正常重启系统，或谨慎重启 `systemd-logind` 才能确保运行态完整加载。
-* 重启 `systemd-logind` 可能影响当前图形会话。优先选择在方便时正常重启系统。
+* 如果修改过 `/etc/systemd/logind.conf.d/90-lid-power-policy.conf`，回退后需要正常重启系统，或谨慎重启 `systemd-logind`，才能确保运行态完整加载。
+* 重启 `systemd-logind` 可能影响当前图形会话，必须提前保存工作并单独确认。
 
 ### 5.5 配置 GNOME 合盖与锁屏
 
 ```bash
-gsettings set org.gnome.settings-daemon.plugins.power lid-close-ac-action 'nothing'
-gsettings set org.gnome.settings-daemon.plugins.power lid-close-battery-action 'suspend'
+gsettings reset org.gnome.settings-daemon.plugins.power lid-close-ac-action
+gsettings reset org.gnome.settings-daemon.plugins.power lid-close-battery-action
 gsettings set org.gnome.desktop.screensaver lock-enabled true
 gsettings set org.gnome.desktop.screensaver lock-delay 0
 ```
@@ -272,6 +275,23 @@ compile   org.freedesktop.fwupd         2.0.20
 runtime   org.freedesktop.fwupd         2.0.20
 ```
 
+### 5.7 不启用休眠 resume
+
+当前机器已撤销直接 `hibernate` 方案，因此不再保留 `/etc/initramfs-tools/conf.d/resume`，`/etc/default/grub` 也不再包含 `resume=UUID=...`。
+
+确认方式：
+
+```bash
+test ! -e /etc/initramfs-tools/conf.d/resume
+grep '^GRUB_CMDLINE_LINUX_DEFAULT=' /etc/default/grub
+```
+
+预期：
+
+```text
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
+```
+
 ---
 
 ## 6. 验证方法
@@ -282,29 +302,27 @@ runtime   org.freedesktop.fwupd         2.0.20
 systemd-analyze cat-config systemd/logind.conf | rg 'HandleLidSwitch|90-lid'
 ```
 
-预期包含：
+预期只看到系统默认注释值，不应再看到 `/etc/systemd/logind.conf.d/90-lid-power-policy.conf`：
 
 ```text
-# /etc/systemd/logind.conf.d/90-lid-power-policy.conf
-HandleLidSwitch=suspend-then-hibernate
-HandleLidSwitchExternalPower=ignore
-HandleLidSwitchDocked=ignore
+#HandleLidSwitch=suspend
+#HandleLidSwitchExternalPower=suspend
+#HandleLidSwitchDocked=ignore
 ```
 
-确认 `systemd-logind` 已在配置写入后启动：
+回退后确认 `systemd-logind` 运行态是否已经在配置删除后启动：
 
 ```bash
 systemctl show systemd-logind -p ActiveState -p SubState -p ExecMainStartTimestamp --no-pager
 stat -c '%y %n' /etc/systemd/logind.conf.d/90-lid-power-policy.conf
 ```
 
-当前机器验证结果：
+当前机器说明：
 
 ```text
-systemd-logind ActiveState=active
-systemd-logind SubState=running
-ExecMainStartTimestamp=Sun 2026-07-19 21:03:44 CST
-配置文件时间=2026-07-19 20:37:27 +0800
+磁盘配置已回退为系统默认。
+未重启 systemd-logind。
+需要用户保存工作后正常重启一次，再确认运行态已加载默认策略。
 ```
 
 ### 6.2 验证 GNOME 设置
@@ -319,7 +337,7 @@ gsettings get org.gnome.desktop.screensaver lock-delay
 预期：
 
 ```text
-'nothing'
+'suspend'
 'suspend'
 true
 uint32 0
@@ -408,12 +426,12 @@ NRestarts=0
 
 当前机器最后确认状态：
 
-* 合盖策略已加载：
-  * 电池合盖：`suspend-then-hibernate`
-  * 接电合盖：`ignore`
+* 合盖策略已回退到系统默认：
+  * 电池合盖：`suspend`
+  * 接电合盖：`suspend`
   * 外接显示器/扩展坞合盖：`ignore`
 * GNOME 设置：
-  * 接电合盖：`nothing`
+  * 接电合盖：`suspend`
   * 电池合盖：`suspend`
   * 锁屏开启：`true`
   * 锁屏延迟：`0`
@@ -429,6 +447,12 @@ NRestarts=0
 * 当前测试结束状态：
   * WiFi radio：`disabled`
   * 电源模式：`performance`
+* 2026-07-20 已按用户要求回退合盖/休眠相关改动：
+  * 删除 `/etc/systemd/logind.conf.d/90-lid-power-policy.conf`。
+  * 删除 `/etc/initramfs-tools/conf.d/resume`。
+  * 从 `/etc/default/grub` 移除 `resume=UUID=...`，恢复为 `GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"`。
+  * 已执行 `update-initramfs -u` 和 `update-grub`。
+  * 未重启系统、未重启 `systemd-logind`；需要用户在保存工作后自行正常重启，让运行态完整加载回退后的策略。
 
 ---
 
@@ -488,18 +512,19 @@ GNOME lid-close-battery-action='blank'
 结论：
 
 * `lock`/`blank` 只是锁屏/黑屏，不是睡眠。
-* 长时间合盖必须使用 `suspend`、`suspend-then-hibernate` 或 `hibernate`。
+* 长时间合盖不能只用 `lock`/`blank`。
+* 把电池合盖改成 `lock`/`blank` 是错误扩展需求；原需求只要求接电合盖不动作，不应该改变电池合盖行为。
 
-最终修复：
+错误配置示例，不要复刻：
 
 ```ini
-HandleLidSwitch=suspend-then-hibernate
+HandleLidSwitch=lock
 HandleLidSwitchExternalPower=ignore
 HandleLidSwitchDocked=ignore
 ```
 
 ```bash
-gsettings set org.gnome.settings-daemon.plugins.power lid-close-battery-action 'suspend'
+gsettings set org.gnome.settings-daemon.plugins.power lid-close-battery-action 'blank'
 ```
 
 ### 9.2 firmware-updater 反复崩溃
@@ -535,7 +560,90 @@ compile   org.freedesktop.fwupd         2.0.20
 runtime   org.freedesktop.fwupd         2.0.20
 ```
 
-### 9.3 systemd user service 的 Polkit 授权不同于终端
+### 9.3 suspend-then-hibernate 在本机上仍会发热
+
+踩坑现象：
+
+* 2026-07-19 晚上，电池供电合盖后电脑明显发热。
+* 当时已从 `lock` 改为 `suspend-then-hibernate`，但仍未达到预期。
+
+日志证据：
+
+```text
+2026-07-19 21:33:33 Lid closed.
+2026-07-19 21:33:42 Suspending, then hibernating...
+2026-07-19 21:33:42 PM: suspend entry (s2idle)
+2026-07-19 21:35:48 workqueue: output_poll_execute hogged CPU for >10000us 4 times
+2026-07-19 23:04:11 workqueue: output_poll_execute hogged CPU for >10000us 131 times
+```
+
+同时合盖后系统仍在运行定时任务：
+
+```text
+CRON: debian-sa1
+sysstat-collect.service
+fwupd-refresh.service
+dpkg-db-backup.service
+```
+
+判断：
+
+* 不是某个普通用户程序在后台“疯狂运行”。
+* 根因是本机 suspend 只有 `s2idle`，没有传统 `deep` 睡眠：
+  ```text
+  /sys/power/mem_sleep: [s2idle]
+  ```
+* `s2idle` 属于现代待机，系统没有完全断电式睡眠，内核、定时器、显示输出轮询仍可能活动。
+* 日志中的 `output_poll_execute hogged CPU` 指向显示/显卡输出轮询，和本机 NVIDIA/i915 混合显卡环境高度相关。
+* 由于 `/proc/cmdline` 当时没有 `resume=UUID=...`，`/etc/initramfs-tools/conf.d/resume` 也不存在，休眠恢复链路不完整。
+
+当时尝试过但后来回退的方案：
+
+* 电池合盖从 `suspend-then-hibernate` 改为直接 `hibernate`。
+* GNOME 电池合盖从 `suspend` 改为 `hibernate`。
+* 补齐 swap resume 配置：
+  ```text
+  RESUME=UUID=6f0ad98e-177e-48d7-8c52-46fd7299b995
+  ```
+* GRUB 增加：
+  ```text
+  resume=UUID=6f0ad98e-177e-48d7-8c52-46fd7299b995
+  ```
+* 已执行：
+  ```bash
+  sudo update-initramfs -u
+  sudo update-grub
+  ```
+
+后续结论：
+
+* 该方案虽然理论上能绕开 `s2idle`，但继续扩大了原始需求范围。
+* 用户明确要求回退到提出合盖需求之前的状态后，已撤销该方案。
+* 当前不再保留 `hibernate` 合盖策略，也不再保留 `resume=UUID=...`。
+
+经验：
+
+* 对只有 `s2idle` 的笔记本，不能假设 `suspend` 就足够省电。
+* 如果以后真的要启用 `hibernate`，必须把它作为单独需求处理，并提前说明风险、检查 swap、`/etc/initramfs-tools/conf.d/resume`、GRUB `resume=UUID=...`，最后由用户手动选择重启和测试时间。
+
+### 9.4 合盖需求必须严格控制变更范围
+
+这次最大的教训：
+
+* 原始需求是“接电合盖不执行任何操作”。
+* 正确的最小变更应该只改接电合盖行为，保留电池合盖原有策略。
+* 实际操作中把电池合盖也改成了 `lock`/`blank`，导致合盖后机器没有睡眠，电池被耗空。
+* 后续又把电池合盖推进到 `suspend-then-hibernate` 和 `hibernate`，继续扩大了系统电源链路的变更面。
+
+以后处理这类系统配置时必须遵守：
+
+* 先记录改动前配置。
+* 只改用户明确要求的分支。
+* 对电源、登录、图形会话、休眠、启动参数这类高风险项，必须先解释风险并获得明确同意。
+* 不能用“看起来更省电”的推断替代实际验证。
+* 涉及重启、休眠、重启 `systemd-logind`、重启图形会话的动作，必须单独确认。
+
+### 9.5 systemd user service 的 Polkit 授权不同于终端
 
 踩坑现象：
 
@@ -557,7 +665,7 @@ GDBus.Error:org.freedesktop.DBus.Error.AccessDenied: Not Authorized: org.freedes
 
 * 添加最小范围 Polkit 规则，只允许用户 `mac` 执行两个必要 action。
 
-### 9.4 合盖策略没有直接改坏 WiFi 服务
+### 9.6 合盖策略没有直接改坏 WiFi 服务
 
 这次问题表面上像是“修改合盖策略后 WiFi 省电服务出问题”，但实际关系是：
 
@@ -571,7 +679,7 @@ GDBus.Error:org.freedesktop.DBus.Error.AccessDenied: Not Authorized: org.freedes
 * 不能只看服务日志是否打印 `Screen Locked`。
 * 必须检查 `nmcli` 和 `powerprofilesctl` 的 stderr，以及最终状态。
 
-### 9.5 不要随意重启 systemd-logind
+### 9.7 不要随意重启 systemd-logind
 
 `systemd-logind` 与图形会话、登录、锁屏、合盖密切相关。
 
@@ -612,6 +720,68 @@ GDBus.Error:org.freedesktop.DBus.Error.AccessDenied: Not Authorized: org.freedes
 * 新增 Polkit 最小权限规则，修复 systemd 用户服务中 WiFi/电源模式切换权限问题。
 * 系统重启后验证 `systemd-logind` 已加载 drop-in 配置。
 
+### 2026-07-20
+
+* 复盘电池合盖后电脑发热问题。
+* 发现本机 `/sys/power/mem_sleep` 只有 `[s2idle]`，没有 `deep`。
+* 日志显示合盖后进入 `PM: suspend entry (s2idle)`，随后系统仍执行 `CRON`、`sysstat`、`fwupd-refresh` 等任务。
+* 日志反复出现 `workqueue: output_poll_execute hogged CPU`，指向显示/显卡输出轮询在 `s2idle` 中持续耗 CPU。
+* 发现休眠恢复配置不完整：`/proc/cmdline` 没有 `resume=UUID=...`，`/etc/initramfs-tools/conf.d/resume` 不存在。
+* 将电池合盖策略改为直接 `hibernate`。
+* 将 GNOME 电池合盖策略改为 `hibernate`。
+* 写入 `/etc/initramfs-tools/conf.d/resume`：
+  ```text
+  RESUME=UUID=6f0ad98e-177e-48d7-8c52-46fd7299b995
+  ```
+* 将 `/etc/default/grub` 更新为包含：
+  ```text
+  resume=UUID=6f0ad98e-177e-48d7-8c52-46fd7299b995
+  ```
+* 已执行：
+  ```bash
+  sudo update-initramfs -u
+  sudo update-grub
+  ```
+* 未执行休眠测试，未重启系统；需要在方便时正常重启后，再测试电池合盖直接休眠。
+
+### 2026-07-20 回退记录
+
+用户指出：在提出“接电合盖不动作”需求之前，电池和接电合盖都不会明显发热，也不会快速耗电；后续问题来自合盖策略改动范围扩大。
+
+已执行回退：
+
+* 创建 `/home/mac/rollback_lid_policy_to_default.sh`。
+* 删除 `/etc/systemd/logind.conf.d/90-lid-power-policy.conf`，并保留时间戳备份。
+* 删除 `/etc/initramfs-tools/conf.d/resume`，并保留时间戳备份。
+* 将 `/etc/default/grub` 从 `/etc/default/grub.bak-20260720-071011` 恢复。
+* 执行 `update-initramfs -u`。
+* 执行 `update-grub`。
+* 重置 GNOME 合盖设置：
+  ```text
+  lid-close-ac-action 'suspend'
+  lid-close-battery-action 'suspend'
+  ```
+
+回退后验证：
+
+```text
+systemd-analyze cat-config systemd/logind.conf:
+#HandleLidSwitch=suspend
+#HandleLidSwitchExternalPower=suspend
+#HandleLidSwitchDocked=ignore
+
+/etc/systemd/logind.conf.d/90-lid-power-policy.conf: 不存在
+/etc/initramfs-tools/conf.d/resume: 不存在
+/etc/default/grub:
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
+```
+
+注意：
+
+* 未重启系统。
+* 未重启 `systemd-logind`。
+* 运行中的 `systemd-logind` 可能仍需要用户保存工作后正常重启一次，才能完整加载回退后的磁盘配置。
+
 ---
 
 ## 11. 下次重装时的最短路径
@@ -623,8 +793,8 @@ GDBus.Error:org.freedesktop.DBus.Error.AccessDenied: Not Authorized: org.freedes
 3. 创建 `/home/mac/toggle_power_wifi.sh`。
 4. 创建并启用 `toggle-power-wifi.service`。
 5. 创建 Polkit 最小权限规则。
-6. 创建 `systemd-logind` 合盖 drop-in。
-7. 写入 GNOME 合盖与锁屏设置。
+6. 不创建 `systemd-logind` 合盖 drop-in，保留 Ubuntu 默认合盖策略。
+7. 重置 GNOME 合盖设置，并写入锁屏设置。
 8. 正常重启系统。
 9. 按“验证方法”逐项确认。
 10. 最后实际测试一次锁屏/解锁、接电合盖、电池合盖。

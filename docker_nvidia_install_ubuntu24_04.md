@@ -13,6 +13,173 @@ nvidia-smi
 ```
 如果能输出显卡型号、驱动版本及 CUDA 版本等信息，则说明驱动正常。
 
+### 重要避坑：宿主机 NVIDIA 驱动必须先稳定
+
+Docker 和 NVIDIA Container Toolkit 只负责把宿主机已经可用的 NVIDIA 设备映射进容器。它们不会修复宿主机显卡驱动。
+
+如果宿主机执行 `nvidia-smi` 已经失败，例如：
+
+```text
+NVIDIA-SMI has failed because it couldn't communicate with the NVIDIA driver.
+```
+
+则不要继续排查 Docker。先修宿主机驱动。
+
+### 已遇到的坑：NVIDIA 用户态包和内核模块版本不一致
+
+典型现象：
+
+```bash
+nvidia-smi
+```
+
+输出：
+
+```text
+NVIDIA-SMI has failed because it couldn't communicate with the NVIDIA driver.
+```
+
+同时日志里出现类似：
+
+```text
+NVRM: API mismatch: the client 'nvidia-smi' has the version 595.84,
+but this kernel module has the version 595.71.05.
+```
+
+这表示系统里 NVIDIA 用户态组件已经升级到新版本，但当前内存里仍加载着旧版 NVIDIA 内核模块。常见触发方式是：
+
+1. 系统运行中执行了 `apt upgrade` 或自动更新；
+2. NVIDIA 包从旧版本升级到新版本；
+3. DKMS 已经在磁盘上编译/安装了新版模块；
+4. 但旧模块仍在当前内核里运行；
+5. 没有重启，于是 `nvidia-smi` 调用新版用户态库时，和旧内核模块发生 API mismatch。
+
+这不是 Docker 或 NVIDIA Container Toolkit 导致的问题。Docker 文档里的步骤只是在宿主机驱动正常后配置容器运行时。
+
+#### 快速诊断命令
+
+检查用户态工具版本：
+
+```bash
+nvidia-smi
+```
+
+检查当前已加载的内核模块版本：
+
+```bash
+cat /sys/module/nvidia/version
+```
+
+检查 DKMS 已安装模块：
+
+```bash
+dkms status
+```
+
+检查当前磁盘上的模块信息：
+
+```bash
+modinfo nvidia | grep -E '^(filename|version):'
+```
+
+检查内核日志中的 NVIDIA 错误：
+
+```bash
+journalctl -k --no-pager | grep -Ei 'nvidia|nvrm|gsp|xid|firmware' | tail -n 120
+```
+
+检查设备节点是否存在：
+
+```bash
+ls -l /dev/nvidia*
+```
+
+如果 `/dev/nvidia*` 不存在，同时日志里有 `API mismatch`，优先按版本错配处理。
+
+#### 最小修复方案
+
+先重启：
+
+```bash
+sudo reboot
+```
+
+重启后验证：
+
+```bash
+nvidia-smi
+cat /sys/module/nvidia/version
+```
+
+两边版本应一致。例如用户态和内核模块都应是 `595.84`。
+
+#### 如果重启后仍失败
+
+重新安装驱动包并重建 initramfs：
+
+```bash
+sudo apt-get install --reinstall nvidia-driver-595-open nvidia-dkms-595-open nvidia-utils-595 nvidia-firmware-595-595.84
+sudo update-initramfs -u -k all
+sudo reboot
+```
+
+重启后再次验证：
+
+```bash
+nvidia-smi
+docker run --rm --gpus all ubuntu nvidia-smi
+```
+
+#### 如何尽量避免再次被坑
+
+这个坑不能完全靠 Docker 配置绕过，因为根因是 Linux 内核模块和 NVIDIA 用户态组件的运行时版本不一致。可采取以下规避策略：
+
+1. **每次 NVIDIA 驱动包升级后立即重启**
+
+   看到 apt 升级了这些包时，不要继续跑 GPU 任务：
+
+   ```text
+   nvidia-driver-*
+   nvidia-dkms-*
+   nvidia-utils-*
+   libnvidia-*
+   nvidia-firmware-*
+   linux-image-*
+   linux-headers-*
+   ```
+
+   升级完成后直接：
+
+   ```bash
+   sudo reboot
+   ```
+
+2. **重启后先验证宿主机，再验证 Docker**
+
+   ```bash
+   nvidia-smi
+   docker run --rm --gpus all ubuntu nvidia-smi
+   ```
+
+3. **如果机器要长期跑 GPU 任务，避免无人值守自动升级 NVIDIA 驱动**
+
+   可以考虑暂时 hold 住 NVIDIA 驱动相关包，等有维护窗口时再手动升级：
+
+   ```bash
+   sudo apt-mark hold nvidia-driver-595-open nvidia-dkms-595-open nvidia-utils-595 nvidia-firmware-595-595.84
+   ```
+
+   需要升级时再解除：
+
+   ```bash
+   sudo apt-mark unhold nvidia-driver-595-open nvidia-dkms-595-open nvidia-utils-595 nvidia-firmware-595-595.84
+   sudo apt-get update
+   sudo apt-get upgrade
+   sudo reboot
+   ```
+
+   注意：长期 hold 驱动会减少意外损坏，但也会延迟安全修复和兼容性更新。适合稳定优先的工作站，不适合无脑永久锁死。
+
 ---
 
 ## 第一步：安装 Docker CE

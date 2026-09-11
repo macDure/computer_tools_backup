@@ -13,8 +13,8 @@ QUEUE = os.path.join(HERE, "backfill_queue.json")
 STATE = os.path.join(HERE, ".backfill_state.json")
 LOGF = os.path.join(HERE, "logs", "backfill_tick.log")
 TZ = dt.timezone(dt.timedelta(hours=8))
-BATCH_DAYS = 10
-BATCH_TIMEOUT = 8 * 3600
+BATCH_DAYS = 90
+BATCH_TIMEOUT = 16 * 3600
 STALL_LIMIT = 3 * 3600
 PHASES = [("2026", dt.date(2026, 1, 1), dt.date(2026, 8, 31)),
           ("2025", dt.date(2025, 1, 1), dt.date(2025, 12, 31))]

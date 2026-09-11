@@ -35,6 +35,7 @@ shuimu/
 ├── make_queue.py          # 区间队列生成器 (造 backfill_queue.json, 见 4.1)
 ├── deliver_feishu.py      # 飞书消息直发 (可选, 需要飞书应用 token; 不用飞书可删)
 ├── NFORUM_API_PLAYBOOK.md # ★ API 完整操作手册: 端点/字段/坑/附件下载路由/风控
+├── publish_posts.sh       # 发布器: 归档 → stock_research_mac/shuimu/帖子 + commit + push (本机生产自动调用)
 └── archive/               # (运行后自动生成) 归档仓, 建议 git init
     └── 2026/MM/DD/wHH/    # wHH = 该 2 小时窗 (w00=00:00-02:00 ... w20=20:00-24:00)
         ├── 原帖_Stock.md  # 原始文档: 窗内全部串 (主题+全部楼层+📎附件标记)

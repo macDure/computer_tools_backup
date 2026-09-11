@@ -3,7 +3,7 @@
 > 备份日期: 2026-09-11 | 工具版本: API 高速爬 v1 (scrapling 0.4.15 实测)
 > 本目录是**可移植工具备份**: 按本文档操作, 可在任何 Ubuntu (x86_64) 机器上从零跑起水木股版爬虫, 产出与本机一致的归档文档 (含图片附件)。
 >
-> 爬取结果帖子数据**不在本目录**(在宿主机 `/home/mac/.hermes/shuimu_daily/` 归档仓, 已另同步至 `/home/mac/macperson/shuimu_crawler/帖子/`)。
+> 爬取结果帖子数据**不在本目录**: 本机生产环境每轮爬完自动发布到 /home/mac/macperson/stock_research_mac/shuimu/帖子/ (git commit + push 远端, 由 auto_pipeline.py 调 publish_posts.sh 完成)。
 
 ---
 

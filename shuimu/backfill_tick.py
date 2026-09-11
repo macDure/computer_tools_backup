@@ -110,7 +110,14 @@ def main():
                (start, end, len(labels)))
         return 0
 
-    # 检查活动批次
+    # 检查活动批次 (爬虫在跑 = 有进展, 长列表扫描可能 2~3h 不出新窗, 不能按窗计数判 stall)
+    crawler_running = False
+    try:
+        pid = int(open(os.path.join(HERE, ".auto_pid")).read().strip())
+        os.kill(pid, 0)   # 信号0 = 存活探测
+        crawler_running = True
+    except Exception:
+        crawler_running = False
     done = 0
     try:
         q = json.load(open(QUEUE))
@@ -132,10 +139,12 @@ def main():
         feishu("✅ 回补批次完成: %s ~ %s (%d 窗)\n累计归档 %d 窗, 文档已发布 stock_research_mac 并 push。下一批即将入队。" %
                (batch["start"], batch["end"], done, st["done_windows"]))
         return 0
-    if now - batch["t0"] > BATCH_TIMEOUT or now - batch["last_prog"] > STALL_LIMIT:
-        why = "8h 超时" if now - batch["t0"] > BATCH_TIMEOUT else "3h 无进展(疑似风控/槽满)"
+    stalled = (not crawler_running) and (now - batch["last_prog"] > STALL_LIMIT)
+    timed_out = now - batch["t0"] > BATCH_TIMEOUT
+    if stalled or timed_out:
+        why = "8h 超时" if timed_out else "爬虫不在跑且 3h 无进展(疑似风控/槽满)"
         st["fails"] = st.get("fails", 0) + 1
-        feishu("⚠️ 回补批次 %s~%s 未完成 (%d/%d, %s)。\n未爬完的窗保持 pending, 我每 10 分钟检查, 连续 2 次失败会跳过本批继续后面日期(最后统一补洞), 并通知你。" %
+        feishu("⚠️ 回补批次 %s~%s 卡住 (%d/%d, %s)。\n未爬完的窗保持 pending, 连续 2 次卡住会跳过本批继续后面日期(最后统一补洞)。" %
                (batch["start"], batch["end"], done, tot, why))
         log("批次异常: %s (%d/%d)" % (why, done, tot))
         if st["fails"] >= 2:
@@ -146,7 +155,6 @@ def main():
             save_state(st)
             log("跳过本批, 游标 -> %s" % st["cursor"])
         else:
-            # 首次失败: 重置计时重试本批 (pending 还在, 看门狗会重爬)
             batch["t0"] = now; batch["last_prog"] = now
             save_state(st)
     return 0

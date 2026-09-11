@@ -385,7 +385,17 @@ def main():
         if not arts:
             if first_page:
                 log("=== 终止: 第 1 页就是空, 异常 (exit 2) ==="); return 2
-            log("第 %d 页空, 列表遍结束" % page); break
+            # 空页重试: 实测 API 偶发瞬时空页(同一页重试即恢复), 误判到底会截断扫描
+            recovered = False
+            for r in range(1, 6):
+                log("第 %d 页空, 第 %d 次重试..." % (page, r))
+                time.sleep(5 * r)
+                d2 = nf.board_page(page)
+                if d2 is not None and (d2.get("article") or []):
+                    log("第 %d 页重试恢复: %d 串" % (page, len(d2["article"])))
+                    d = d2; arts = d2["article"]; recovered = True; break
+            if not recovered:
+                log("第 %d 页连续 5 次空, 列表遍结束" % page); break
         first_page = False
         pg_min = None
         for a in arts:

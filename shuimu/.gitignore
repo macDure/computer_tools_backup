@@ -1,4 +1,11 @@
-.venv/
+# 水木爬虫工具备份目录 .gitignore
+credentials
+*.env
+.nf_cookie
+backfill_queue.json
+.auto_state.json
+.auto_pid
+logs/
 __pycache__/
-*.py[cod]
-.pytest_cache/
+*.pyc
+_img_selftest_out/

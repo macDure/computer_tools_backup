@@ -1,2 +1,4 @@
-requests>=2.31
-beautifulsoup4>=4.12
+# 水木股版爬虫依赖 (2026-09-11 生产环境实测版本)
+# 唯一第三方依赖; [fetchers] 会带出 curl_cffi (Chrome TLS 指纹, 过风控核心)
+# pip 还会连带装 playwright 库 (旧登录残留引用), 但**不需要**装浏览器, 可忽略
+scrapling[fetchers]==0.4.15

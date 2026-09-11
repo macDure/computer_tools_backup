@@ -46,9 +46,10 @@ def main():
             if archive_has(day_dir, slot):
                 skip_arch += 1; continue
             seq_max += 1
+            base = dt.datetime(d.year, d.month, d.day, 0, 0, tzinfo=TZ)
             q["tasks"].append({"day": d.isoformat(),
-                               "win_start": (dt.datetime(d.year, d.month, d.day, i*4, tzinfo=TZ)).isoformat(),
-                               "win_end": (dt.datetime(d.year, d.month, d.day, i*4+4, tzinfo=TZ)).isoformat(),
+                               "win_start": (base + dt.timedelta(hours=i*4)).isoformat(),
+                               "win_end": (base + dt.timedelta(hours=i*4+4)).isoformat(),
                                "slot": slot, "label": label, "seq": seq_max,
                                "status": "pending", "attempt": 0, "note": "range_backfill"})
             added += 1

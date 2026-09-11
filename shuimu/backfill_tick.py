@@ -13,7 +13,7 @@ QUEUE = os.path.join(HERE, "backfill_queue.json")
 STATE = os.path.join(HERE, ".backfill_state.json")
 LOGF = os.path.join(HERE, "logs", "backfill_tick.log")
 TZ = dt.timezone(dt.timedelta(hours=8))
-BATCH_DAYS = 20
+BATCH_DAYS = 10
 BATCH_TIMEOUT = 8 * 3600
 STALL_LIMIT = 3 * 3600
 PHASES = [("2026", dt.date(2026, 1, 1), dt.date(2026, 8, 31)),
@@ -24,7 +24,7 @@ def now_bj():
 
 def log(m):
     line = "[%s] %s" % (now_bj().strftime("%Y-%m-%d %H:%M:%S"), m)
-    os.makedirs(os.path.dirname(LOGF), exist_ok)
+    os.makedirs(os.path.dirname(LOGF), exist_ok=True)
     with open(LOGF, "a") as f:
         f.write(line + "\n")
 
@@ -59,9 +59,11 @@ def main():
     st = load_state()
     phase_name, ph_from, ph_to = None, None, None
     for name, f_, t_ in PHASES:
-        if st.get("phase") == name or (not st.get("phase") and name == "2026"):
+        if st.get("phase") == name:
             phase_name, ph_from, ph_to = name, f_, t_
             break
+    if not phase_name and not st.get("phase"):
+        phase_name, ph_from, ph_to = "2026", dt.date(2026, 1, 1), dt.date(2026, 8, 31)
     if not phase_name:
         return 0   # done
 

@@ -1,13 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""queue_add_windows.py — 水木 Stock 每日增量入队 (幂等)。
+"""queue_add_windows.py — 水木 Stock 分档增量入队 (幂等)。
 
-默认把"昨天"(北京时间) 的 6 个 4h 窗加入 backfill_queue.json (已存在的 label 跳过)。
+4 档计划 (北京时间, 09-11 用户改): 08:00 / 12:00 / 16:00 / 23:58 各跑一次。
+每次入队: 昨天的全部 6 窗 (漏爬补洞) + 今天已结束的全部窗:
+  08:00 -> 昨天 6 窗 + w00,w04   12:00 -> w08
+  16:00 -> w12                   23:58 -> w16,w20 (w20 按 3min 宽限当已结束,
+                                  最晚漏 23:58-24:00 两分钟的帖, 深夜帖量极小可接受)
 --days-back N: 补最近 N 天 (含昨天)。--date YYYY-MM-DD: 指定某一天。
 跳过规则 (双保险, 幂等):
-  1) 队列里已有同 label 且 status=done
+  1) 队列里已有同 label
   2) 归档仓已有该窗 nf_api 模式 meta.json
-cron 00:20 北京 (=16:20 UTC) no_agent 跑; stdout 恒空 (诊断只落日志)。
+cron (UTC): 0 0,4,8 * * * 和 58 15 * * * (= 北京 08/12/16/23:58) no_agent 跑。
 """
 import json, os, sys, datetime as dt
 
@@ -63,6 +67,7 @@ def main():
         today = dt.datetime.now(TZ).date()
         for k in range(1, days_back + 1):
             dates.append(today - dt.timedelta(days=k))
+        dates.append(today)   # 今天的已结束窗 (08/12/16/23:58 分档: 当天数据当天爬)
 
     q = json.load(open(QUEUE))
     existing = {t.get("label") for t in q["tasks"]}
@@ -72,9 +77,10 @@ def main():
     for day in dates:
         day_dir = "%04d/%02d/%02d" % (day.year, day.month, day.day)
         for w in windows_for(day):
-            # 只入队已结束的窗: 进行中的窗等下一天 00:20 任务补入 (防把半窗当完整窗爬)
+            # 只入队已结束的窗 (+3min 宽限: 23:58 档让 w20 也能入队, 最晚漏 2 分钟深夜帖);
+            # 未结束的窗等下一档任务入队 (防把半窗当完整窗爬)
             we = dt.datetime.fromisoformat(w["win_end"])
-            if we > now_dt:
+            if we > now_dt + dt.timedelta(minutes=3):
                 log("跳过(窗未结束): %s" % w["label"])
                 continue
             if w["label"] in existing:

@@ -300,6 +300,15 @@ def main():
         return 0
 
     # ---- state == idle ----
+    # 大活账号保护休息期 (backfill_tick 写入 .auto_rest.json): 不起新爬, 连 API 验证探针
+    # 都不发 (每 2min 一次探针本身也是账号请求量), 静默等休息结束
+    try:
+        if os.path.exists(os.path.join(HERE, ".auto_rest.json")):
+            until = json.load(open(os.path.join(HERE, ".auto_rest.json"))).get("until", 0)
+            if time.time() < until:
+                return 0
+    except Exception:
+        pass
     # 冷却中 (3 连失败后) 静默跳过
     if st.get("cooldown_until") and time.time() < st["cooldown_until"]:
         return 0

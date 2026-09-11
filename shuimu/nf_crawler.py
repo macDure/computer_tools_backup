@@ -370,11 +370,16 @@ def main():
     all_threads = []   # (gid, flush_time)
     stop_flag = False
     first_page = True
+    scan_floor = None  # 列表遍实际翻到的最深(最老) flush 时间 — 空窗复核下界 (防未扫区误标空窗)
+    aborted = False
     while not stop_flag:
         d = nf.board_page(page)
         if nf.unauth:
             log("=== 终止: 登录态失效 (exit 2) ==="); return 2
-        if d is None: break
+        if d is None:
+            log("=== 终止: 列表遍异常 (连续重试失败), 未扫区不标空窗 (exit 3) ===")
+            aborted = True
+            break
         # 响应是扁平结构: 顶层直接有 article[] (实测, 非 data.article)
         arts = d.get("article") or []
         if not arts:
@@ -397,11 +402,17 @@ def main():
             if pg_min is None or lt < pg_min: pg_min = lt
         if pg_min is not None:
             log("page %d: %d 串, 最旧 flush=%s" % (page, len(arts), pg_min))
+            if scan_floor is None or pg_min < scan_floor:
+                scan_floor = pg_min
             if pg_min <= stop_dt:
                 stop_flag = True
         page += 1
-        if page > 2000: log("安全上限 2000 页, 停"); break
-    log("列表遍完成: %d 串, 共 %d 页, 请求 %d 次" % (len(all_threads), page-1, nf.n))
+        if page > 5000: log("安全上限 5000 页, 停 (scan_floor 保护: 未扫区不误标空窗)"); break
+    log("列表遍完成: %d 串, 共 %d 页, 请求 %d 次, 扫描下界 %s" %
+        (len(all_threads), page - 1, nf.n, scan_floor and scan_floor.strftime("%Y-%m-%d %H:%M")))
+    if aborted:
+        nf.close()
+        return 3
 
     if args.list_only: return 0
 
@@ -463,10 +474,13 @@ def main():
         missing = sorted(set(pending_win) - hit)
         for m in missing[:10]:
             log("  (无命中: %s)" % m)
-        # 空窗复核: 完全落在扫描范围 [stop_dt, now] 内且零命中的窗 -> 标 done(note=empty)
+        # 空窗复核: 窗内任何帖的 flush 时间 >= 窗起点 s; 列表遍已扫区 = [scan_floor, now]
+        # (按 flush 新->旧翻页)。当 s >= scan_floor 时, 窗内所有帖必然在已扫区 -> 零命中才可标空窗;
+        # 未翻到的老区 (s < scan_floor, 列表异常/触顶中断) 保持 pending 待下轮补爬, 绝不标空。
+        # 日常场景 scan_floor 翻到 stop_dt 附近, s>=stop_dt>=scan_floor 恒成立, 行为与旧逻辑一致。
         now_dt = dt.datetime.now(TZ)
         empty_done = [lab for lab, (s, e) in pending_win.items()
-                      if s >= stop_dt and e <= now_dt and lab not in hit]
+                      if scan_floor and s >= scan_floor and e <= now_dt and lab not in hit]
         if empty_done:
             for lab in empty_done:
                 log("空窗复核通过: %s 无首帖, 标 done" % lab)

@@ -195,6 +195,29 @@ def cleanup_cookie():
     except Exception as e:
         log(f"cookie 清理失败: {e}")
 
+def publish_to_stock_research():
+    """归档发布到宿主机 stock_research_mac/shuimu/帖子 + git commit + push (09-11 用户指令:
+    整理完的文档全部存入该目录并推送远端)。容器直写宿主走 docker bind, push 用宿主 ssh key。"""
+    try:
+        # 脚本经 heredoc 送进临时容器 (docker run 无交互), 再执行发布
+        script = open(os.path.join(HERE, "publish_posts.sh")).read()
+        r = subprocess.run(["docker", "run", "--rm",
+                            "-v", "/home/mac/.hermes/shuimu_daily:/arch",
+                            "-v", "/home/mac/macperson/stock_research_mac:/s",
+                            "-v", "/home/mac/.ssh:/ssh:ro",
+                            "ghcr.io/astral-sh/uv:0.11.6-python3.13-trixie",
+                            "bash", "-c",
+                            "cat > /tmp/publish_posts.sh <<'PUBEOF'\n" + script + "\nPUBEOF\n"
+                            "bash /tmp/publish_posts.sh"],
+                           capture_output=True, text=True, timeout=600)
+        out = (r.stdout or "").strip().splitlines()
+        last = out[-1] if out else "(no output)"
+        log(f"发布 stock_research_mac: {last}")
+        if r.returncode != 0:
+            log(f"发布失败 rc={r.returncode}: {(r.stderr or '')[-200:]}")
+    except Exception as e:
+        log(f"发布 stock_research_mac 异常: {type(e).__name__}: {e}")
+
 def finish_report(rc_ok):
     """汇总爬虫结果 -> 飞书。只看本轮新增日志 (log_offset 之后)。"""
     try:
@@ -222,7 +245,7 @@ def finish_report(rc_ok):
                f"- 队列: {done} 窗完成 / {pend} 窗剩余\n"
                f"- 本次归档 {arch_n} 个 4h 窗 (telnet 旧法需 2-3 天, API 路实际分钟~小时级)\n"
                f"- git 最新: {git}\n"
-               f"归档仓 {ARCHIVE}/ 可直接查看")
+               f"文档已同步到 stock_research_mac/shuimu/帖子/ 并 push 远端")
     else:
         tail = ""
         try:
@@ -265,6 +288,7 @@ def main():
             except Exception:
                 pass
             finish_report(ok)
+            publish_to_stock_research()   # 09-11 用户指令: 整理完的文档 → stock_research_mac + commit + push
             cleanup_cookie()
             if ok:
                 # 成功: 回 idle 继续值守 (每日增量靠 done->idle 队列感知 + 00:20 入队)

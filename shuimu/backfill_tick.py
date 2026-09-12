@@ -22,8 +22,8 @@ REST_FILE = os.path.join(HERE, ".auto_rest.json")
 AUTO_STATE = os.path.join(HERE, ".auto_state.json")
 CRAWL_LOG = os.path.join(HERE, "logs", "nf_crawler.log")
 REST_THRESHOLD = 10000    # 单轮请求数(列表页+全文+附件)超过即安排休息
-REST_SECONDS = 4 * 3600   # 休息时长
-REST_MAX_PER_BATCH = 3    # 每批最多休息次数
+REST_SECONDS = 0         # 09-12 用户指令: 4h 改 0h, 连续爬不休息(出问题用户担责); 队列/批次逻辑不变
+REST_MAX_PER_BATCH = 3    # 每批最多休息次数 (REST_SECONDS=0 时不生效)
 PHASES = [("2026", dt.date(2026, 1, 1), dt.date(2026, 8, 31)),
           ("2025", dt.date(2025, 1, 1), dt.date(2025, 12, 31))]
 
@@ -148,10 +148,11 @@ def main():
         feishu("✅ 回补批次完成: %s ~ %s (%d 窗)\n累计归档 %d 窗, 文档已发布 stock_research_mac 并 push。下一批即将入队。" %
                (batch["start"], batch["end"], done, st["done_windows"]))
         return 0
-    # 大活账号保护: 单轮请求量超阈值 -> 安排 4h 休息 (当前运行不中断, 跑完收尾后看门狗
+    # 大活账号保护: 单轮请求量超阈值 -> 安排休息 (当前运行不中断, 跑完收尾后看门狗
     # idle 门认账停爬; 休息期通过把 last_prog 推到未来点来豁免 stall 误判)
+    # 2026-09-12 用户指令: REST_SECONDS=0, 连续爬不休息, 此块直接跳过 (请求计数日志保留作观测)
     try:
-        if crawler_running:
+        if crawler_running and REST_SECONDS > 0:
             st_auto = json.load(open(AUTO_STATE))
             off = int(st_auto.get("log_offset", 0) or 0)
             n_req = 0

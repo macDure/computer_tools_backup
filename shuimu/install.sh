@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # install.sh — 水木股版爬虫工具包一键安装 (Ubuntu 22.04+/x86_64)
 # 用法: ./install.sh   (在本目录内执行)
-# 依赖安装策略: pypi 直连 -> 本目录 offline_wheels/ 离线包 -> 阿里云镜像
+# 依赖安装策略: pypi 直连 -> 阿里云镜像
 set -euo pipefail
 cd "$(dirname "$0")"
 
@@ -19,13 +19,8 @@ echo "    python3 = $PYVER"
 echo "==> [2/4] 创建虚拟环境 .venv 并安装依赖"
 [ -d .venv ] || python3 -m venv .venv
 if ! ./.venv/bin/pip install -q -r requirements.txt 2>/tmp/pip_err.log; then
-    if [ -d offline_wheels ]; then
-        echo "    pypi 直连失败, 使用本目录 offline_wheels/ 离线包..."
-        ./.venv/bin/pip install -q --no-index --find-links offline_wheels -r requirements.txt
-    else
-        echo "    pypi 直连失败, 换阿里云镜像源重试..."
-        ./.venv/bin/pip install -q -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
-    fi
+    echo "    pypi 直连失败, 换阿里云镜像源重试..."
+    ./.venv/bin/pip install -q -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
 fi
 ./.venv/bin/python -c "from scrapling.fetchers import FetcherSession; print('    scrapling import OK (TLS 指纹核心)')"
 

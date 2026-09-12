@@ -14,8 +14,14 @@
      源码 basic_auth.php)。凭据: /host-home/.config/newsmth/credentials (只读, 值不落日志)
      服务端会话槽满时返回 code=0102 "账号过多", 自动退避重试。
 限速: 请求间 0.6~1.6s 随机 (API 快, 保守低频防风控)。
+风控: 09-12 用户指令切 Scrapling 式"对服务端信号响应"范式 —
+     429 读 Retry-After (缺省 300s, 上限 1800s) 后退避; 5xx/异常按 2^n 指数退避
+     (base 30s, 上限 600s); 连续 5 次硬失败 -> 写 .rate_limited.json + exit 4 停手
+     (看门狗 bump_fail, 3 次进 6h 冷却并飞书报警); 200 成功即清零退避与连败计数。
+     401 凭据错=终止 (非风控, 硬扛无意义)。
 """
 import base64, json, os, random, re, subprocess, sys, time, datetime as dt
+from email.utils import parsedate_to_datetime
 from scrapling.fetchers import FetcherSession
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -80,6 +86,10 @@ def bucket_of(t):
     return d, slot, ws
 
 class NF:
+    # 风控信号响应参数 (Scrapling AutoThrottle 范式: 被动响应服务端信号)
+    RL_MAX = 5            # 连续硬失败 N 次 -> 放弃本轮 (exit 4), 交给看门狗冷却
+    BASE_BACKOFF = 30     # 5xx/异常指数退避基数 (秒)
+    MAX_BACKOFF = 600     # 指数退避上限
     def __init__(self, token):
         self._sess = FetcherSession(impersonate="chrome")
         self.s = self._sess.__enter__()   # 返回 _SyncSessionLogic, 才有 .get
@@ -88,8 +98,40 @@ class NF:
         self.n = 0
         self.unauth = False
         self.slot_full = False
+        self.consec_hard = 0   # 连续硬失败 (429/5xx/异常) 计数; 200 成功清零
     def _gap(self):
         time.sleep(random.uniform(0.6, 1.6))
+    def _parse_retry_after(self, r):
+        """读 Retry-After 头 (秒数或 HTTP 日期); 读不到返回 None (Scrapling 同款实现)
+        实测: scrapling 静态引擎的 r.headers 是小写键 dict"""
+        try:
+            val = None
+            try:
+                val = (r.headers.get("retry-after") or "").strip()
+            except Exception:
+                pass
+            if not val:
+                return None
+            try:
+                return max(float(val), 0.0)
+            except ValueError:
+                try:
+                    return max((parsedate_to_datetime(val) - dt.datetime.now(dt.timezone.utc)).total_seconds(), 0.0)
+                except (TypeError, ValueError):
+                    return None
+        except Exception:
+            return None
+    def _rate_limited_stop(self, why):
+        """连败到顶: 写风控信号文件, 退出码 4 (看门狗 bump_fail -> 3 次进 6h 冷却+报警)"""
+        try:
+            with open(os.path.join(HERE, ".rate_limited.json"), "w") as f:
+                json.dump({"until": time.time(), "reason": why,
+                           "ts": dt.datetime.now(dt.timezone.utc).isoformat()}, f)
+        except Exception:
+            pass
+        log("=== 风控信号停手: %s (连续硬失败 %d 次, 交给看门狗冷却) ===" % (why, self.consec_hard))
+        self.close()
+        sys.exit(4)
     def get_json(self, path):
         self.n += 1
         for attempt in range(3):
@@ -98,10 +140,29 @@ class NF:
                 if r.status == 401:
                     if not self.unauth:
                         self.unauth = True
-                        log("401 未授权! 凭据错误 — 终止")
+                        log("401 未授权! 凭据错误 — 终止 (非风控信号, 硬扛无意义)")
                     return None
+                if r.status == 429:
+                    # 风控信号: 服务端明确限速 — 优先服从 Retry-After, 否则 300s
+                    ra = self._parse_retry_after(r)
+                    wait = ra if (ra is not None and 0 < ra <= 1800) else 300
+                    self.consec_hard += 1
+                    log("429 限流! %s — 退避 %gs (Retry-After=%s), 第 %d 次硬失败"
+                        % (path, wait, ra, self.consec_hard))
+                    if self.consec_hard >= self.RL_MAX:
+                        self._rate_limited_stop("429 限流, 最后一次 Retry-After=%.0fs" % wait)
+                    time.sleep(wait)
+                    continue
                 if r.status != 200:
-                    log("HTTP %s on %s (attempt %d)" % (r.status, path, attempt)); continue
+                    # 5xx = 服务端受阻信号: 指数退避 2^attempt * 30s (Scrapling block_backoff 式翻倍)
+                    wait = min(self.BASE_BACKOFF * (2 ** attempt), self.MAX_BACKOFF)
+                    self.consec_hard += 1
+                    log("HTTP %s on %s (attempt %d) — 指数退避 %ds, 第 %d 次硬失败"
+                        % (r.status, path, attempt, wait, self.consec_hard))
+                    if self.consec_hard >= self.RL_MAX:
+                        self._rate_limited_stop("HTTP %s 连败" % r.status)
+                    time.sleep(wait)
+                    continue
                 b = r.body
                 if isinstance(b, bytes): b = b.decode("utf-8", "replace")
                 d = json.loads(b)
@@ -116,11 +177,17 @@ class NF:
                         continue
                     log("API 错误码 %s: %s — 终止" % (d["code"], d.get("msg", "")[:50]))
                     return None
+                self.consec_hard = 0   # 200 成功: 风控压力解除, 清零退避与连败计数
                 self._gap()
                 return d
             except Exception as e:
-                log("ERR %s on %s (attempt %d): %s" % (type(e).__name__, path, attempt, str(e)[:100]))
-                time.sleep(3 + attempt * 3)
+                wait = min(self.BASE_BACKOFF * (2 ** attempt), self.MAX_BACKOFF)
+                self.consec_hard += 1
+                log("ERR %s on %s (attempt %d): %s — 退避 %ds, 第 %d 次硬失败"
+                    % (type(e).__name__, path, attempt, str(e)[:100], wait, self.consec_hard))
+                if self.consec_hard >= self.RL_MAX:
+                    self._rate_limited_stop("网络/异常连败: %s" % str(e)[:60])
+                time.sleep(wait)
         log("放弃 %s" % path); return None
     def board_page(self, page):
         return self.get_json(f"/board/index/{BOARD}.json?count={PAGE_COUNT}&page={page}")

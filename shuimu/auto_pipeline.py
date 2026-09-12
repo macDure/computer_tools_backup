@@ -240,12 +240,26 @@ def finish_report(rc_ok):
         pass
     git = subprocess.run(["git", "log", "--oneline", "-1"], cwd=ARCHIVE,
                          capture_output=True, text=True).stdout.strip()
+    # 风控信号: 爬虫连败停手 (exit 4) 会写 .rate_limited.json — 立即点名报警 (09-12 用户指令:
+    # 对服务端信号响应范式, 连败到顶停手, 报警交给看门狗冷却期处理)
+    rl_why = ""
+    try:
+        rf = os.path.join(HERE, ".rate_limited.json")
+        if os.path.exists(rf):
+            rl_why = json.load(open(rf)).get("reason", "")
+            os.remove(rf)
+    except Exception:
+        rl_why = ""
     if rc_ok:
         msg = (f"✅ 水木 Stock 高速爬完成\n"
                f"- 队列: {done} 窗完成 / {pend} 窗剩余\n"
                f"- 本次归档 {arch_n} 个 4h 窗 (telnet 旧法需 2-3 天, API 路实际分钟~小时级)\n"
                f"- git 最新: {git}\n"
                f"文档已同步到 stock_research_mac/shuimu/帖子/ 并 push 远端")
+    elif rl_why:
+        msg = (f"🚨 水木风控信号: 爬虫连败自动停手 ({rl_why})\n"
+               f"队列 {done} 完成/{pend} 剩余, 已归档 {arch_n} 窗 (本轮部分成果已落盘, 未爬窗保持 pending)\n"
+               f"已进冷却 (3 次连败后 6h 内不起新爬), 冷却结束自动恢复; 若反复触发建议暂停大活检查账号")
     else:
         tail = ""
         try:

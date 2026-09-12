@@ -313,7 +313,28 @@ kill -TERM 1267588
 5. 如果代理异常，再检查 `10808` 是否有重复 v2rayN `xray`。
 6. 最终只以 `codex --version` 作为升级成功依据。
 
-## 本次成功记录
+## 本次成功记录（2026-09-05）
+
+本次实际从：
+
+```text
+codex-cli 0.144.6
+```
+
+完全卸载后重新安装到：
+
+```text
+codex-cli 0.153.4
+```
+
+关键适配说明：
+- 本机为 Ubuntu 20.04（系统内置 `curl 7.68.0`），不支持 `--retry-all-errors` 参数。
+- 在 `/tmp/codex-curl-bin/curl` 包装器中改用 `--retry 5 --retry-connrefused --retry-delay 2 --connect-timeout 30 --max-time 300 -x socks5h://127.0.0.1:10808 "$@"`。
+- 安装后通过 `codex doctor --summary` 验证为 `19 ok · 1 idle · 0 warn · 0 fail ok`。
+
+---
+
+## 历史成功记录（2026-07-30）
 
 本次实际从：
 
@@ -337,3 +358,4 @@ PATH=/tmp/codex-curl-bin:$PATH \
 hash -r
 codex --version
 ```
+

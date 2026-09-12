@@ -306,8 +306,11 @@ def download_bucket_attachments(nf, win_dir, tinfo):
     return n_ok, n_fail
 
 def write_archive(day_dir, slot, win_label, threads_info, arch_root=ARCHIVE):
-    """threads_info: [{title, first_time, posts:[{time, author, content, attachments}]}]
-    数据安全: 目标目录已存在(旧 telnet 残留)时先移动到 .bak_nf 备份, 绝不静默覆盖。"""
+    """threads_info: [{title, gid, first_time, posts:[{time, author, content, attachments}]}]
+    数据安全: 目标目录已存在(旧 telnet 残留)时先移动到 .bak_nf 备份, 绝不静默覆盖。
+    meta.json 完整结构 (09-12 用户指令: 主题/发帖人/时间/正文/图片信息齐全, 深度挖掘直接读 meta):
+      threads[]: {title, gid, is_new_today, first_time_bj, last_time_bj, post_count,
+                  authors, posts:[{seq, time, author, content, attachments:[{name,size,fname,is_img}]}]}"""
     d = os.path.join(arch_root, day_dir, slot)
     if os.path.isdir(d) and any(os.listdir(d)):
         # 同模式 (nf_api) 重跑 = 增量覆盖, 不备份; 异模式 (telnet 旧档) 才 .bak_nf 备份
@@ -336,10 +339,22 @@ def write_archive(day_dir, slot, win_label, threads_info, arch_root=ARCHIVE):
             "thread_count": len(threads_info), "post_count": post_count,
             "attachment_count": att_count,
             "threads": [{
-                "title": t["title"], "is_new_today": True,
+                "title": t["title"], "gid": str(t.get("gid") or "") or None,
+                "is_new_today": True,
                 "first_time_bj": t["first_time"].isoformat(),
+                "last_time_bj": t["posts"][-1]["time"].isoformat() if t["posts"] else None,
                 "post_count": len(t["posts"]),
                 "authors": list({p["author"] for p in t["posts"]}),
+                "posts": [{
+                    "seq": i + 1,
+                    "time": p["time"].isoformat(),
+                    "author": p["author"],
+                    "content": p["content"],
+                    "attachments": [{
+                        "name": f["name"], "size": f.get("size"),
+                        "fname": f["fname"], "is_img": f.get("is_img", False),
+                    } for f in (p.get("attachments") or [])],
+                } for i, p in enumerate(t["posts"])],
             } for t in threads_info],
         }},
     }

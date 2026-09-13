@@ -12,10 +12,12 @@
      优先 gid; 存量无 gid 用 (title, first_time) 兜底 key (1月实测0冲突)
   2. 楼层按 seq+time 去重(同 seq 取最新楼层版, 即后归档的窗含更多回复); 同 author+time+content 精确去重
   3. 跨月主题: 主题的任一帖落在哪个月, 该月就放完整文档; meta 里 months 列出所有涉及月份
-  4. 附件: 文档内引用 ../../帖子/MM/DD/wHH/attachments/<fname> (相对原归档, 不拷贝文件, 不覆盖原目录)
+  4. 附件: 文档内引用 ../../../帖子/YYYY/MM/DD/wHH/attachments/<fname> (相对原归档, 不拷贝文件, 不覆盖原目录)
   5. 幂等: 重跑先清空当月目录重建; 输出只进暂存目录, 宿主写入由调用方 docker -v 完成
 用法: python build_topic_archive.py --year 2026 --month 01 --out /opt/data/tmp/topic_archive
       python build_topic_archive.py --year 2026 --out /opt/data/tmp/topic_archive  (全年)
+      --arch 归档根 (默认 /opt/data/shuimu_daily; 换机时指向仓库内 <repo>/shuimu/帖子,
+             该目录同样含 <YYYY>/<MM>/<DD>/<slot>/meta.json)
 """
 import re, os, json, argparse, datetime as dt
 from collections import defaultdict
@@ -28,11 +30,11 @@ def slugify(title, gid, i):
     s = re.sub(r"\s+", " ", s)[:60]
     return ("%s_%s" % (gid or "noid", s)) if (gid or s) else ("topic_%04d" % i)
 
-def load_month_topics(year, month):
+def load_month_topics(arch, year, month):
     """读某月所有窗 meta v2, 返回 {agg_key: topic_dict}
     topic: {key, gid, title, first_time, posts:[{seq,time,author,content,atts,src}], last_time}"""
     topics = {}
-    base = os.path.join(ARCH, str(year), month)
+    base = os.path.join(arch, str(year), month)
     if not os.path.isdir(base):
         return topics
     for day in sorted(os.listdir(base)):
@@ -87,8 +89,9 @@ def load_month_topics(year, month):
                             tp["posts"][seq] = newp
                         else:
                             for extra in (".5", ".9"):
-                                if seq + extra not in tp["posts"]:
-                                    tp["posts"][seq + extra] = newp
+                                vkey = str(seq) + extra
+                                if vkey not in tp["posts"]:
+                                    tp["posts"][vkey] = newp
                                     break
     return topics
 
@@ -137,8 +140,13 @@ def build_month(year, month, topics, out_root):
             for a in p["atts"]:
                 fn = a.get("fname") or ""
                 if fn:
+                    rel = "../../../帖子/%s/%s/attachments/%s" % (year, p["src"], fn)
                     L.append("")
-                    L.append("📎 附件: %s -> `../../../帖子/%s/attachments/%s`" % (a.get("name"), p["src"], fn))
+                    if fn.lower().endswith(IMG_EXT):
+                        # 图片: markdown 语法, GitHub 网页内直接渲染 (同仓相对路径)
+                        L.append("![%s](%s)" % (a.get("name") or fn, rel))
+                    else:
+                        L.append("📎 附件: %s -> `%s`" % (a.get("name"), rel))
             L.append("")
         open(os.path.join(out_dir, fname), "w", encoding="utf-8").write("\n".join(L))
         month_topics.append({
@@ -167,10 +175,12 @@ def main():
     ap.add_argument("--year", required=True)
     ap.add_argument("--month", help="MM; 缺省=全年1-12")
     ap.add_argument("--out", required=True)
+    ap.add_argument("--arch", default=os.environ.get("SHUIMU_ARCH", "/opt/data/shuimu_daily"),
+                    help="归档根 (<YYYY>/<MM>/<DD>/<slot>/meta.json)")
     a = ap.parse_args()
     months = [a.month] if a.month else ["%02d" % m for m in range(1, 13)]
     for m in months:
-        topics = load_month_topics(a.year, m)
+        topics = load_month_topics(a.arch, a.year, m)
         if not topics:
             print("2026-%s: 无数据" % m)
             continue

@@ -68,8 +68,10 @@ def main():
     ap.add_argument("--month")
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--force", action="store_true", help="已是 v2 的窗也重写")
+    ap.add_argument("--arch", default=os.environ.get("SHUIMU_ARCH", "/opt/data/shuimu_daily"),
+                    help="归档根 (<YYYY>/<MM>/<DD>/<slot>/), 换机时指向本地归档目录")
     a = ap.parse_args()
-    year_base = os.path.join(ARCH, a.year)
+    year_base = os.path.join(a.arch, a.year)
     # 指定 month: [year/month]; 不指定: 遍历 year/ 下所有 MM 目录
     if a.month:
         month_dirs = [(a.month, os.path.join(year_base, a.month))]

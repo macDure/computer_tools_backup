@@ -8,7 +8,7 @@
   done      -> 静默退出
 同类消息 15min 冷却防刷。本脚本自包含: 成功/失败都经 deliver_feishu.py 直发 (绕开 cron live-adapter 缺陷 #47056)。
 """
-import json, os, socket, subprocess, sys, time, datetime as dt, urllib.request
+import json, os, re, socket, subprocess, sys, time, datetime as dt, urllib.request
 
 HERE = os.environ.get("SHUIMU_HOME", os.path.dirname(os.path.abspath(__file__)))
 COOKIE = os.path.join(HERE, ".nf_cookie")
@@ -218,6 +218,20 @@ def publish_to_stock_research():
     except Exception as e:
         log(f"发布 stock_research_mac 异常: {type(e).__name__}: {e}")
 
+
+_ARCHIVE_WINDOW_RE = re.compile(r"归档\s+(\d{4}/\d{2}/\d{2}/w\d{2})(?=[:\s])")
+
+
+def count_archived_windows(log_text):
+    """Count unique archive windows in one crawler log slice.
+
+    The crawler writes each log line to both stdout and its log file while
+    the watchdog redirects stdout back to that same file.  Therefore one
+    logical archive event can appear twice; count the window path, not lines.
+    """
+    return len({match.group(1) for match in _ARCHIVE_WINDOW_RE.finditer(log_text)})
+
+
 def finish_report(rc_ok):
     """汇总爬虫结果 -> 飞书。只看本轮新增日志 (log_offset 之后)。"""
     try:
@@ -233,9 +247,7 @@ def finish_report(rc_ok):
         f = open(os.path.join(HERE, "logs", "nf_crawler.log"))
         f.seek(off)
         new = f.read()
-        for ln in new.splitlines():
-            if "归档 " in ln:
-                arch_n += 1
+        arch_n = count_archived_windows(new)
     except Exception:
         pass
     git = subprocess.run(["git", "log", "--oneline", "-1"], cwd=ARCHIVE,

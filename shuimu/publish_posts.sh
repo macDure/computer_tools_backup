@@ -5,7 +5,7 @@
 #         -v /home/mac/macperson/stock_research_mac:/s \
 #         -v /home/mac/.ssh:/ssh:ro \
 #         <镜像> bash /tmp/publish_posts.sh
-# 行为: rsync 归档(2026/topics) → shuimu/帖子/ → git add/commit/push
+# 行为: rsync 归档(2025/2026/topics) → shuimu/帖子/ → git add/commit/push
 # 注意: 不带 --delete, 目标里的 Icestone/(用户手工放的历史归档)不受影响;
 #       归档中被删除的窗文件按 git 删除清单显式清理(防 re-crawl 后残留旧数据)。
 set -u
@@ -16,7 +16,8 @@ git config user.email 'machao-1990@163.com'
 export TZ=Asia/Shanghai
 
 # 镜像无 rsync, 用 cp -a 合并覆盖 (同名文件更新, 新文件加入, 不删目标独有文件)
-mkdir -p /s/shuimu/帖子/2026 /s/shuimu/帖子/topics
+mkdir -p /s/shuimu/帖子/2025 /s/shuimu/帖子/2026 /s/shuimu/帖子/topics
+[ -d /arch/2025 ] && cp -a /arch/2025/. /s/shuimu/帖子/2025/
 cp -a /arch/2026/. /s/shuimu/帖子/2026/
 cp -a /arch/topics/. /s/shuimu/帖子/topics/
 
@@ -24,9 +25,9 @@ cp -a /arch/topics/. /s/shuimu/帖子/topics/
 cd /arch
 while read -r f; do
   [ -n "$f" ] || continue
-  sub=${f%%/*}            # 2026 或 topics
+  sub=${f%%/*}            # 2025 / 2026 或 topics
   case "$sub" in
-    2026|topics) rm -f "/s/shuimu/帖子/$f" 2>/dev/null ;;
+    2025|2026|topics) rm -f "/s/shuimu/帖子/$f" 2>/dev/null ;;
   esac
 done < <(git status --porcelain | awk '$1=="D"{print $2}')
 

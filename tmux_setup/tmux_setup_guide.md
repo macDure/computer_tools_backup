@@ -85,6 +85,7 @@ bash install_tmux_config.sh
 
 - 探测当前 tmux 是否支持 server-level `copy-command`：支持时使用 `tmux.conf`（Ubuntu 24.04/原始方案），不支持时使用 `tmux.conf.ubuntu20.04`（Ubuntu 20.04 兼容方案）。
 - 将已有 `~/.tmux.conf` 备份到 `~/.tmux-config-backups/`。
+- 将已有 `~/.local/bin/tmux-resurrect-save-low-priority` 备份后安装低优先级自动保存包装脚本。
 - 安装新的 `~/.tmux.conf`，权限设为 `600`。
 - 如果 tmux server 正在运行，则自动重载配置。
 
@@ -548,7 +549,7 @@ Ubuntu 20.04 自带的 tmux 3.0a 不在此配色片段的支持范围内，不�
 
 ## session 布局自动保存与恢复
 
-配置使用 `tmux-resurrect` 保存 session、window、pane 的名称和布局、pane 顺序及工作目录；`tmux-continuum` 每 5 分钟自动保存，并在 tmux server 启动时自动恢复。恢复快照固定保存在 `~/.local/share/tmux/resurrect/`。自动恢复只会在 server 启动时触发，不是每次重载配置时触发。
+配置使用 `tmux-resurrect` 保存 session、window、pane 的名称和布局、pane 顺序及工作目录；`tmux-continuum` 每 60 分钟自动保存，并在 tmux server 启动时自动恢复。自动保存通过 `~/.local/bin/tmux-resurrect-save-low-priority` 执行：CPU niceness 为 15，若系统有 `ionice`，I/O 使用 idle class；没有 `ionice` 时仍会降低 CPU 优先级。这样尽量把资源留给交互式终端，但不能保证高负载下完全无卡顿。恢复快照固定保存在 `~/.local/share/tmux/resurrect/`。自动恢复只会在 server 启动时触发，不是每次重载配置时触发。
 
 ### 手动保存与恢复
 
@@ -557,7 +558,7 @@ Ctrl-b Ctrl-s    立即保存当前 tmux 布局
 Ctrl-b Ctrl-r    从最近一次保存恢复布局
 ```
 
-首次安装插件后建议手动保存一次。大幅调整窗口或分屏后，也可以手动保存，不必等待自动保存。
+首次安装插件后建议手动保存一次。大幅调整窗口或分屏后，也可以手动保存，不必等待自动保存。手动 `Ctrl-b Ctrl-s` 仍直接调用插件原始脚本，不经低优先级包装；若刚完成大量布局调整，可以手动保存，避免等到下一次 60 分钟自动保存。
 
 ### 意外关机后恢复
 
@@ -567,7 +568,7 @@ Ctrl-b Ctrl-r    从最近一次保存恢复布局
 tmux
 ```
 
-新 tmux server 启动后，Continuum 会触发最近一次自动恢复；如果没有自动恢复，再按 `Ctrl-b Ctrl-r`。恢复的是最近保存的状态，因此突然断电时，最近一次保存之后新增或调整的布局可能还没写入。
+新 tmux server 启动后，Continuum 会触发最近一次自动恢复；如果没有自动恢复，再按 `Ctrl-b Ctrl-r`。恢复的是最近保存的状态，因此突然断电时，最近一次保存之后新增或调整的布局可能还没写入；按当前 60 分钟间隔，理论上可能丢失最多约 60 分钟内的布局变更。重要布局调整后建议手动保存。
 
 检查登录自动启动是否已启用：
 

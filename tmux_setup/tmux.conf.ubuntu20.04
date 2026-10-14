@@ -22,9 +22,13 @@ bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'DISPLAY=:1 XAUTHOR
 set -g @resurrect-dir '~/.local/share/tmux/resurrect'
 set -g @plugin 'tmux-plugins/tmux-resurrect'
 set -g @plugin 'tmux-plugins/tmux-continuum'
-set -g @continuum-save-interval '5'
+set -g @continuum-save-interval '60'
 set -g @continuum-restore 'on'
 set -g @continuum-boot 'on'
 
-# TPM must be initialized after plugin settings, at the end of this file.
+# Load TPM plugins after their settings; the Continuum save override follows.
 run '~/.tmux/plugins/tpm/tpm'
+
+# Continuum's periodic saves use a low-priority wrapper; Ctrl-b Ctrl-s remains
+# the plugin's normal-priority manual save binding.
+set-option -gF @resurrect-save-script-path '#{E:HOME}/.local/bin/tmux-resurrect-save-low-priority'

@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Continuum calls this wrapper for periodic saves. Keep the save work below
+# interactive terminal work while preserving the plugin's original arguments.
+save_script="${HOME}/.tmux/plugins/tmux-resurrect/scripts/save.sh"
+
+if [[ ! -x "$save_script" ]]; then
+    printf 'tmux-resurrect save script is missing or not executable: %s\n' "$save_script" >&2
+    exit 127
+fi
+
+if command -v ionice >/dev/null 2>&1; then
+    exec nice -n 15 ionice -c 3 "$save_script" "$@"
+fi
+
+# Keep CPU priority low even on systems without ionice.
+exec nice -n 15 "$save_script" "$@"

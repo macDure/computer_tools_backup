@@ -9,9 +9,10 @@
 
 - [tmux.conf](./tmux.conf)：本机 Ubuntu 24.04/tmux 3.4 配置，包含滚轮历史、系统剪贴板、Catppuccin Mocha 配色和 session 自动恢复/登录启动；使用 server-level `copy-command`。目标机需按其 `DISPLAY`/`XAUTHORITY` 调整剪贴板命令。
 - [tmux.conf.ubuntu20.04](./tmux.conf.ubuntu20.04)：Ubuntu 20.04 的兼容配置，直接向 `copy-pipe-and-cancel` 传入 xclip 命令。
-- [install_tmux_config.sh](./install_tmux_config.sh)：自动探测 `copy-command` 支持情况，选择对应配置；同时备份旧配置并重载当前 server。
+- [install_tmux_config.sh](./install_tmux_config.sh)：自动探测 `copy-command` 支持情况，选择对应配置；备份旧配置，安装低优先级保存包装脚本并重载当前 server。
+- [tmux-resurrect-save-low-priority](./tmux-resurrect-save-low-priority)：供 Continuum 定时保存使用，以低 CPU／磁盘优先级运行；手动 `Ctrl-b Ctrl-s` 不受影响。
 - [tmux_setup_guide.md](./tmux_setup_guide.md)：完整迁移、使用、验证和排障文档。
-- tmux-resurrect + tmux-continuum：每 5 分钟自动保存 session/window/pane 布局；Linux 用户登录时由 systemd 自动启动 tmux server，并自动恢复最近快照。
+- tmux-resurrect + tmux-continuum：每 60 分钟以低优先级自动保存 session/window/pane 布局；Linux 用户登录时由 systemd 自动启动 tmux server，并自动恢复最近快照。
 - [session_layout_snapshot](./session_layout_snapshot/)：2026-10-14 09:23 导出的本机最新 Resurrect 布局快照及 `last` 链接（不含旧历史）；新电脑恢复步骤见迁移指南。快照包含运行目录和 pane 命令，只应保存在私有仓库。
 - [ubuntu20.04_local_install_20260916](./ubuntu20.04_local_install_20260916/)：本机 Ubuntu 20.04 的实际安装状态和生效配置备份。
 - [catppuccin-mocha-20260930](./catppuccin-mocha-20260930/README.md)：独立配色片段及 iTerm2 配色资源；主 `tmux.conf` 已包含本机 tmux 配色，Ubuntu 20.04 兼容配置不包含不兼容的配色选项。

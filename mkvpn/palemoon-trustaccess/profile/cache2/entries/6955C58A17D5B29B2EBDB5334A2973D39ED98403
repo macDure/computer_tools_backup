@@ -1,0 +1,370 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=0.7, maximum-scale=0.7">
+	<title>欢迎访问安全网关</title>
+	<link rel="stylesheet" href="/vpn/theme/custom/portal_home.css" type="text/css">
+	<script type="text/javascript" src="/vpn/common/js/jquery.sslvpn.js"></script>
+</head>
+<body>
+	<div id="container">
+		<div id="main">
+			<div id="logo"></div>
+			<table id="info"><tr>
+				<td><div id="welcome"></div></td>
+				<td><input id="setting" type="button" value="设置"></td>
+				<td><input id="logout" type="button" value="退出"></td>
+			</tr></table>
+
+			<div id="portal">
+				<div id="login_time">
+					<span id="label_logintime">登录时间：</span><span id="logintime"></span>
+					<span id="label_onlinetime">在线时间：</span><span id="onlinetime"></span>
+					<span id="collect" style="display:none">提交终端信息</span>
+				</div>
+
+				<div id="tabs"></div>
+
+				<div id="template" style="display:none">
+
+					<div class="tabs_head"></div>
+					<div class="tabs_text"></div>
+					<div class="tabs_mid"></div>
+					<div class="tabs_end"></div>
+
+					<div class="page"></div>
+
+					<div class="list">
+						<div class="head">
+							<span class="button parent_close_button"></span>
+							<span class="title"></span>
+						</div>
+						<div class="main"></div>
+					</div>
+
+					<div class="item_text">
+						<div class="name">
+							<span class="button close_button"></span>
+							<a><span class="title"></span></a>
+							<span class="notice"></span>
+						</div>
+						<div class="main"></div>
+					</div>
+
+					<div class="item_pic">
+						<div class="name">
+							<img src="/vpn/user/common/icon/web.gif"/>
+							<a class="title" title="he">hi</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="copyright_info">©2000-2018北京网御星云信息技术有限公司版权所有</div>
+		</div>
+	</div>
+
+	<div id="toast" style="display:none"></div>
+	<iframe id="dialog" style="display:none"></iframe>
+	<div id="ModalMask" style="display:none"></div>
+	<div id="plugin" style="visibility:hidden">
+		<!-- <embed id="npsecagent" type="application/npSecAgent"> -->
+	</div>
+
+<script type="text/javascript">
+	function add_page(id, title) {
+		var page = $("#template .page").clone().attr("id", id).appendTo("#portal");
+
+		if ($("#tabs").children().length == 0) {
+			var head = $("#template .tabs_head").clone().addClass("inactive").appendTo($("#tabs"));
+			$("#template .tabs_end").clone().addClass("inactive").appendTo($("#tabs"));
+		} else {
+			$("#template .tabs_mid").clone().addClass("inactive").insertBefore($("#tabs .tabs_end"));
+		}
+
+		var tab = $("#template .tabs_text").clone().addClass("inactive").text(title).insertBefore($("#tabs .tabs_end")).click(function() {
+			if ($(this).hasClass("inactive")) {
+				$("#portal .page").hide();
+				page.show();
+				$("#tabs").children().addClass("inactive").removeClass("active");
+				$(this).addClass("active").removeClass("inactive");
+				$(this).next().addClass("active").removeClass("inactive");
+				if (head) {
+					head.addClass("active").removeClass("inactive");
+				}
+			}
+		}).trigger("click");
+
+		return page;
+	}
+
+	function add_list(page, list, title) {
+		var list = $("#template .list").clone().attr("id", list).find(".title").text(title).end().appendTo(page);
+		var button = list.find(".button").click(function() {
+			if ($(this).hasClass('parent_open_button')) {
+				$(this).parent().next().slideDown();
+				$(this).removeClass('parent_open_button').addClass('parent_close_button');
+			} else {
+				$(this).parent().next().slideUp();
+				$(this).removeClass('parent_close_button').addClass('parent_open_button');
+			}
+		}).trigger("click");
+
+		if ($(page).children().length == 1) {
+			button.trigger("click");
+		}
+
+		return list;
+	}
+
+	function add_item_text(list, resource) {
+		var item = $("#template .item_text").clone().appendTo(list.find(".main").first());
+		item.find(".title").text(resource.name);
+		if (resource.notice) {
+			item.find(".notice").text("("+resource.notice+")");
+		}
+		if(resource.authority && resource.showLink && resource.link && resource.enable){
+			item.find("a").attr("href", "javascript:void(0)").click(function(event) {
+				sslvpn.getResource(resource.index);
+			});
+		}
+		if (!resource.webApp || !resource.shortcuts.length) {
+			item.find("span.button").removeClass("close_button").addClass('forbidden_button');
+		} 
+		
+		if (resource.webApp && resource.shortcuts.length){
+			var div_inner = $("<div class='shortcut'><ul></ul></div>");
+			for (var i=0; i<resource.shortcuts.length; i++) {
+				var li = $("<li><a>" + resource.shortcuts[i].name + "</a></li>");
+				if (resource.authority && resource.enable && resource.showLink) {
+					li.find("a").attr("href", "javascript:void(0)");
+					li.find("a").bind("click", {path:resource.shortcuts[i].path}, function(event){
+						window.open(event.data.path);
+					});
+				}
+				li.appendTo(div_inner.find('ul'));
+			}
+			div_inner.appendTo(item.find(".main").first());
+
+			item.find(".button").click(function() {
+				if ($(this).hasClass('open_button')) {
+					$(this).parent().next().slideDown();
+					$(this).removeClass('open_button').addClass('close_button');
+				} else {
+					$(this).parent().next().slideUp();
+					$(this).removeClass('close_button').addClass('open_button');
+				}
+			});
+		}
+
+		return item;
+	}
+
+	function add_item_pic(list, resource) {
+		var item = $("#template .item_pic").clone().appendTo(list.find(".main").first());
+		if(resource.notice){
+			item.find("a").attr("title", resource.notice).text(resource.name);
+		}else{
+			item.find("a").attr("title", resource.name).text(resource.name);
+		}
+		item.find("img").attr("src", resource.icon);
+
+		if(resource.authority && resource.showLink && resource.link && resource.enable){
+			item.find("a").attr("href", "javascript:void(0)");
+			item.find('img, a').click(function(event) {
+				sslvpn.getResource(resource.index);
+			});
+		}
+		return item;
+	}
+
+	function show_dialog(url) {
+		$("#reset_iframe").attr("src", url);
+		var width = 0;
+		var height = 0;
+		if (url) {
+			var width = document.documentElement.clientWidth;
+			var height = document.documentElement.clientHeight;
+		}
+		$('#maskdiv').css({width:width+'px',height:height+'px'}).addClass('mask').removeClass('maskhide');
+	}
+
+	$(document).ready(function() {
+		sslvpn({
+			pageName: "portal_home",
+			onCustom: function(data) {
+				$(document).attr("title", data["portalcustominfo"]["login_prompt"])
+				$("#setting").val(sslvpn.gettext("setting"));
+				$("#logout").val(sslvpn.gettext("logout"));
+				$("#label_logintime").text(sslvpn.gettext("login time: "));
+				$("#label_onlinetime").text(sslvpn.gettext("online time: "));
+				$("#collect").text(sslvpn.gettext("Terminal collection"));
+
+				$("#logo").css("background", "url(" + sslvpn.Route("portal_page_logo") + ") no-repeat");
+				$("#copyright_info").text(sslvpn.Session("copyright_info"));
+				$("#toast").dialog({autoOpen:false});
+			},
+			onPrompt: function(text) {
+				$("#welcome").fadeToggle(100, function() {
+					$("#welcome").html(text).fadeToggle(100);
+				});
+			},
+			onToast: function(title, msg) {
+				$("#toast").text(msg).dialog({title: title, modal:true});
+				$("#toast").dialog("open");
+			},
+			onToastClose: function() {
+				if($("#toast").dialog("isOpen")){
+					$("#toast").dialog("close");
+				}
+			},
+			onSetting: function(url) {
+				$("#dialog").attr("src", url);
+				$("#dialog").show();
+			},
+			onSettingClose: function() {
+				$("#dialog").hide();
+			},
+			onEmbed: function(type) {
+				var id="npsecagent";
+				return id;
+				$("<embed></embed>").attr("id", id).attr("type", type).appendTo("#plugin");
+				return id;
+			},
+			onPlugin: function(classid, codebase) {
+				var id="secplugin";
+
+				$("<object></object>").attr("id", id)
+					.attr("classid", classid).attr("codebase", codebase)
+					.appendTo("#plugin");
+
+				return id;
+			},
+			onPluginLink: function(link) {
+				var id="secplugin";
+				$("<a></a>").attr("id", id).attr("href", link).appendTo("#plugin")
+				setTimeout(function() {
+					document.getElementById(id).click();
+				}, 500);
+			},
+			onRegister: function() {
+				return $("#ModalMask").show();
+			},
+			onRegisterClose: function() {
+				 $("#ModalMask").empty().hide();
+			},
+			onUpdateTime: function(time) {
+				$('#onlinetime').text(time);
+			},
+			onResourceList: function(list) {
+				$('#logintime').text(new Date(sslvpn.Session("login_time")).format("hh:mm:ss"));
+
+				var pic = add_page("page_pic", sslvpn.gettext("icon"));
+				var pic_authority = add_list(pic, "pic_authority", sslvpn.gettext("authorized"));
+				var pic_no_authority = add_list(pic, "pic_no_authority", sslvpn.gettext("unauthorized"));
+				var pic_disabled = add_list(pic, "pic_disabled", sslvpn.gettext("disabled"));
+
+				var text = add_page("page_text", sslvpn.gettext("text"));
+				var text_authority = add_list(text, "text_authority", sslvpn.gettext("authorized"));
+				var text_no_authority = add_list(text, "text_no_authority", sslvpn.gettext("unauthorized"));
+				var text_disabled = add_list(text, "text_disabled", sslvpn.gettext("disabled"));
+
+				for (var i = 0; i < list.length; i++) {
+					if (!list[i].showName) {
+						continue;
+					}
+
+					if (!list[i].enable) {
+						add_item_pic(pic_disabled, list[i]);
+						add_item_text(text_disabled, list[i]);
+					} else if (!list[i].authority) {
+						add_item_pic(pic_no_authority, list[i]);
+						add_item_text(text_no_authority, list[i]);
+					} else {
+						add_item_pic(pic_authority, list[i]);
+						add_item_text(text_authority, list[i]);
+					}
+				}
+
+				if (sslvpn.Session("collect_machineinfo")) {
+					$("#collect").show().click(function() {
+						sslvpn.checkMachineInfo({type:"portal_collect_machineinfo", success:function() {
+							sslvpn.onAlert(sslvpn.gettext("collect success"));
+						}});
+					});
+				}
+			},
+			onLogout: function() {
+				location.href = sslvpn.Route("auth_home", "relogin=true");
+			}
+		});
+
+		$("#logout").click(sslvpn.checkLogout);
+		$("#setting").click(function() {
+			sslvpn.onSetting(sslvpn.Route("portal_setting"))
+		});
+	});
+
+/*
+	if ($.ldsc.getPeriodTime()) {
+		if ($.cookie("refresh") != "more") {
+			var period = ($.ldsc.getPeriodTime() * 60 + 5) * 1000;
+		} else {
+			var period = ($.ldsc.getPeriodTime() * 60) * 1000;
+		}
+
+		function refresh() {
+			window.location.reload();
+			$.cookie("refresh", "more");
+		}
+		setTimeout('refresh()', period);
+	}
+
+	$(document).ready(function() {
+
+		window.onload = function() {
+			var first_load = $.cookie("FirstLoad");
+			if(first_load != "false") {
+				window.name = "";
+				document.cookie = "FirstLoad=false";
+			}
+		}
+
+		$('.main_content:visible').scroller({
+			customClass:'scroll_bar',
+			trackMargin:15
+		});
+
+		if (!$.cookie("format")) {
+			$.cookie("format", "text", {expires:365, path:'/'});
+		} else {
+			if ($.cookie("format") == "text") {
+				$('div.text').click();
+			} else {
+				$('div.pic').click();
+			}
+		}
+	});
+*/
+
+</script>
+</body>
+</html>
+C'��[l      j�t�j�t�I��j��!   7    :https://111.202.232.70:1443/vpn/theme/portal_home.html strongly-framed 1 security-info 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 request-method GET response-head HTTP/1.1 200 OK
+Content-Type: text/html
+Content-Length: 11162
+ETag: "5ee72053-2b9a"
+Accept-Ranges: bytes
+Date: Sat, 05 Sep 2026 01:47:13 GMT
+Server: appframe
+Last-Modified: Mon, 15 Jun 2020 07:16:35 GMT
+ original-response-headers Server: appframe
+Date: Fri, 04 Sep 2026 17:20:46 GMT
+Content-Type: text/html
+Content-Length: 11162
+Last-Modified: Mon, 15 Jun 2020 07:16:35 GMT
+Connection: keep-alive
+ETag: "5ee72053-2b9a"
+Accept-Ranges: bytes
+ charset windows-1252 uncompressed-len 0 net-response-time-onstart 138 net-response-time-onstop 138   +�

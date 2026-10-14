@@ -1,0 +1,4014 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<INTERGRATION_INFO>
+	<VERSION major="0" minor="23"/> 
+	<USER
+		name="machao"
+		group="vpn"
+		type="1"
+		access_type="6"
+		logout_policy="7"
+		jump-mapid=""
+		internet-access="0"
+		modify_flag="3"
+		pwd_overtime="0"
+		period_time="0"
+		ssl_sm2="0"
+		key_id=""
+		client_jump_pskey="D88ZJ0Kdnk4GVm5X/nruPa40cx/RBYY7"
+	/>
+
+	<SESSION
+		sid_name="VSG_SESSIONID"
+		id="FxnotesTBr4KGe0GpeoW"
+		login-addr="183.241.171.155"
+		login-time="1788542574"
+		current-time="1788542575.253"
+		collect_machineinfo="0"
+	/>
+
+	<GATEWAY version="x.x.x.x"/>
+	<RESOURCE_LIST>
+		
+		<TCPUDP_RESOURCE name="软件院代码仓库" icon="tcpudp.gif" 
+	protocol="http" mapid="211fbc4b" 
+	display="1" addr="10.10.61.31" 
+	port="9099" notice="" 
+	status="1" istcp="1"
+	cmd="" http_url=""
+	sso_type="0" sso_modifiable="0"
+	sso_name="" sso_pwd=""
+	authority="1">
+</TCPUDP_RESOURCE>
+<TCPUDP_RESOURCE name="财务小智59" icon="tcpudp.gif" 
+	protocol="tcp" mapid="51875d15" 
+	display="1" addr="172.20.15.59" 
+	port="1-65535" notice="" 
+	status="1" istcp="1"
+	cmd="" http_url=""
+	sso_type="0" sso_modifiable="0"
+	sso_name="" sso_pwd=""
+	authority="1">
+</TCPUDP_RESOURCE>
+<TCPUDP_RESOURCE name="财务小智60" icon="tcpudp.gif" 
+	protocol="tcp" mapid="51875d8f" 
+	display="1" addr="172.20.15.60" 
+	port="1-65535" notice="" 
+	status="1" istcp="1"
+	cmd="" http_url=""
+	sso_type="0" sso_modifiable="0"
+	sso_name="" sso_pwd=""
+	authority="1">
+</TCPUDP_RESOURCE>
+<TCPUDP_RESOURCE name="日志" icon="tcpudp.gif" 
+	protocol="https" mapid="41000299" 
+	display="1" addr="10.50.10.24" 
+	port="443" notice="" 
+	status="1" istcp="1"
+	cmd="" http_url=""
+	sso_type="0" sso_modifiable="0"
+	sso_name="" sso_pwd=""
+	authority="1">
+</TCPUDP_RESOURCE>
+<TCPUDP_RESOURCE name="入侵检测" icon="tcpudp.gif" 
+	protocol="https" mapid="429a50bb" 
+	display="1" addr="10.50.10.25" 
+	port="443" notice="" 
+	status="1" istcp="1"
+	cmd="" http_url=""
+	sso_type="0" sso_modifiable="0"
+	sso_name="" sso_pwd=""
+	authority="1">
+</TCPUDP_RESOURCE>
+<TCPUDP_RESOURCE name="安全监控及安全自控平台" icon="tcpudp.gif" 
+	protocol="http" mapid="7540eb9" 
+	display="1" addr="172.20.13.13" 
+	port="80" notice="" 
+	status="1" istcp="1"
+	cmd="" http_url="aHR0cDovLzE3Mi4yMC4xMy4xMw=="
+	sso_type="0" sso_modifiable="0"
+	sso_name="" sso_pwd=""
+	authority="1">
+</TCPUDP_RESOURCE>
+<TCPUDP_RESOURCE name="远程管理" icon="tcpudp.gif" 
+	protocol="telnet" mapid="1cc15d50" 
+	display="1" addr="10.6.0.1" 
+	port="23" notice="" 
+	status="1" istcp="1"
+	cmd="" http_url=""
+	sso_type="0" sso_modifiable="0"
+	sso_name="" sso_pwd=""
+	authority="1">
+</TCPUDP_RESOURCE>
+<TCPUDP_RESOURCE name="PDIE" icon="tcpudp.gif" 
+	protocol="http" mapid="798bbdec" 
+	display="1" addr="10.65.64.169" 
+	port="8085" notice="" 
+	status="1" istcp="1"
+	cmd="" http_url="aHR0cDovLzEwLjY1LjY0LjE2OTo4MDg1L3BvcnRhbC9tYWluSG9tZQ=="
+	sso_type="0" sso_modifiable="0"
+	sso_name="" sso_pwd=""
+	authority="1">
+</TCPUDP_RESOURCE>
+<TCPUDP_RESOURCE name="群晖存储" icon="tcpudp.gif" 
+	protocol="http" mapid="57b2d48d" 
+	display="1" addr="172.20.11.15" 
+	port="5000" notice="" 
+	status="0" istcp="1"
+	cmd="" http_url="aHR0cDovLzE3Mi4yMC4xMS4xNTU6NTAwMC8="
+	sso_type="0" sso_modifiable="0"
+	sso_name="" sso_pwd=""
+	authority="1">
+</TCPUDP_RESOURCE>
+<TCPUDP_RESOURCE name="上网行为" icon="tcpudp.gif" 
+	protocol="https" mapid="8c0f5fc" 
+	display="1" addr="172.20.147.239" 
+	port="443" notice="" 
+	status="1" istcp="1"
+	cmd="" http_url=""
+	sso_type="0" sso_modifiable="0"
+	sso_name="" sso_pwd=""
+	authority="1">
+</TCPUDP_RESOURCE>
+<TCPUDP_RESOURCE name="OA" icon="tcpudp.gif" 
+	protocol="tcp" mapid="18566c66" 
+	display="1" addr="192.168.98.12" 
+	port="80" notice="" 
+	status="1" istcp="1"
+	cmd="" http_url=""
+	sso_type="0" sso_modifiable="0"
+	sso_name="" sso_pwd=""
+	authority="1">
+</TCPUDP_RESOURCE>
+
+		
+		<NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='深地院ac1' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.165.2/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='数据标注平台' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.135.24/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='minecc数据库' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.10.61.210/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='wps信创生产服务器' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.102.0.45/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='kubesphere' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.10.61.208/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='生产信创OA数据服务器' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.102.0.229/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='煤科总院矿山百通开发48' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.48/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='煤科总院矿山百通开发142' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.142/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='矿山中控高可用虚机mkcc1' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.24/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='联通云win10' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.207/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='龚永琪' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.149.219/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='集团法务管理系统' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.18.102.216/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='AI4SE部署服务器' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.8/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='矿山中控高可用虚机mkcc2' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.102/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='算力集群平台' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.15.113/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='马超' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.149.210/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='矿山中控高可用虚机mkcc3' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.108/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='上网行为' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.147.239/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='宋梓宁' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.149.214/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='王坡智能问答系统' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.10.61.204/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='矿山中控高可用虚机mkcc4' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.211/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='煤炭数据集平台92' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.102.0.92/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='云端地址' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.0/24'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='矿山中控高可用虚机mkcc5' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.175/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='科技创新服务平台' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.65.211.17/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='矿山数据标准院1' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.139.10/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='煤炭数据集平台93' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.102.0.93/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='矿山中控服务器' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.154.77/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='矿山数据标准院2' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.135.26/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='waf' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.147.244/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='桌面管理终端' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.10.61.132/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='刘凡' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.149.211/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='ESP-H' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.15.242/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='算力集群系统' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.15.111/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='煤科总院矿山百通开发215' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.215/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='矿山百通206' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.10.61.206/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='数据库服务器' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.154.233/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='测试摄像头' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.154.17/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='深地测试111' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.164.111/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='深信服日志分析管理系统' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.185/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='煤炭数据集平台225' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.102.0.225/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='航信开票支付' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.15.88/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='煤炭数据集平台24' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.102.0.24/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='财务办公软件' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.152.212/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='生产信创契约锁-应用服务器' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.102.0.227/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='高质量数据集公共服务平台' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.10.61.157/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='研究生院信创版' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.102.0.127/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='维响桌面' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.162.100/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='中煤科工集团税务信息管理系统' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.65.64.15/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='h3c防火墙' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='6.1.1.1/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='生产信创OA-应用服务器' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.102.0.135/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='双创AC' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.6.0.254/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='财务小智59' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.15.59/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='模型后台服务器' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.10.61.117/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='oa金山服务器' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.160.66/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='4090服务器' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.149.216/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='李斌' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.149.218/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='煤科总院矿山百通开发31' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.31/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='矿山中控信创实体机211' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.10.61.211/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='数据标注工具链' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.10.61.21/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='深地的实验室数字化管理平台' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.160.43/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='秦晗' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.149.213/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='算力集群管理' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.15.115/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='UTS' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.147.243/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='统一身份认证' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.15.200/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='矿山中控设备模型虚机26' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.26/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='矿山中控云控大模型虚机2' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.141/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='深信服数据库安全审计系统' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.35/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='煤科总院矿山百通开发187' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.187/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='公网核心' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.147.1/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='深信服防火墙' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.155/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='测试主机15' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.15.62/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='煤科总院矿山百通开发173' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.173/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='云控大模型部署服务器' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.30/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='煤科总院矿山百通开发94' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.94/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='煤科总院矿山百通开发23' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.23/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='任亦张' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.149.212/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='新数工平台' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.136.123/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='开发机' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.10.61.199/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='深信服运维安全管理系统' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.166/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='192_168_0_200' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.200/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='煤科总院矿山百通开发97' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.97/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='契约锁' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.18/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='矿山百通0-6' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.6/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='群晖15' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.11.15/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='集团ncc' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.65.64.241/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='OA信创测试' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.102.0.245/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='uts' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.15.247/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='王胜' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.149.217/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='深信服云镜系统' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.109/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='深信服云主机安全保护平台' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.199/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='煤炭数据集平台174' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.102.0.174/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='集团OA' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.18.102.76/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='矿山视巡后端算法代码' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.10.61.31/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='知识产权管理系统' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.18.101.12/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='PDIE' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.65.64.195/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='期刊出版公司资源备份' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.11.14/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='财务NCC' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.15.58/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='统一身份认证77' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.77/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='A6000服务器' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.149.215/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='测试142' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.142.3/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='门派系统' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.160.40/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='矿山中控实体机207' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.10.61.207/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='矿山中控玄器虚机11' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.11/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='集团OA77' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.18.102.77/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='财务小智60' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.15.60/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='新版百通前后端测试联调' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.29/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='矿山中控实体机209' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.10.61.209/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='大厦主交换' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.50.10.3/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='矿山百通' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='10.5.1.200/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='煤科总院矿山百通开发74' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.74/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='矿山百通160' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.160/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='虚拟主机521' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.147.251/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='1号楼ac' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.170.254/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='IPS' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='172.20.15.240/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE><NC_RESOURCE name='nc' mapid='111.202.232.70' status='1' icon='nc.gif' cmd='' authority='1'>
+	<TUNNEL tunnel-name='总院oa' negotiate-mode='1' display='1' notice=''>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='1194' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+				<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP addr='172.20.70.103' netmask='255.255.255.255'/>
+		<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.129/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='XaDZxIxo6KglKbT7'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='0' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='0'/>
+		</IKE>
+	</TUNNEL>
+</NC_RESOURCE>
+		
+		<IPSEC_RESOURCE>
+	<TUNNEL tunnel-name='192_168_98_0' negotiate-mode='1'>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='500' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+			<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP ip='172.20.70.103' ipv6=''/>
+				<SECURED-ROUTES>
+					<ROUTE addr='192.168.0.0/16'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='msy20200812'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='1' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='1' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='4500'/>
+		</IKE>
+	</TUNNEL>
+</IPSEC_RESOURCE><IPSEC_RESOURCE>
+	<TUNNEL tunnel-name='172_18_102_0' negotiate-mode='1'>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='500' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+			<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP ip='172.20.70.103' ipv6=''/>
+				<SECURED-ROUTES>
+					<ROUTE addr='172.18.102.0/24'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='msy20200812'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='1' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='1' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='4500'/>
+		</IKE>
+	</TUNNEL>
+</IPSEC_RESOURCE><IPSEC_RESOURCE>
+	<TUNNEL tunnel-name='172_18_103_0' negotiate-mode='1'>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='500' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+			<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP ip='172.20.70.103' ipv6=''/>
+				<SECURED-ROUTES>
+					<ROUTE addr='172.18.103.0/24'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='msy20200812'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='1' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='1' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='4500'/>
+		</IKE>
+	</TUNNEL>
+</IPSEC_RESOURCE><IPSEC_RESOURCE>
+	<TUNNEL tunnel-name='172_20_0_0' negotiate-mode='1'>
+		<IKE version='v1'>
+			<SERVER ip='111.202.232.70' port='500' id-type='ipv4' id='111.202.232.70'/>
+			<CLIENT port='500' id-type='key_id' id='FxnotesTBr4KGe0GpeoW'/>
+			<Exchange mode='main'/>
+			<EXTENSIONS>
+				<PRIVATE-IP ip='172.20.70.103' ipv6=''/>
+				<SECURED-ROUTES>
+					<ROUTE addr='172.18.27.253/32'/>
+				</SECURED-ROUTES>
+				<SM1-MAGIC magic='0'/>
+			</EXTENSIONS>
+			<PSK key='msy20200812'/>
+			<ISAKMP-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='28800' enc='aes128' hash='sha1' dh='g2' pfs='1' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</ISAKMP-SA>
+			<IPSEC-SA>
+				<PROPOSAL>
+					<TRANSFORMS>
+						<TRANSFORM life-time='3600' enc='aes128' hash='sha1' dh='g2' pfs='1' auth='psk'/>
+					</TRANSFORMS>
+				</PROPOSAL>
+			</IPSEC-SA>
+			<DPD dpddelay='0' dpdtimeout='0'/>
+			<NAT port='4500'/>
+		</IKE>
+	</TUNNEL>
+</IPSEC_RESOURCE>
+	</RESOURCE_LIST>
+	<INTRANET_LIST>
+		
+	</INTRANET_LIST>
+	<INTERNET_EXCEPTION_LIST>
+		
+	</INTERNET_EXCEPTION_LIST>
+	<DNS_INFO>
+		<DOMAIN_HOST dnssrv="114.114.114.114" />
+		<WINS_HOST winssrv="" />
+		<HOST_LIST>
+			
+		</HOST_LIST>
+	</DNS_INFO>
+</INTERGRATION_INFO>
+�Uz$      j��oj��oI��       M    :https://111.202.232.70:1443/vpn/user/portal/intergration.xml?_=1788542574937 strongly-framed 1 security-info FnhllAKWRHGAlo+ESXykKAAAAAAAAAAAwAAAAAAAAEaphjojqUBAApQ8Q8RnOI89BAQAAgAAAAAAAAAAAAAAAAAAAAABYAzXeuRcQYS/xVXIfbxFEVQVYmspMEQOv8VVyH28RRFmCjImkVxP+7sgiYWmMt8FvcOXmlQiTNWFiWlrbpbqgwAAAAAAAAKqMIICpjCCAg+gAwIBAgIBZDANBgkqhkiG9w0BAQsFADBTMQswCQYDVQQGEwJDTjEQMA4GA1UECgwHTGVhZFNlYzEUMBIGA1UECwwLTGVhZFNlYyBWU0cxHDAaBgNVBAMME09DQSBmb3IgTGVhZFNlYyBWU0cwIBcNMTcwNjE1MDI0NjAwWhgPMjA5OTEyMzEwMjQ2MDBaMEcxCzAJBgNVBAYTAkNOMRAwDgYDVQQKDAdMZWFkU2VjMRQwEgYDVQQLDAtMZWFkU2VjIFZTRzEQMA4GA1UEAwwHR2F0ZVdheTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMJWnpDTm9oP5oziKqtb+cGQv1Tqa7Q5hyDr3rq6sKT9mg9C+CV8GdV3ziif8u7ARkGwPTWOwjEUljeLvtECqHubLA9+D+TEk1kGlNPWLRluKj80tJSvpxOKnCm6jXlF6UWr94MwhbdCJ5oCi8prKhg5g2JAirZaC+o6VzI9jdUbN6Q2Rc+oy+itn/l8gV3uAu+uXoHKqNIR9NZWT99pU7bSNAiG1rroIP7cyZ6RFhbFsbFtXZwXnaChVuMQSwW7HV7yoVyVxOfE9DHNBAKvKLR7UZgkuAZ2fhYwrGZOINaJelFHHclzYc0dT7KDshjnVgUuiOjoUPMHFD0QxOCRs70CAwEAAaMQMA4wDAYDVR0TAQH/BAIwADANBgkqhkiG9w0BAQsFAAOBgQCWc2ickQhh0HLSyfc8hb1qQKhgayoKZUnILS3oDjoQbUbJ5QPwqXL2sVpfJsqqp4aWuLcomxlY/mAwQgd2lmcRUOK/nmMEpc5vTsvsty7MaDaYFE6w0YFouRqe/7TjshyYQZ/tdOhFEs/iUtTxbHwN4WiNyj0Cbqgr6RuG24oacMATAgMBAAEAAQEBAAAAAAAEUDI1NgAAABBSU0EtUEtDUzEtU0hBMjU2AZWfsWVlF0h/q5vYkTvlMZeudM2lzS9HP5b18Lf/9ixoAAAAAWYKMiaRXE/7uyCJhaYy3wW9w5eaVCJM1YWJaWtuluqDAAAAAAAAAqowggKmMIICD6ADAgECAgFkMA0GCSqGSIb3DQEBCwUAMFMxCzAJBgNVBAYTAkNOMRAwDgYDVQQKDAdMZWFkU2VjMRQwEgYDVQQLDAtMZWFkU2VjIFZTRzEcMBoGA1UEAwwTT0NBIGZvciBMZWFkU2VjIFZTRzAgFw0xNzA2MTUwMjQ2MDBaGA8yMDk5MTIzMTAyNDYwMFowRzELMAkGA1UEBhMCQ04xEDAOBgNVBAoMB0xlYWRTZWMxFDASBgNVBAsMC0xlYWRTZWMgVlNHMRAwDgYDVQQDDAdHYXRlV2F5MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwlaekNOb2g/mjOIqq1v5wZC/VOprtDmHIOveurqwpP2aD0L4JXwZ1XfOKJ/y7sBGQbA9NY7CMRSWN4u+0QKoe5ssD34P5MSTWQaU09YtGW4qPzS0lK+nE4qcKbqNeUXpRav3gzCFt0InmgKLymsqGDmDYkCKtloL6jpXMj2N1Rs3pDZFz6jL6K2f+XyBXe4C765egcqo0hH01lZP32lTttI0CIbWuugg/tzJnpEWFsWxsW1dnBedoKFW4xBLBbsdXvKhXJXE58T0Mc0EAq8otHtRmCS4BnZ+FjCsZk4g1ol6UUcdyXNhzR1PsoOyGOdWBS6I6OhQ8wcUPRDE4JGzvQIDAQABoxAwDjAMBgNVHRMBAf8EAjAAMA0GCSqGSIb3DQEBCwUAA4GBAJZzaJyRCGHQctLJ9zyFvWpAqGBrKgplScgtLegOOhBtRsnlA/CpcvaxWl8myqqnhpa4tyibGVj+YDBCB3aWZxFQ4r+eYwSlzm9Oy+y3LsxoNpgUTrDRgWi5Gp7/tOOyHJhBn+106EUSz+JS1PFsfA3haI3KPQJuqCvpG4bbihpw request-method GET response-head HTTP/1.1 200 OK
+Server: appframe
+Date: Fri, 04 Sep 2026 17:22:55 GMT
+Content-Type: text/xml
+Content-Length: 132502
+Expires: -1
+ original-response-headers Server: appframe
+Date: Fri, 04 Sep 2026 17:22:55 GMT
+Content-Type: text/xml
+Content-Length: 132502
+Connection: keep-alive
+Expires: -1
+ uncompressed-len 0 net-response-time-onstart 57 net-response-time-onstop 62  �

@@ -1,0 +1,17 @@
+Generated File. Do not edit.
+
+[HEADER]
+Version:0.18f:$
+Arch:x86_64-gcc3:$
+
+[PLUGINS]
+libnpSecClientAssist.so:$
+/usr/lib/mozilla/plugins/libnpSecClientAssist.so:$
+:$
+1588994983000:0:0:0:$
+Secvpn Client 1.0.0.5:$
+SECVPN client Plugin:$
+1
+0:application/secvpn-plugin:Secvpn client Plugin,communicate with secvpnServerd:.*:$
+
+[INVALID]

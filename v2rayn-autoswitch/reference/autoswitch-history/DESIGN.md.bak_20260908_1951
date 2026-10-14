@@ -1,0 +1,344 @@
+# v2rayN 自动切换服务器 & 自动更新订阅工具 — 设计方案
+
+版本: v0.1（待确认）  日期: 2026-09-07  状态: 待评审
+
+## 1. 背景与目标
+
+v2rayN（V7.4.2）当前通过订阅 `justmysocks3.net` 管理 6 个节点（c1s1~c1s5、c1s801，
+2×Shadowsocks + 4×VLESS-Reality）。节点 IP 会随订阅更新轮换，且线路质量不稳定
+（此前已发生过"孤儿核心占用 10808 导致代理持续失效"的事故）。
+
+目标：每天 **08:30（北京时间）** 由定时任务自动完成：
+
+1. 检查所有服务器连通性（按 c1s1 → c1s2 → … 升序），记录各节点延迟；
+2. 选取**升序第一个不超时**的服务器 S1，切换过去；
+3. **通过 S1 的代理**更新订阅（拉取最新节点列表写入 v2rayN 数据库）；
+4. 更新后重新检查 **c1s1 与 c1s2**：
+   - 两者都正常 → 切换到延迟更小的那个；
+   - 只有一个正常 → 切换到那个；
+   - 都不正常 → 保持 S1。
+5. 全程写日志，结果可查、失败可诊断。
+
+## 2. 现状盘点（已实测确认）
+
+| 项目 | 现状 |
+|---|---|
+| v2rayN | `/home/mac/v2rayN-linux-64/v2rayN`（Avalonia GUI，V7.4.2），当前在纯 tty 会话下运行，无 X 显示、无 Xvfb |
+| 核心 | 自带 `bin/xray/xray`（Xray 24.11.5），所有节点类型均可由它处理 |
+| 状态文件 | `guiConfigs/guiNDB.db`（SQLite：ProfileItem/SubItem/ProfileExItem 等）、`guiConfigs/guiNConfig.json`（`IndexId` = 当前选中节点）、`guiConfigs/config.json`（v2rayN 启动时自动生成，**工具不手写**） |
+| 订阅 | `SubItem.Url` = `<TARGET_SUBSCRIPTION_URL>`（直接 HTTPS URL，未 base64） |
+| 节点表 | `ProfileItem`：ConfigType 3=Shadowsocks、5=VLESS；VLESS-Reality 参数存于 Sni/Fingerprint/PublicKey/ShortId/Flow 列 |
+| 代理端口 | socks5 `127.0.0.1:10808`（系统代理指向它） |
+| 定时 | 系统已装 cron（`/usr/sbin/cron`、`/usr/bin/crontab`），系统时区 = Asia/Shanghai |
+| 关键教训 | v2rayN 退出后核心进程可能残留并继续占用 10808；**工具必须保证"写库/写配置前 v2rayN 进程已完全退出"** |
+
+## 3. 总体架构
+
+**原则：不依赖 GUI、不依赖显示环境，全部在"配置文件 + xray 核心进程"层面操作。**
+v2rayN 的 GUI 只作为"最终载体"：工具改好状态文件后重启 v2rayN，由它按新状态起核心。
+
+```
+autoswitch/
+├── DESIGN.md          # 本文档
+├── run.sh             # cron 入口（环境、日志、调用主程序、锁）
+├── autoswitch.py      # 主逻辑（Python3 纯标准库，单文件）
+├── config.conf        # 可调参数
+├── logs/              # auto-YYYYMMDD.log 每次运行追加
+└── last_result.json   # 最近一次结果摘要（人/脚本可读）
+```
+
+组件职责：
+
+- **run.sh**：拿锁（防重叠运行，`flock autoswitch.lock`）、设置 PATH/时区、调用
+  `python3 autoswitch.py "$@"`、按退出码记录结果。
+- **autoswitch.py**：
+  - `db.py` 逻辑：读写 guiNDB.db（先备份；仅在 v2rayN 进程确认退出后写）
+  - `probe.py` 逻辑：生成测试用 xray 配置（仿 v2rayN `configSpeedtest.json` 的
+    单核心多端口模式）→ 启动 `bin/xray/xray` → 逐节点
+    `curl -x socks5h://127.0.0.1:PORT <test_url>` 测延迟 → 回收进程
+  - `subsync.py` 逻辑：经选定节点代理拉取订阅 → 解析 share links → 事务性写库
+  - `switch.py` 逻辑：写 `guiNConfig.json` 的 `IndexId`；必要时重启 v2rayN；
+    校验 10808 恢复监听
+  - `report.py` 逻辑：日志 + last_result.json
+- **v2rayN（被管对象）**：工具在开始前提前退出（SIGTERM→等待→SIGKILL），结束前重启
+  （`nohup ./v2rayN &`）。v2rayN 启动时读取 `IndexId`、自动生成 `config.json`、
+  恢复代理（该行为在 2026-09-02 15:11 启动时已观察到：启动 12s 内重写 config.json）。
+
+## 4. 每日执行流程（08:30）
+
+```
+┌─ run.sh（flock 防重叠）
+│
+1. 预检
+   ├─ 1.1 v2rayN 在跑？ → SIGTERM，等 ≤15s；未退 → SIGKILL；仍未退 → [中止, 退出码2]
+   ├─ 1.2 pgrep 确认 v2rayN/xray(本目录) 均无进程
+   ├─ 1.3 读取 guiNDB.db：当前订阅的全部节点、SubItem.Url
+   └─ 1.4 读取 guiNConfig.json：当前 IndexId（仅作记录）
+│
+2. 节点探测（更新前）
+   ├─ 生成单核心多端口测试配置：127.0.0.1:12301..1230N socks in，每节点一个
+   │  outbound（按 DB 字段精确还原 ss / vless-reality 配置），routing 按
+   │  inboundTag→outboundTag 映射（与 v2rayN configSpeedtest.json 同构）
+   ├─ 启动 bin/xray/xray；任一启动失败 → [中止, 退出码4]
+   ├─ 按 c1s1→c1s801 升序（remark 尾部数字排序），逐个：
+   │  curl -x socks5h://127.0.0.1:PORT -o /dev/null -s -w '%{http_code} %{time_total}'
+   │       --max-time 8 https://www.google.com/generate_204
+   │  记录：ok = (http_code==204)，latency = time_total；超时/非204 = fail
+   └─ 选 S1 = 升序第一个 ok 的节点
+       若全部 fail → [不切换、更新订阅跳过、恢复现场、退出码1]
+│
+3. 切换 S1（先于订阅更新，保证有可用代理）
+   └─ 写 guiNConfig.json IndexId = S1（写入前 .bak 备份）
+│
+4. 订阅更新（经 S1 代理）
+   ├─ curl -x socks5h://127.0.0.1:S1port --max-time 30 <SubItem.Url>
+   ├─ 解码：先按 base64 尝试（校验解码后含 "://"），失败则按原文
+   ├─ 解析每行 share link：ss:// / vless:// / trojan:// / vmess://
+   │  （remark 取 # 片段 URL-decode；参数映射到 ProfileItem 各列，
+   │   ConfigType：ss=3, vless=5, trojan=4, vmess=1 —— 以现库行为校准）
+   ├─ 事务写库：
+   │  · 同 subid 内按 remark 匹配 → 保留原 IndexId 仅更新字段；新节点生成
+   │    唯一 19 位 IndexId；订阅中消失的节点删除
+   │  · ProfileExItem 同步（新节点 delay=-1）；SubItem.UpdateTime=now
+   └─ 失败（超时/解析 0 节点）→ [跳过订阅更新，保留旧库，记警告，继续第 5 步]
+│
+5. 更新后复检 c1s1 / c1s2
+   ├─ 用更新后的 DB 重新生成测试配置，重启测试 xray，只测 c1s1、c1s2
+   ├─ 判定：
+   │  · 两者 ok → final = 延迟更小者
+   │  · 仅一个 ok → final = 该节点
+   │  · 都 fail → final = S1
+   └─ final ≠ S1 时：再写一次 IndexId
+│
+6. 恢复代理
+   ├─ nohup ./v2rayN & disown（在 v2rayN 目录下）
+   ├─ 等待 10808 监听（轮询 ≤30s）
+   └─ 未监听 → 兜底：按 final 节点生成 config.json（v2rayN 同构格式）
+      并自行启动 bin/xray/xray，保证代理可用
+│
+7. 收尾
+   ├─ 清理测试 xray 与临时配置
+   ├─ 写 logs/auto-YYYYMMDD.log 全过程 + last_result.json
+   └─ 退出码：0=全部成功 1=全节点不可用 2=v2rayN 无法退出 3=订阅更新失败(已切换)
+      4=探测环境失败
+└─ 结束
+```
+
+## 5. 关键设计点
+
+### 5.1 节点探测为什么自起 xray 而不是走 10808
+- 10808 由 v2rayN 核心占用且此时 v2rayN 已被停掉；测试必须独立。
+- 与 v2rayN 自带测速（configSpeedtest.json）完全同构：单核心、每节点一对
+  socks 端口，结果口径一致，便于对照。
+- 测试端口 12301 起递增，启动前做占用检查，冲突则整体 +1000 重试一次。
+
+### 5.2 为什么订阅更新由工具自己拉取解析（而不是让 v2rayN 做）
+- v2rayN 的订阅更新只能靠 GUI 操作或启动时机触发，无法在无 GUI 交互的定时
+  场景里可靠地"等待其完成"；本环境没有 X 显示/Xvfb。
+- 工具解析逻辑与 v2rayN 行为对齐（同 schema 写库、同 remark 匹配保留
+  IndexId），且**第 5 步用更新后的节点实测连通**天然验证了解析正确性——
+  若解析错了，c1s1/c1s2 测试必失败，自动回落到 S1，不会把用户搞挂。
+- 当前订阅只含 ss:// 与 vless:// 两类（另实现 trojan/vmess 解析作为冗余）。
+
+### 5.3 为什么"切换"= 改 IndexId 而不直接改 config.json
+- `config.json` 由 v2rayN 启动时按 `IndexId` + DB 重新生成（已实测），
+  手写它会被覆盖、且易与 v2rayN 状态不一致。
+- 写 `IndexId` 是唯一权威入口：v2rayN 重启后即按新节点工作，GUI 列表状态一致。
+
+### 5.4 v2rayN 进程处理
+- 开始时：SIGTERM → 等 ≤15s → SIGKILL → pgrep 双确认（v2rayN 主进程 +
+  本目录 xray 子进程）。
+- **写任何状态文件之前必须再次 pgrep 确认**（吸取孤儿核心教训）。
+- 结束时：重启 v2rayN；若 v2rayN 未能自行恢复代理（未监听 10808），
+  工具按 final 节点自行启动 xray 兜底（v2rayN 之后手动开代理时若遇端口
+  冲突，v2rayN 会提示，属已知取舍，见 §8 开放问题 ①）。
+
+### 5.5 数据安全
+- 每次写 `guiNDB.db` / `guiNConfig.json` 前备份为 `*.bak-YYYYmmddHHMMSS`，
+  各保留最近 5 份；
+- 订阅更新为单事务（upsert + 删除 + UpdateTime），任何解析异常整体回滚；
+- 全程只读 v2rayN 二进制与 bin/ 目录，不改 v2rayA 的任何东西。
+
+### 5.6 故障矩阵
+
+| 故障 | 行为 | 退出码 |
+|---|---|---|
+| v2rayN 无法杀死 | 不碰任何文件，日志记录 | 2 |
+| 全部节点超时 | 不切换、不更新、重启 v2rayN 恢复原代理 | 1 |
+| 测试 xray 启动失败 | 同上，恢复原代理 | 4 |
+| 订阅拉取/解析失败 | 跳过订阅更新，仍完成切换 S1（及其复检逻辑退化为保持 S1） | 3 |
+| c1s1/c1s2 更新后都不可用 | 保持 S1 | 0 |
+| 代理最终未恢复（极端） | 日志 ERROR + last_result.json 标记，兜底 xray 已尝试 | 0/5 |
+
+## 6. 定时任务部署
+
+- 时区：系统即 Asia/Shanghai，无需在 cron 里额外处理。
+- 用户级 cron（默认方案，`crontab -e` 添加一行）：
+
+```
+30 8 * * * /home/mac/v2rayN-linux-64/autoswitch/run.sh >/dev/null 2>&1
+```
+
+- 备选：systemd user timer（需要 `loginctl enable-linger mac` 保证未登录也运行），
+  若你希望"关机状态/未登录也保证执行"再考虑，本方案默认 cron。
+- 结果查看：
+  - `cat autoswitch/logs/auto-$(date +\%Y\%m\%d).log`
+  - `cat autoswitch/last_result.json`
+
+## 7. 验收标准
+
+1. **dry-run**：`./run.sh --dry-run` 只探测并打印各节点延迟与将选择的节点，
+   不杀进程、不写库、不切节点；
+2. **真实执行**：v2rayN 被平滑重启，`IndexId` 指向预期节点，10808 恢复监听，
+   订阅 `UpdateTime` 刷新（节点 IP 如有轮换则更新），c1s1/c1s2 优先规则生效；
+3. **故障注入**（任选 2 项验证）：
+   - test_url 改不可达 → 全节点 fail → 状态零变更、退出码 1；
+   - 订阅 URL 改错误 → 订阅跳过、节点仍切换、退出码 3；
+   - 手工构造 v2rayN 不响应 SIGTERM（难模拟，可改测 SIGKILL 路径）；
+4. **连续 2 天** 08:30 cron 自动运行，日志与 last_result.json 正常。
+
+## 8. 开放问题（请确认）
+
+① 每天 08:30 工具会**关闭并重启 v2rayN**（代理中断约 1~3 分钟），可接受？
+② 全部节点超时时的默认行为是"保持现状只记日志"，可接受？
+③ 测试 URL = `https://www.google.com/generate_204`、单节点超时 8 秒、
+   订阅拉取超时 30 秒——数值是否 OK？
+④ 更新后 c1s1/c1s2 都不正常时保持 S1（升序第一个可用），确认？
+⑤ 订阅更新由工具自行拉取解析写库（理由见 §5.2），确认？
+⑥ 调度用用户级 cron（默认）还是 systemd user timer？
+⑦ 工具运行期间若 v2rayN 重启后没自动恢复代理，工具会**自行起一个 xray**
+   兜底（可能与之后你手动操作 v2rayN 开代理产生一次端口冲突提示），可接受？
+
+## 9. 明确不做的事
+
+- 不修改 v2rayA 的任何进程/文件/服务；
+- 不实现 v2rayN 内置"自动切换"能覆盖的部分之外的 GUI 自动化（不模拟点击）；
+- 不做多订阅、不做节点池扩容（当前单一订阅 6 节点）；
+- 不改动 10808 以外的任何系统代理设置。
+
+---
+
+# 附: 工具使用方法
+
+> 工具目录: `/home/mac/v2rayN-linux-64/autoswitch/`
+> 入口: `run.sh`(推荐) 或直接 `python3 autoswitch.py`
+
+## A. 日常使用(三步走)
+
+### A.1 试跑(零副作用, 先确认探测正常)
+```bash
+/home/mac/v2rayN-linux-64/autoswitch/run.sh --dry-run
+```
+- 只启动临时测试 xray 探测各节点并打印延迟, **不杀 v2rayN、不写任何 v2rayN 文件**;
+- 输出结尾 "若正式执行: 切换到 c1sX" 即本次会选的节点;
+- 全部 FAIL 时退出码为 1(仅提示, 无任何改动)。
+
+### A.2 正式执行(首次建议盯着日志看)
+```bash
+cd /home/mac/v2rayN-linux-64/autoswitch
+./run.sh
+tail -f logs/auto-$(date +%Y%m%d).log   # 另开终端观察
+```
+执行期间 v2rayN 会被短暂关闭并自动重启(代理中断约 1~3 分钟)。
+完成后检查:
+```bash
+cat last_result.json
+```
+- `selected`: 升序探测选中的 S1
+- `sub_updated`: 订阅是否更新成功
+- `final_server`: 最终生效节点
+- `proxy_restored`: 代理(10808)是否恢复
+- `fallback_xray`: 是否走了兜底 xray(true 说明 v2rayN 没自动恢复代理)
+
+再到 v2rayN 界面确认当前节点与订阅已刷新。
+
+### A.3 挂每日定时(确认 A.1/A.2 都正常后)
+```bash
+crontab -e
+# 加入一行:
+30 8 * * * /home/mac/v2rayN-linux-64/autoswitch/run.sh
+```
+- 系统时区即 Asia/Shanghai, 无需额外设置;
+- 查看已装任务: `crontab -l`;
+- cron 运行结果看 `logs/auto-YYYYMMDD.log` 和 `last_result.json`。
+
+## B. 常用参数
+
+| 参数 | 说明 |
+|---|---|
+| `--dry-run` | 只探测+报告, 不杀进程不写文件(退出码 1 表示全部不可用, 仅提示) |
+| `--no-restart` | 结束后不重启 v2rayN(状态文件仍会更新, 由你手动启动 v2rayN) |
+| 无参数 | 正式执行(cron 用法) |
+
+## C. 配置项 (`config.conf`)
+
+| 键 | 默认 | 说明 |
+|---|---|---|
+| `v2rayn_dir` | `/home/mac/v2rayN-linux-64` | v2rayN 目录 |
+| `test_url` | `https://www.google.com/generate_204` | 连通性测试 URL |
+| `test_timeout` | `8` | 单节点探测超时(秒) |
+| `sub_timeout` | `30` | 订阅拉取超时(秒) |
+| `port_base` | `12301` | 探测 socks 起始端口(自动跳过被占用端口) |
+| `main_port` | `10808` | v2rayN 代理端口(校验用) |
+| `prefer_after_update` | `c1s1,c1s2` | 更新订阅后优先复检的节点(逗号分隔) |
+| `restart_v2rayn` | `true` | 结束后是否重启 v2rayN |
+| `backup_keep` | `5` | 备份保留份数 |
+
+## D. 退出码
+
+| 码 | 含义 |
+|---|---|
+| 0 | 全部成功 |
+| 1 | 全部节点超时(保持现状, 未做任何切换) |
+| 2 | v2rayN 无法停止(未修改任何文件) |
+| 3 | 订阅更新失败(节点切换仍完成) 或 复检后无任何可用节点 |
+| 4 | 探测环境失败(curl/xray 不可用) |
+| 5 | 兜底 xray 也未能恢复代理(需人工介入) |
+| 6 | 未预期异常(看日志堆栈) |
+| 75 | 上一次运行未结束, 本次跳过(flock) |
+
+## E. 文件说明
+
+| 路径 | 说明 |
+|---|---|
+| `logs/auto-YYYYMMDD.log` | 每日运行日志(每次运行追加一段) |
+| `logs/v2rayn-restart.log` | 工具拉起 v2rayN 后的输出 |
+| `last_result.json` | 最近一次结果摘要(人工/脚本查看) |
+| `autoswitch.lock` | 防重叠运行锁(flock) |
+| `tmp/` | 临时探测配置/订阅原始内容, 可随时 `rm -rf tmp/` |
+| `guiConfigs/guiNDB.db.bak-*` / `guiNConfig.json.bak-*` | 自动备份(每次写前生成, 各留 5 份) |
+
+## F. 排错
+
+1. **某节点一直 FAIL**: 单独验证
+   ```bash
+   curl -x socks5h://127.0.0.1:10808 -o /dev/null -s -w '%{http_code} %{time_total}s\n' --max-time 10 https://www.google.com/generate_204
+   ```
+   (10808 上跑的节点若即该节点, 204 正常则说明问题在探测端口/网络侧)
+2. **`fallback_xray: true`**: v2rayN 重启后未自动开代理, 工具已自起 xray 接管 10808;
+   之后在 v2rayN 里手动开代理可能提示端口占用, 关掉再开一次即可。
+3. **订阅更新失败(exit 3)**: 看日志 "订阅更新失败" 一行及 curl 报错;
+   常见为节点出口无法访问 `justmysocks3.net` 或面板侧临时故障; 本次节点切换不受影响。
+4. **v2rayN 进程杀不掉(exit 2)**: 日志有 ERROR; 手工
+   ```bash
+   ps -ef | grep -iE 'v2rayn|xray' | grep -v grep
+   sudo kill -9 <pid>   # 确认是本目录 v2rayN 相关进程后再执行
+   ```
+   然后重跑 `./run.sh`。
+5. **想回滚某次变更**: 用对应 `.bak-*` 备份覆盖回去
+   ```bash
+   cp guiConfigs/guiNConfig.json.bak-<时间戳> guiConfigs/guiNConfig.json
+   cp guiConfigs/guiNDB.db.bak-<时间戳> guiConfigs/guiNDB.db
+   ```
+   (操作前确保 v2rayN 已退出)
+6. **手动触发一次**(不等 8:30): 直接跑 `./run.sh` 即可, 与 cron 完全等价。
+
+## G. 已知边界
+
+- 工具只在**单一启用订阅**场景下设计(当前 6 节点); 若将来启用多订阅,
+  取 `SubItem.Enabled=1` 的第一个, 需评估是否扩展;
+- 节点识别依赖 remark 中的 `c1sN` 命名(升序按 N 的数字值);
+  若服务商更换命名规则, 调整 `config.conf` 的 `prefer_after_update` 即可,
+  排序逻辑(remark 尾部数字)一般无需改动;
+- 不修改 v2rayA 的任何组件; 若 v2rayA 的 xray 服务同时启用并占用 10808,
+  请先在 v2rayA 面板停掉该服务。

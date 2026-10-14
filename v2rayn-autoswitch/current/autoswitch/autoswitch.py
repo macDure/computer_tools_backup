@@ -1,0 +1,1015 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+autoswitch.py — v2rayN 自动切换服务器 & 自动更新订阅工具
+设计方案: 同目录 DESIGN.md
+
+流程(每日 08:30, 由 run.sh/cron 触发):
+  1. 平滑停止 v2rayN (SIGTERM->SIGKILL, pgrep 双确认)
+  2. 自起测试 xray, 按 c1s1 升序探测全部节点 (curl generate_204)
+  3. 选升序第一个不超时的 S1, 写入 guiNConfig.json IndexId
+  4. 经 S1 代理拉取订阅 -> 解析 -> 事务写库
+  5. 更新后重测 c1s1/c1s2 (两者好用延迟小的, 一个用一个, 都不用保持 S1)
+  6. 重启 v2rayN, 校验 10808; 未恢复则自起 xray 兜底
+  7. 写日志与 last_result.json
+
+用法:
+  python3 autoswitch.py              # 正式执行
+  python3 autoswitch.py --dry-run    # 只探测+报告, 不杀进程不写任何文件
+  python3 autoswitch.py --no-restart # 结束后不重启 v2rayN
+"""
+
+import argparse
+import base64
+import glob
+import json
+import os
+import random
+import re
+import shutil
+import signal
+import socket
+import sqlite3
+import subprocess
+import sys
+import time
+from datetime import datetime
+from urllib.parse import parse_qs, unquote
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+TMPDIR = os.path.join(HERE, "tmp")
+
+# ---------------------------------------------------------------- 基础工具
+
+def now_str():
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+
+class Log:
+    def __init__(self, path):
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        self.file = open(path, "a", encoding="utf-8")
+
+    def _w(self, level, msg):
+        line = "%s [%s] %s" % (now_str(), level, msg)
+        print(line, flush=True)
+        self.file.write(line + "\n")
+        self.file.flush()
+
+    def info(self, msg):
+        self._w("INFO", msg)
+
+    def warn(self, msg):
+        self._w("WARN", msg)
+
+    def error(self, msg):
+        self._w("ERROR", msg)
+
+
+def load_config(path):
+    """解析简单的 key = value 配置(支持 # 注释)"""
+    defaults = {
+        "v2rayn_dir": "/home/mac/v2rayN-linux-64",
+        "test_url": "https://www.google.com/generate_204",
+        "test_timeout": 8,
+        "sub_timeout": 30,
+        "port_base": 12301,
+        "main_port": 10808,
+        "prefer_after_update": "c1s1,c1s2",
+        "respect_running": True,  # GENTLE_MODE_PATCH_V1: 不杀运行中的 GUI
+        "restart_v2rayn": True,
+        "backup_keep": 5,
+    }
+    if not os.path.exists(path):
+        return defaults
+    for line in open(path, encoding="utf-8"):
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, val = line.split("=", 1)
+        key, val = key.strip(), val.strip()
+        if key not in defaults:
+            continue
+        if isinstance(defaults[key], bool):
+            defaults[key] = val.lower() in ("1", "true", "yes", "on")
+        elif isinstance(defaults[key], int):
+            defaults[key] = int(val)
+        else:
+            defaults[key] = val
+    return defaults
+
+
+def backup(path, keep, log):
+    if not os.path.exists(path):
+        return
+    b = "%s.bak-%s" % (path, datetime.now().strftime("%Y%m%d%H%M%S"))
+    shutil.copy2(path, b)
+    for old in sorted(glob.glob(path + ".bak-*"))[:-keep]:
+        try:
+            os.remove(old)
+        except OSError:
+            pass
+
+
+def port_free(port):
+    s = socket.socket()
+    try:
+        s.bind(("127.0.0.1", port))
+        return True
+    except OSError:
+        return False
+    finally:
+        s.close()
+
+
+def wait_port(port, timeout):
+    deadline = time.time() + timeout
+    while time.time() < deadline:
+        s = socket.socket()
+        try:
+            s.settimeout(1)
+            s.connect(("127.0.0.1", port))
+            return True
+        except OSError:
+            time.sleep(0.5)
+        finally:
+            s.close()
+    return False
+
+
+def pick_ports(base, n, log):
+    ports = []
+    for i in range(n):
+        p = base + i
+        while not port_free(p):
+            p += 1000
+            log.warn("端口 %d 被占用, 改用 %d" % (p - 1000, p))
+        ports.append(p)
+    return ports
+
+
+def gen_index_id(existing):
+    while True:
+        s = str(random.randint(10 ** 18, 10 ** 19 - 1))
+        if s not in existing:
+            return s
+
+
+# ---------------------------------------------------------------- 节点信息
+
+def server_name(remark):
+    """'JMS-313753@c1s1.portablesubmarines.com:26328' -> 'c1s1'"""
+    host = remark.split("@")[-1].split(":")[0].split(".")[0]
+    return host
+
+
+def server_order(name):
+    m = re.search(r"(\d+)$", name)
+    return int(m.group(1)) if m else 0
+
+
+def load_sub(db):
+    con = sqlite3.connect("file:%s?mode=ro" % db, uri=True)
+    con.row_factory = sqlite3.Row
+    row = con.execute("select Id, Url, Remarks from SubItem where Enabled=1 order by Id limit 1").fetchone()
+    con.close()
+    if not row:
+        return None, None, None
+    return str(row["Id"]), row["Url"], row["Remarks"]
+
+
+def load_servers(db, sub_id):
+    con = sqlite3.connect("file:%s?mode=ro" % db, uri=True)
+    con.row_factory = sqlite3.Row
+    rows = con.execute("select * from ProfileItem where Subid=? and IsSub=1", (str(sub_id),))
+    servers = [dict(r) for r in rows]
+    con.close()
+    servers.sort(key=lambda s: (server_order(server_name(s["Remarks"])), server_name(s["Remarks"])))
+    return servers
+
+
+def read_index_id(gui_cfg_path):
+    try:
+        return json.load(open(gui_cfg_path)).get("IndexId")
+    except Exception:
+        return None
+
+
+def set_index_id(gui_cfg_path, index_id, keep, log):
+    backup(gui_cfg_path, keep, log)
+    cfg = json.load(open(gui_cfg_path))
+    old = cfg.get("IndexId")
+    cfg["IndexId"] = str(index_id)
+    tmp = gui_cfg_path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(cfg, f, indent=2, ensure_ascii=False)
+    os.replace(tmp, gui_cfg_path)
+    log.info("IndexId 切换: %s -> %s" % (old, index_id))
+
+
+# ---------------------------------------------------------------- xray 探测
+
+def build_outbound(tag, s):
+    """按 ProfileItem 字段还原单个 outbound (与 v2rayN 生成格式一致)"""
+    ct = int(s.get("ConfigType") or 0)
+    addr = s["Address"]
+    port = int(s["Port"])
+    if ct == 3:  # shadowsocks
+        return {
+            "tag": tag,
+            "protocol": "shadowsocks",
+            "settings": {"servers": [{
+                "address": addr,
+                "method": s.get("Security") or "aes-256-gcm",
+                "ota": False,
+                "password": s["Id"],
+                "port": port,
+                "level": 1,
+            }]},
+            "streamSettings": {"network": "tcp"},
+            "mux": {"enabled": False, "concurrency": -1},
+        }
+    if ct == 5:  # vless
+        user = {"id": s["Id"], "email": s.get("Remarks") or "", "security": "auto", "encryption": "none"}
+        if s.get("Flow"):
+            user["flow"] = s["Flow"]
+        ss = {"network": s.get("Network") or "tcp"}
+        sec = (s.get("StreamSecurity") or "").lower()
+        if sec == "reality":
+            ss["security"] = "reality"
+            ss["realitySettings"] = {
+                "serverName": s.get("Sni") or "",
+                "fingerprint": s.get("Fingerprint") or "chrome",
+                "show": False,
+                "publicKey": s.get("PublicKey") or "",
+                "shortId": s.get("ShortId") or "",
+                "spiderX": "",
+            }
+        elif sec == "tls":
+            ss["security"] = "tls"
+            tls = {"serverName": s.get("Sni") or ""}
+            if s.get("Alpn"):
+                tls["alpn"] = [a for a in s["Alpn"].split(",") if a]
+            ss["tlsSettings"] = tls
+        return {
+            "tag": tag,
+            "protocol": "vless",
+            "settings": {"vnext": [{"address": addr, "port": port, "users": [user]}]},
+            "streamSettings": ss,
+            "mux": {"enabled": False, "concurrency": -1},
+        }
+    if ct == 4:  # trojan
+        ss = {
+            "network": s.get("Network") or "tcp",
+            "security": "tls",
+            "tlsSettings": {"serverName": s.get("Sni") or ""},
+        }
+        return {
+            "tag": tag,
+            "protocol": "trojan",
+            "settings": {"servers": [{"address": addr, "port": port, "password": s["Id"]}]},
+            "streamSettings": ss,
+        }
+    if ct == 1:  # vmess
+        user = {"id": s["Id"], "alterId": int(s.get("AlterId") or 0), "security": s.get("Security") or "auto"}
+        ss = {"network": s.get("Network") or "tcp"}
+        sec = (s.get("StreamSecurity") or "").lower()
+        if sec == "tls":
+            ss["security"] = "tls"
+            ss["tlsSettings"] = {"serverName": s.get("Sni") or ""}
+        if (s.get("Network") or "") == "ws" and s.get("Path"):
+            ss["wsSettings"] = {"path": s["Path"], "headers": {"Host": s.get("Sni") or ""}}
+        return {
+            "tag": tag,
+            "protocol": "vmess",
+            "settings": {"vnext": [{"address": addr, "port": port, "users": [user]}]},
+            "streamSettings": ss,
+        }
+    raise ValueError("unsupported ConfigType %s" % ct)
+
+
+def build_probe_config(servers, ports):
+    inbounds, outbounds, rules = [], [], []
+    for i, s in enumerate(servers):
+        p = ports[i]
+        inbounds.append({"tag": "socks%d" % p, "port": p, "listen": "127.0.0.1", "protocol": "socks"})
+        outbounds.append(build_outbound("proxy%d" % p, s))
+        rules.append({"type": "field", "inboundTag": ["socks%d" % p], "outboundTag": "proxy%d" % p})
+    return {
+        "log": {"loglevel": "warning"},
+        "inbounds": inbounds,
+        "outbounds": outbounds,
+        "routing": {"domainStrategy": "AsIs", "rules": rules},
+    }
+
+
+def start_probe(config, xray_bin, ports, log, tag):
+    os.makedirs(TMPDIR, exist_ok=True)
+    cfg_path = os.path.join(TMPDIR, "probe-%s-%d.json" % (tag, int(time.time())))
+    err_path = os.path.join(TMPDIR, "probe-%s-%d.err" % (tag, int(time.time())))
+    with open(cfg_path, "w", encoding="utf-8") as f:
+        json.dump(config, f, indent=1)
+    errf = open(err_path, "w")
+    proc = subprocess.Popen([xray_bin, "run", "-c", cfg_path],
+                            stdout=subprocess.DEVNULL, stderr=errf, start_new_session=True)
+    deadline = time.time() + 8
+    while time.time() < deadline:
+        if proc.poll() is not None:
+            errf.close()
+            log.error("探测 xray 提前退出 rc=%s, 详见 %s" % (proc.returncode, err_path))
+            return None
+        if wait_port(ports[0], 0.4):
+            log.info("探测 xray 就绪 (pid=%d, %d 个端口)" % (proc.pid, len(ports)))
+            return proc
+        time.sleep(0.3)
+    log.error("探测 xray 未能在 8 秒内监听端口")
+    stop_probe(proc, log)
+    return None
+
+
+def stop_probe(proc, log):
+    if not proc or proc.poll() is not None:
+        return
+    try:
+        proc.terminate()
+        deadline = time.time() + 5
+        while time.time() < deadline and proc.poll() is None:
+            time.sleep(0.3)
+        if proc.poll() is None:
+            proc.kill()
+            proc.wait(timeout=5)
+    except Exception as e:
+        log.warn("清理探测 xray 异常: %s" % e)
+
+
+def test_port(port, url, timeout):
+    """返回 (ok, latency_seconds, http_code)"""
+    cmd = ["curl", "-x", "socks5h://127.0.0.1:%d" % port, "-o", "/dev/null", "-s",
+           "-w", "%{http_code} %{time_total}", "--max-time", str(timeout), url]
+    try:
+        r = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout + 10)
+    except subprocess.TimeoutExpired:
+        return False, None, 0
+    m = re.match(r"^(\d{3}) (\S+)$", r.stdout.strip())
+    code = int(m.group(1)) if m else 0
+    lat = float(m.group(2)) if m else None
+    ok = r.returncode == 0 and code == 204
+    return ok, lat, code
+
+
+def probe_servers(servers, xray_bin, port_base, test_url, test_timeout, log, tag):
+    """探测 servers (保持升序), 返回 {name: {ok, latency_ms, http_code, address}}"""
+    ports = pick_ports(port_base, len(servers), log)
+    cfg = build_probe_config(servers, ports)
+    proc = start_probe(cfg, xray_bin, ports, log, tag)
+    if proc is None:
+        return None
+    results = {}
+    try:
+        for i, s in enumerate(servers):
+            name = server_name(s["Remarks"])
+            ok, lat, code = test_port(ports[i], test_url, test_timeout)
+            results[name] = {
+                "ok": ok,
+                "latency_ms": round(lat * 1000, 1) if lat is not None else None,
+                "http_code": code,
+                "address": "%s:%s" % (s["Address"], s["Port"]),
+            }
+            if ok:
+                log.info("探测 %-8s %s -> OK  %.0f ms" % (name, s["Address"] + ":" + str(s["Port"]), lat * 1000))
+            else:
+                log.warn("探测 %-8s %s -> FAIL (code=%s)" % (name, s["Address"] + ":" + str(s["Port"]), code))
+    finally:
+        stop_probe(proc, log)
+    return results
+
+
+# ---------------------------------------------------------------- 订阅拉取与解析
+
+def fetch_sub(url, port, timeout, log):
+    tmp = os.path.join(TMPDIR, "sub-raw.txt")
+    os.makedirs(TMPDIR, exist_ok=True)
+    cmd = ["curl", "-x", "socks5h://127.0.0.1:%d" % port, "-s", "-L",
+           "--max-time", str(timeout), "-o", tmp, url]
+    r = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout + 15)
+    if r.returncode != 0:
+        raise RuntimeError("curl exit=%s %s" % (r.returncode, r.stderr.strip()[:200]))
+    data = open(tmp, "rb").read()
+    if not data:
+        raise RuntimeError("订阅内容为空")
+    return data
+
+
+def decode_maybe_b64(raw):
+    text = raw.decode("utf-8", "replace").strip()
+    if "://" in text:
+        return text
+    b64 = re.sub(r"\s+", "", text)
+    try:
+        dec = base64.b64decode(b64 + "=" * (-len(b64) % 4)).decode("utf-8", "replace")
+        if "://" in dec:
+            return dec
+    except Exception:
+        pass
+    return text
+
+
+def split_hostport(hostport):
+    if hostport.startswith("["):
+        host, _, port = hostport[1:].partition("]:")
+        return host, port
+    host, _, port = hostport.rpartition(":")
+    return host or hostport, port
+
+
+# PARSE_SS_B64_PATCH_V2
+def parse_ss(rest):
+    remark = ""
+    if "#" in rest:
+        rest, remark = rest.rsplit("#", 1)
+    if "?" in rest:
+        rest = rest.split("?", 1)[0]
+    core = rest
+    if "@" not in core:
+        # 兼容整段 base64 编码的老式 ss 链接: b64(method:pass@host:port)
+        b64 = re.sub(r"\s+", "", core)
+        try:
+            dec = base64.b64decode(b64 + "=" * (-len(b64) % 4)).decode("utf-8", "replace")
+        except Exception:
+            dec = ""
+        if "@" in dec and ":" in dec:
+            mp, hostport = dec.rsplit("@", 1)
+            method, password = "aes-256-gcm", ""
+            if ":" in mp:
+                method, password = mp.split(":", 1)
+            else:
+                password = mp
+            host, port = split_hostport(hostport)
+            if not host or not port or not password:
+                return None
+            return {"ConfigType": 3, "Address": host, "Port": int(port), "Id": password,
+                    "Security": method, "Network": "", "StreamSecurity": "",
+                    "Remarks": unquote(remark) or "%s:%s" % (host, port)}
+    user = ""
+    if "@" in core:
+        user, hostport = core.rsplit("@", 1)
+    else:
+        hostport = core
+    host, port = split_hostport(hostport)
+    method, password = "aes-256-gcm", ""
+    if user:
+        u = user.strip()
+        try:
+            dec = base64.b64decode(u + "=" * (-len(u) % 4)).decode("utf-8", "replace")
+            if ":" in dec:
+                method, password = dec.split(":", 1)
+            else:
+                password = dec
+        except Exception:
+            if ":" in u:
+                method, password = u.split(":", 1)
+            else:
+                password = u
+    if not host or not port or not password:
+        return None
+    return {"ConfigType": 3, "Address": host, "Port": int(port), "Id": password,
+            "Security": method, "Network": "", "StreamSecurity": "",
+            "Remarks": unquote(remark) or "%s:%s" % (host, port)}
+
+def parse_vless(rest):
+    remark = ""
+    if "#" in rest:
+        rest, remark = rest.rsplit("#", 1)
+    if "@" not in rest:
+        return None
+    uuid, hostport = rest.rsplit("@", 1)
+    query = ""
+    if "?" in hostport:
+        hostport, query = hostport.split("?", 1)
+    host, port = split_hostport(hostport)
+    if not host or not port:
+        return None
+    qs = parse_qs(query, keep_blank_values=True)
+    g = lambda k: (qs.get(k) or [""])[-1]
+    security = (g("security") or "").lower()
+    sec = security if security in ("tls", "reality") else ""
+    return {"ConfigType": 5, "Address": host, "Port": int(port), "Id": uuid, "Security": "none",
+            "Network": g("type") or "tcp", "StreamSecurity": sec,
+            "Sni": g("sni") or g("peer") or "", "Fingerprint": g("fp") or g("fingerprint") or "",
+            "PublicKey": g("pbk") or "", "ShortId": g("sid") or g("short_id") or "",
+            "Flow": g("flow") or "", "Alpn": g("alpn") or "",
+            "HeaderType": g("headerType") or "none",
+            "AllowInsecure": "true" if g("allowInsecure").lower() == "true" else "false",
+            "Remarks": unquote(remark) or "%s:%s" % (host, port)}
+
+
+def parse_trojan(rest):
+    remark = ""
+    if "#" in rest:
+        rest, remark = rest.rsplit("#", 1)
+    if "@" not in rest:
+        return None
+    password, hostport = rest.rsplit("@", 1)
+    query = ""
+    if "?" in hostport:
+        hostport, query = hostport.split("?", 1)
+    host, port = split_hostport(hostport)
+    if not host or not port or not password:
+        return None
+    qs = parse_qs(query, keep_blank_values=True)
+    g = lambda k: (qs.get(k) or [""])[-1]
+    return {"ConfigType": 4, "Address": host, "Port": int(port), "Id": password, "Security": "none",
+            "Network": g("type") or "tcp", "StreamSecurity": "tls",
+            "Sni": g("sni") or g("peer") or "", "Fingerprint": g("fp") or "",
+            "Remarks": unquote(remark) or "%s:%s" % (host, port)}
+
+
+def parse_vmess(rest):
+    try:
+        b64 = re.sub(r"\s+", "", rest)
+        d = json.loads(base64.b64decode(b64 + "=" * (-len(b64) % 4)).decode("utf-8"))
+    except Exception:
+        return None
+    host, port = d.get("add"), d.get("port")
+    if not host or not port:
+        return None
+    tls_flag = str(d.get("tls", "")).lower() in ("tls", "1", "true")
+    return {"ConfigType": 1, "Address": host, "Port": int(port), "Id": d.get("id", ""),
+            "Security": d.get("scy") or "auto", "AlterId": int(d.get("aid") or 0),
+            "Network": d.get("net") or "tcp",
+            "StreamSecurity": "tls" if tls_flag else "",
+            "Sni": d.get("host") or "", "Path": d.get("path") or "",
+            "Fingerprint": d.get("fp") or "",
+            "Remarks": d.get("ps") or "%s:%s" % (host, port)}
+
+
+def parse_links(content):
+    servers, skipped = [], []
+    for line in content.splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        m = re.match(r"^([A-Za-z0-9+.\-]+)://\S+", line)
+        if not m:
+            skipped.append(line[:80])
+            continue
+        fn = {"ss": parse_ss, "vless": parse_vless,
+              "trojan": parse_trojan, "vmess": parse_vmess}.get(m.group(1).lower())
+        if not fn:
+            skipped.append(line[:80])
+            continue
+        s = fn(line[len(m.group(1)) + 3:])
+        if s:
+            servers.append(s)
+        else:
+            skipped.append(line[:80])
+    return servers, skipped
+
+
+# ---------------------------------------------------------------- 写库
+
+def apply_sub_to_db(db, sub_id, servers, keep, log):
+    backup(db, keep, log)
+    con = sqlite3.connect(db)
+    con.execute("PRAGMA busy_timeout=8000")
+    try:
+        cols = [r[1] for r in con.execute("PRAGMA table_info(ProfileItem)")]
+        defaults = {
+            "ConfigVersion": 2, "AlterId": 0, "Network": "", "HeaderType": "none",
+            "RequestHost": "", "Path": "", "StreamSecurity": "", "AllowInsecure": "false",
+            "IsSub": 1, "Flow": "", "Sni": "", "Alpn": "", "CoreType": 2,
+            "PreSocksPort": None, "Fingerprint": "", "DisplayLog": 1,
+            "PublicKey": "", "ShortId": "", "SpiderX": "", "Extra": None,
+        }
+        writable = [c for c in cols if c in defaults or c in
+                    ("IndexId", "ConfigType", "Address", "Port", "Id", "Security", "Remarks", "Subid")]
+        cur = con.cursor()
+        existing_map = {}
+        for idx_id, remark in cur.execute(
+                "select IndexId, Remarks from ProfileItem where Subid=? and IsSub=1", (str(sub_id),)):
+            existing_map[remark] = idx_id
+        existing_ids = {r[0] for r in cur.execute("select IndexId from ProfileItem")}
+        updated, inserted, removed = 0, 0, 0
+        new_remarks = set()
+        for sort_i, s in enumerate(servers):
+            remark = s["Remarks"]
+            new_remarks.add(remark)
+            if remark in existing_map:
+                idx = existing_map[remark]
+            else:
+                idx = gen_index_id(existing_ids)
+                existing_ids.add(idx)
+            vals = dict(defaults)
+            for k in ("ConfigType", "Address", "Port", "Id", "Security", "Remarks",
+                      "Network", "HeaderType", "Path", "StreamSecurity", "AllowInsecure",
+                      "Flow", "Sni", "Alpn", "Fingerprint", "PublicKey", "ShortId", "AlterId"):
+                if s.get(k) is not None:
+                    vals[k] = s[k]
+            cols_w = ["IndexId"] + [c for c in writable if c != "IndexId"]
+            vals["IndexId"] = idx
+            vals["Subid"] = str(sub_id)
+            sql_vals = ",".join("?" for _ in cols_w)
+            if remark in existing_map:
+                set_sql = ",".join("%s=?" % c for c in cols_w if c != "IndexId")
+                args = [vals[c] for c in cols_w if c != "IndexId"] + [idx]
+                cur.execute("update ProfileItem set %s where IndexId=?" % set_sql, args)
+                updated += 1
+            else:
+                cur.execute("insert into ProfileItem (%s) values (%s)" % (",".join(cols_w), sql_vals),
+                            [vals[c] for c in cols_w])
+                cur.execute("insert into ProfileExItem (IndexId, Delay, Speed, Sort) values (?, -1, -1.0, ?)",
+                            (idx, sort_i))
+                inserted += 1
+        for remark, idx in existing_map.items():
+            if remark not in new_remarks:
+                cur.execute("delete from ProfileItem where IndexId=?", (idx,))
+                cur.execute("delete from ProfileExItem where IndexId=?", (idx,))
+                removed += 1
+        cur.execute("update SubItem set UpdateTime=? where Id=?",
+                    (int(time.time() * 1000), str(sub_id)))
+        con.commit()
+        log.info("订阅写库完成: 更新 %d, 新增 %d, 删除 %d" % (updated, inserted, removed))
+    except Exception:
+        con.rollback()
+        raise
+    finally:
+        con.close()
+
+
+# ---------------------------------------------------------------- v2rayN 进程管理
+
+def _pgrep(pattern):
+    try:
+        r = subprocess.run(["pgrep", "-f", pattern], capture_output=True, text=True)
+    except Exception:
+        return []
+    out = []
+    for p in r.stdout.split():
+        try:
+            p = int(p)
+        except ValueError:
+            continue
+        if p in (os.getpid(), os.getppid()):
+            continue
+        out.append(p)
+    return out
+
+
+def find_v2rayn_pids(vdir):
+    pats = [
+        r"\./v2rayN([[:space:]]|$)",
+        re.escape(vdir) + r"/v2rayN([[:space:]]|$)",
+        re.escape(vdir) + r"/bin/xray/xray",
+    ]
+    pids = set()
+    for p in pats:
+        pids.update(_pgrep(p))
+    return sorted(pids)
+
+
+def stop_v2rayn(vdir, log):
+    for sig in (signal.SIGTERM, signal.SIGKILL):
+        pids = find_v2rayn_pids(vdir)
+        if not pids:
+            return True
+        for p in pids:
+            try:
+                os.kill(p, sig)
+            except ProcessLookupError:
+                pass
+        wait = 15 if sig == signal.SIGTERM else 5
+        deadline = time.time() + wait
+        while time.time() < deadline:
+            if not find_v2rayn_pids(vdir):
+                return True
+            time.sleep(1)
+    return not find_v2rayn_pids(vdir)
+
+
+def start_v2rayn(vdir, log):
+    logp = os.path.join(HERE, "logs", "v2rayn-restart.log")
+    with open(logp, "a") as out:
+        subprocess.Popen(["./v2rayN"], cwd=vdir, stdin=subprocess.DEVNULL,
+                         stdout=out, stderr=subprocess.STDOUT, start_new_session=True)
+    log.info("v2rayN 已拉起 (日志 %s)" % logp)
+
+
+def fallback_xray(final_server, vdir, xray_bin, main_port, keep, log):
+    """v2rayN 未自动恢复代理时的兜底: 按 final 节点写 config.json 并自起 xray"""
+    gui_dir = os.path.join(vdir, "guiConfigs")
+    cfg_path = os.path.join(gui_dir, "config.json")
+    backup(cfg_path, keep, log)
+    cfg = {
+        "log": {"loglevel": "warning"},
+        "inbounds": [{
+            "tag": "socks", "port": main_port, "listen": "127.0.0.1", "protocol": "socks",
+            "settings": {"auth": "noauth", "udp": True, "allowTransparent": False},
+        }],
+        "outbounds": [build_outbound("proxy", final_server)],
+    }
+    with open(cfg_path, "w", encoding="utf-8") as f:
+        json.dump(cfg, f, indent=2, ensure_ascii=False)
+    subprocess.Popen([xray_bin, "run", "-c", cfg_path], cwd=gui_dir,
+                     stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
+                     stderr=subprocess.DEVNULL, start_new_session=True)
+    return wait_port(main_port, 15)
+
+
+# ---------------------------------------------------------------- 主流程
+
+def main():
+    ap = argparse.ArgumentParser(description="v2rayN 自动切换/更新工具")
+    ap.add_argument("--dry-run", action="store_true", help="只探测并报告, 不杀进程不写文件")
+    ap.add_argument("--no-restart", action="store_true", help="结束后不重启 v2rayN")
+    args = ap.parse_args()
+
+    cfg = load_config(os.path.join(HERE, "config.conf"))
+    vdir = cfg["v2rayn_dir"]
+    db = os.path.join(vdir, "guiConfigs", "guiNDB.db")
+    gui_cfg = os.path.join(vdir, "guiConfigs", "guiNConfig.json")
+    xray_bin = os.path.join(vdir, "bin", "xray", "xray")
+    log = Log(os.path.join(HERE, "logs", "auto-%s.log" % datetime.now().strftime("%Y%m%d")))
+
+    result = {
+        "ts": datetime.now().astimezone().isoformat(timespec="seconds"),
+        "dry_run": args.dry_run,
+        "exit_code": 0,
+        "servers_before": None,
+        "selected": None,
+        "sub_updated": False,
+        "servers_after": None,
+        "final_server": None,
+        "v2rayn_restarted": False,
+        "proxy_restored": False,
+        "fallback_xray": False,
+    }
+
+    # GENTLE_MODE_PATCH_V1: 探测 v2rayN GUI 是否运行中 (用户 TTY 手动启动, 不杀不重启)
+    def _gui_pids():
+        _pids = []
+        for _pat in (r"\./v2rayN([[:space:]]|$)", re.escape(vdir) + r"/v2rayN([[:space:]]|$)"):
+            _pids.extend(_pgrep(_pat))
+        return sorted(set(_pids))
+    respect = bool(cfg.get("respect_running", True))
+    v2rayn_running = bool(_gui_pids())
+    result["gentle"] = bool(respect and v2rayn_running)
+    if result["gentle"]:
+        log.info("GENTLE: 检测到运行中的 v2rayN GUI (pid=%s), 本次不杀不重启" % ",".join(map(str, _gui_pids())))
+
+    log.info("=== autoswitch 开始 (dry_run=%s, no_restart=%s) ===" % (args.dry_run, args.no_restart))
+
+    # ---- 预检
+    if shutil.which("curl") is None:
+        log.error("未找到 curl, 无法探测")
+        result["exit_code"] = 4
+        finish(log, result)
+        return 4
+    if not os.access(xray_bin, os.X_OK):
+        log.error("xray 不可用: %s" % xray_bin)
+        result["exit_code"] = 4
+        finish(log, result)
+        return 4
+    sub_id, sub_url, sub_remark = load_sub(db)
+    if not sub_id:
+        log.error("未找到启用的订阅 (SubItem.Enabled=1)")
+        result["exit_code"] = 4
+        finish(log, result)
+        return 4
+    servers = load_servers(db, sub_id)
+    if not servers:
+        log.error("订阅 %s 下没有任何节点" % sub_remark)
+        result["exit_code"] = 4
+        finish(log, result)
+        return 4
+    current_idx = read_index_id(gui_cfg)
+    log.info("当前 IndexId=%s, 节点 %d 个: %s" %
+             (current_idx, len(servers),
+              " ".join(server_name(s["Remarks"]) for s in servers)))
+
+    # ---- 1. 探测 (dry-run 与正式相同, 均不影响 v2rayN)
+    results = probe_servers(servers, xray_bin, cfg["port_base"],
+                            cfg["test_url"], cfg["test_timeout"], log, "before")
+    if results is None:
+        log.error("探测环境启动失败 (xray 无法运行)")
+        result["exit_code"] = 4
+        finish(log, result)
+        return 4
+    result["servers_before"] = results
+
+    first_ok = next((n for n, r in results.items() if r["ok"]), None)
+
+    if args.dry_run:
+        log.info("[dry-run] 若正式执行: " + (
+            "切换到 %s" % first_ok if first_ok else "全部节点不可用, 保持现状"))
+        log.info("=== autoswitch 结束 (dry-run) ===")
+        result["selected"] = first_ok
+        result["exit_code"] = 0 if first_ok else 1
+        finish(log, result)
+        return result["exit_code"]
+
+    # ---- 2. 停 v2rayN (GENTLE_MODE_PATCH_V1: GUI 在运行则不杀)
+    if respect and v2rayn_running:
+        log.info("GENTLE: v2rayN GUI 运行中 (pid=%s), 本次跳过停止" % ",".join(map(str, _gui_pids())))
+    else:
+        pids = find_v2rayn_pids(vdir)
+        if pids:
+            log.info("停止 v2rayN (pid=%s)" % ",".join(map(str, pids)))
+            if not stop_v2rayn(vdir, log):
+                log.error("无法停止 v2rayN, 放弃本次操作 (未修改任何文件)")
+                result["exit_code"] = 2
+                finish(log, result)
+                return 2
+            log.info("v2rayN 已全部退出")
+        else:
+            log.info("v2rayN 未在运行")
+
+        # 写文件前再次确认无残留进程 (吸取孤儿核心教训)
+        if find_v2rayn_pids(vdir):
+            log.error("v2rayN 进程确认未退净, 放弃本次操作")
+            result["exit_code"] = 2
+            finish(log, result)
+            return 2
+
+    # ---- 3. 选 S1
+    if first_ok is None:
+        log.error("全部节点超时, 保持现状不切换")
+        result["exit_code"] = 1
+        _restart_and_verify(vdir, cfg, xray_bin, args.no_restart, log, result)
+        finish(log, result)
+        return 1
+    s1_name = first_ok
+    s1 = next(s for s in servers if server_name(s["Remarks"]) == s1_name)
+    log.info("选定 S1 = %s (%s)" % (s1_name, s1["Address"] + ":" + str(s1["Port"])))
+    result["selected"] = s1_name
+    set_index_id(gui_cfg, s1["IndexId"], cfg["backup_keep"], log)
+
+    # ---- 4. 经 S1 更新订阅
+    sub_servers, skipped = [], []
+    s1_port = None
+    ports = pick_ports(cfg["port_base"], 1, log)
+    s1_port = ports[0]
+    try:
+        probe_cfg = build_probe_config([s1], [s1_port])
+        proc = start_probe(probe_cfg, xray_bin, [s1_port], log, "sub")
+        if proc is None:
+            raise RuntimeError("订阅探测核心启动失败")
+        try:
+            raw = fetch_sub(sub_url, s1_port, cfg["sub_timeout"], log)
+        finally:
+            stop_probe(proc, log)
+        content = decode_maybe_b64(raw)
+        sub_servers, skipped = parse_links(content)
+        if not sub_servers:
+            raise RuntimeError("订阅解析到 0 个节点")
+        log.info("订阅解析成功: %d 个节点, 跳过 %d 行" % (len(sub_servers), len(skipped)))
+        for ln in skipped:
+            log.warn("  跳过行: %s" % ln)
+    except Exception as e:
+        log.error("订阅更新失败 (保留旧库, 继续切换流程): %s" % e)
+        result["exit_code"] = 3
+        sub_servers = []
+
+    if sub_servers:
+        try:
+            sub_servers.sort(key=lambda s: (server_order(server_name(s["Remarks"])), server_name(s["Remarks"])))
+            apply_sub_to_db(db, sub_id, sub_servers, cfg["backup_keep"], log)
+            result["sub_updated"] = True
+        except Exception as e:
+            log.error("订阅写库失败 (回滚, 保留旧库): %s" % e)
+            result["exit_code"] = 3
+            sub_servers = []
+
+    # ---- 5. 更新后复检 c1s1/c1s2
+    final = s1
+    final_name = s1_name
+    if sub_servers:
+        new_servers = load_servers(db, sub_id)
+        new_map = {server_name(s["Remarks"]): s for s in new_servers}
+        pref = [p.strip() for p in cfg["prefer_after_update"].split(",") if p.strip()]
+        log.info("更新后复检优先节点: %s" % ",".join(pref))
+        cands = [new_map[n] for n in pref if n in new_map]
+        missing = [n for n in pref if n not in new_map]
+        if missing:
+            log.warn("优先节点 %s 不在新订阅中" % ",".join(missing))
+        if s1_name in new_map and s1_name not in pref:
+            cands.append(new_map[s1_name])  # S1 可能换了 IP, 一并复检
+        if not cands:
+            log.warn("复检集合为空, 改为全量复检")
+            cands = new_servers
+        after = probe_servers(cands, xray_bin, cfg["port_base"],
+                              cfg["test_url"], cfg["test_timeout"], log, "after")
+        result["servers_after"] = after
+        pref_present = [n for n in pref if n in (after or {})]
+        ok_pref = [n for n in pref_present if after.get(n, {}).get("ok")]
+        if ok_pref:
+            final_name = min(ok_pref, key=lambda n: after[n]["latency_ms"] or 1e9)
+            log.info("复检: %s 可用, 选择延迟最小者 %s (%s ms)" %
+                     (",".join(ok_pref), final_name, after[final_name]["latency_ms"]))
+        elif s1_name in (after or {}) and after[s1_name]["ok"]:
+            final_name = s1_name
+            log.info("复检: 优先节点均不可用, 保持 S1=%s" % s1_name)
+        else:
+            log.warn("复检: 优先节点与 S1 均不可用, 全量复检")
+            full = probe_servers(new_servers, xray_bin, cfg["port_base"],
+                                 cfg["test_url"], cfg["test_timeout"], log, "full")
+            result["servers_after"] = (after or {})
+            if full:
+                result["servers_full"] = full
+                first_full = next((n for n, r in full.items() if r["ok"]), None)
+                if first_full:
+                    final_name = first_full
+                    log.info("全量复检: 选择 %s" % first_full)
+                else:
+                    final_name = None
+                    log.error("全量复检: 所有节点不可用, 指向新订阅第一个节点")
+        if final_name is None:
+            final = new_servers[0]
+            result["exit_code"] = 3
+        else:
+            final = new_map[final_name]
+
+    # ---- 6. 最终切换
+    if final["IndexId"] != s1["IndexId"]:
+        set_index_id(gui_cfg, final["IndexId"], cfg["backup_keep"], log)
+    result["final_server"] = server_name(final["Remarks"])
+
+    # ---- 7. 恢复 v2rayN 与代理
+    _restart_and_verify(vdir, cfg, xray_bin, args.no_restart, log, result)
+
+    log.info("=== autoswitch 结束 (exit=%s, final=%s) ===" % (result["exit_code"], result["final_server"]))
+    finish(log, result)
+    return result["exit_code"]
+
+
+def _restart_and_verify(vdir, cfg, xray_bin, no_restart, log, result):
+    if no_restart:
+        log.info("--no-restart: 跳过重启 v2rayN")
+        return
+    if result.get("gentle"):  # GENTLE_MODE_PATCH_V2
+        # 09-08 事故修复: gentle 下不 kill 任何 xray (V1 的 "停兜底让出 10808"
+        # 在 GUI 未绑端口时会把 10808 打成裸奔, 造成 ~20 分钟代理中断)。
+        # 兜底 xray 继续保代理可用; 新节点在 GUI 重启/手动切换后生效。
+        _gp = int(cfg.get("main_port") or 10808)
+        try:
+            import socket as _gsock
+            _gs = _gsock.socket(); _gs.settimeout(1)
+            _gs.connect(("127.0.0.1", _gp)); _gs.close()
+            _gport_up = True
+        except Exception:
+            _gport_up = False
+        log.info("GENTLE: 保留运行中的 v2rayN GUI (不杀不重启); 亦不停兜底 xray "
+                 "(10808 当前: %s); 新节点在 GUI 重启或手动切换后生效"
+                 % ("监听中" if _gport_up else "未监听! 将由 5 分钟看门狗补拉"))
+        result["v2rayn_restarted"] = False
+        result["proxy_restored"] = _gport_up
+        return
+    if cfg["restart_v2rayn"]:
+        start_v2rayn(vdir, log)
+        result["v2rayn_restarted"] = True
+        if wait_port(cfg["main_port"], 30):
+            result["proxy_restored"] = True
+            log.info("代理已恢复 (端口 %d 监听中)" % cfg["main_port"])
+            return
+        log.warn("v2rayN 未在 30 秒内恢复代理, 启动兜底 xray")
+    else:
+        log.info("restart_v2rayn=false, 跳过重启, 直接启动兜底 xray")
+    # 兜底: 用最终节点自起 xray (需要最终节点信息, 这里从库中按 IndexId 读取)
+    gui_cfg = os.path.join(vdir, "guiConfigs", "guiNConfig.json")
+    db = os.path.join(vdir, "guiConfigs", "guiNDB.db")
+    idx = read_index_id(gui_cfg)
+    con = sqlite3.connect("file:%s?mode=ro" % db, uri=True)
+    con.row_factory = sqlite3.Row
+    row = con.execute("select * from ProfileItem where IndexId=?", (str(idx),)).fetchone()
+    con.close()
+    if not row:
+        log.error("兜底失败: IndexId=%s 在库中不存在" % idx)
+        return
+    if fallback_xray(dict(row), vdir, xray_bin, cfg["main_port"], cfg["backup_keep"], log):
+        result["fallback_xray"] = True
+        result["proxy_restored"] = True
+        log.warn("兜底 xray 已接管端口 %d (v2rayN 下次手动开代理时可能提示端口冲突)" % cfg["main_port"])
+    else:
+        log.error("兜底 xray 启动失败, 代理未恢复!")
+        if result["exit_code"] == 0:
+            result["exit_code"] = 5
+
+
+def finish(log, result):
+    result.setdefault("ts", datetime.now().astimezone().isoformat(timespec="seconds"))
+    path = os.path.join(HERE, "last_result.json")
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(result, f, indent=2, ensure_ascii=False)
+    os.replace(tmp, path)
+    log.info("结果已写入 %s (exit=%s)" % (path, result.get("exit_code")))
+
+
+if __name__ == "__main__":
+    try:
+        sys.exit(main())
+    except SystemExit:
+        raise
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        sys.exit(6)

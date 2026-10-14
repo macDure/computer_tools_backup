@@ -1,0 +1,17 @@
+{
+  "bundle": "v2rayn-autoswitch",
+  "generated_at_utc": "2026-09-16T02:02:19+00:00",
+  "source_paths": [
+    "/home/mac/v2rayN-linux-64/autoswitch",
+    "/home/mac/.hermes/scripts"
+  ],
+  "target_path": "/home/mac/macperson/computer_tools_backup/v2rayn-autoswitch",
+  "active_script_count": 14,
+  "legacy_script_count": 5,
+  "runtime_state_included": false,
+  "secrets_included": false,
+  "notes": [
+    "DESIGN.md subscription URL was replaced with <TARGET_SUBSCRIPTION_URL>.",
+    "Install target must configure its own v2rayN database, subscription, .env, and Feishu chat ID."
+  ]
+}

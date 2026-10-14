@@ -1,0 +1,11 @@
+# Never put host-specific credentials or runtime state into this bundle.
+.env
+**/guiNDB.db
+**/guiNConfig.json
+**/config.json
+**/sub-raw.txt
+**/logs/
+**/tmp/
+**/state/
+**/__pycache__/
+*.lock

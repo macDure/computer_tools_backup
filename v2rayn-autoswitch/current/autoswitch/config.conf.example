@@ -1,0 +1,10 @@
+# v2rayN autoswitch 配置模板
+v2rayn_dir = /home/mac/v2rayN-linux-64
+test_url = https://www.google.com/generate_204
+test_timeout = 8
+sub_timeout = 30
+port_base = 12301
+main_port = 10808
+prefer_after_update = c1s1,c1s2
+restart_v2rayn = true
+backup_keep = 5

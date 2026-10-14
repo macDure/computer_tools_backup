@@ -1,0 +1,16 @@
+NAME          SIZE TYPE FSTYPE LABEL     UUID                                 PARTUUID                             MOUNTPOINTS                                                    MODEL                 SERIAL
+nvme1n1     953.9G disk                                                                                                                                                           UMIS RPJYJ1T24MLR1HWY SS1M63311Z3CD4AB25HT
+nvme0n1     953.9G disk                                                                                                                                                           YMTC YMSS2CD08D25MC   YMB51T0JA2546513J9
+├─nvme0n1p1   260M part vfat   SYSTEM    3484-B896                            35dc3487-614f-49e7-b293-6859b4b531e6 /boot/efi                                                                            
+├─nvme0n1p2    16M part                                                       6fa4ddb0-4f17-4f98-9ffb-bed4f2aaf429                                                                                      
+├─nvme0n1p3   450G part ntfs   Windows   26C88778C88744D1                     afb3a3a3-5568-4b01-913a-bca69141094c                                                                                      
+├─nvme0n1p4     2G part ntfs   WinRE_DRV 1E0A87E60A87B973                     65fad341-53e0-45f1-8c87-60fc7590b331                                                                                      
+├─nvme0n1p5    61G part swap             6f0ad98e-177e-48d7-8c52-46fd7299b995 0d61a37c-2279-47fa-bd4d-7e7423c88df8 [SWAP]                                                                               
+└─nvme0n1p6 440.6G part ext4             5d4f34d0-6fee-4493-8357-bc158ffb645b 36270f98-50d3-4575-ad0c-97f6d31177d8 /home/mac/.codex                                                                     
+                                                                                                                   /home/mac/.agents                                                                    
+                                                                                                                   /home/mac                                                                            
+                                                                                                                   /tmp/codex-bwrap-synthetic-mount-targets-1000                                        
+                                                                                                                   /tmp                                                                                 
+                                                                                                                   /var/lib/docker/volumes/apollo_neo_dev_10.0.0_pkg_apollo/_data                       
+                                                                                                                   /var/lib/docker/volumes/apollo_neo_dev_10.0.0_pkg_opt/_data                          
+                                                                                                                   /                                                                                    

@@ -1,0 +1,67 @@
+BootCurrent: 0001
+Timeout: 0 seconds
+BootOrder: 0001,0000,001F,0020,0023,0021,0022,0024,0025,0026,0027,0028
+Boot0000* Windows Boot Manager	HD(1,GPT,35dc3487-614f-49e7-b293-6859b4b531e6,0x800,0x82000)/File(\EFI\Microsoft\Boot\bootmgfw.efi)
+      dp: 04 01 2a 00 01 00 00 00 00 08 00 00 00 00 00 00 00 20 08 00 00 00 00 00 87 34 dc 35 4f 61 e7 49 b2 93 68 59 b4 b5 31 e6 02 02 / 04 04 46 00 5c 00 45 00 46 00 49 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 42 00 6f 00 6f 00 74 00 5c 00 62 00 6f 00 6f 00 74 00 6d 00 67 00 66 00 77 00 2e 00 65 00 66 00 69 00 00 00 / 7f ff 04 00
+Boot0001* Ubuntu	HD(1,GPT,35dc3487-614f-49e7-b293-6859b4b531e6,0x800,0x82000)/File(\EFI\ubuntu\shimx64.efi)
+      dp: 04 01 2a 00 01 00 00 00 00 08 00 00 00 00 00 00 00 20 08 00 00 00 00 00 87 34 dc 35 4f 61 e7 49 b2 93 68 59 b4 b5 31 e6 02 02 / 04 04 34 00 5c 00 45 00 46 00 49 00 5c 00 75 00 62 00 75 00 6e 00 74 00 75 00 5c 00 73 00 68 00 69 00 6d 00 78 00 36 00 34 00 2e 00 65 00 66 00 69 00 00 00 / 7f ff 04 00
+Boot0010  Setup	FvFile(721c8b66-426c-4e86-8e99-3457c46ab0b9)
+      dp: 04 06 14 00 66 8b 1c 72 6c 42 86 4e 8e 99 34 57 c4 6a b0 b9 / 7f ff 04 00
+Boot0011  Boot Menu	FvFile(126a762d-5758-4fca-8531-201a7f57f850)
+      dp: 04 06 14 00 2d 76 6a 12 58 57 ca 4f 85 31 20 1a 7f 57 f8 50 / 7f ff 04 00
+Boot0012  Diagnostic Splash Screen	FvFile(a7d8d9a6-6ab0-4aeb-ad9d-163e59a7a380)
+      dp: 04 06 14 00 a6 d9 d8 a7 b0 6a eb 4a ad 9d 16 3e 59 a7 a3 80 / 7f ff 04 00
+Boot0013  Lenovo Diagnostics	FvFile(3f7e615b-0d45-4f80-88dc-26b234958560)
+      dp: 04 06 14 00 5b 61 7e 3f 45 0d 80 4f 88 dc 26 b2 34 95 85 60 / 7f ff 04 00
+Boot0014  ThinkShield secure wipe	FvFile(3593a0d5-bd52-43a0-808e-cbff5ece2477)
+      dp: 04 06 14 00 d5 a0 93 35 52 bd a0 43 80 8e cb ff 5e ce 24 77 / 7f ff 04 00
+Boot0015  ThinkShield Passwordless Power-On Device Manager	FvFile(08448b41-7f83-49be-82a7-0e84790ab133)
+      dp: 04 06 14 00 41 8b 44 08 83 7f be 49 82 a7 0e 84 79 0a b1 33 / 7f ff 04 00
+Boot0016  Wi-Fi Configuration	FvFile(d3aaff0f-cb22-4792-896c-802c2e9383ba)2d004100700070000000
+      dp: 04 06 14 00 0f ff aa d3 22 cb 92 47 89 6c 80 2c 2e 93 83 ba / 7f ff 04 00
+    data: 2d 00 41 00 70 00 70 00 00 00
+Boot0017  Reinstall Windows from Cloud	FvFile(3edbaac4-5017-4870-8cc4-721f9ef1974f)2d004100700070000000
+      dp: 04 06 14 00 c4 aa db 3e 17 50 70 48 8c c4 72 1f 9e f1 97 4f / 7f ff 04 00
+    data: 2d 00 41 00 70 00 70 00 00 00
+Boot0018  Intel(R) MEBx	FvFile(29a70110-7762-4211-ae88-fab19b7665be)
+      dp: 04 06 14 00 10 01 a7 29 62 77 11 42 ae 88 fa b1 9b 76 65 be / 7f ff 04 00
+Boot0019  Startup Interrupt Menu	FvFile(f46ee6f4-4785-43a3-923d-7f786c3c8479)
+      dp: 04 06 14 00 f4 e6 6e f4 85 47 a3 43 92 3d 7f 78 6c 3c 84 79 / 7f ff 04 00
+Boot001A  Rescue and Recovery	FvFile(665d3f60-ad3e-4cad-8e26-db46eee9f1b5)
+      dp: 04 06 14 00 60 3f 5d 66 3e ad ad 4c 8e 26 db 46 ee e9 f1 b5 / 7f ff 04 00
+Boot001B  Regulatory Information	FvFile(478c92a0-2622-42b7-a65d-5894169e4d24)
+      dp: 04 06 14 00 a0 92 8c 47 22 26 b7 42 a6 5d 58 94 16 9e 4d 24 / 7f ff 04 00
+Boot001C  Asset Information	FvFile(da465b87-a26f-4c12-b78a-0361428fa026)
+      dp: 04 06 14 00 87 5b 46 da 6f a2 12 4c b7 8a 03 61 42 8f a0 26 / 7f ff 04 00
+Boot001D  Lenovo Memory Self Repair	FvFile(4ddd67e7-bdf5-4473-8ab0-02821c084338)
+      dp: 04 06 14 00 e7 67 dd 4d f5 bd 73 44 8a b0 02 82 1c 08 43 38 / 7f ff 04 00
+Boot001E  Lenovo OneKey Recovery	FvFile(04970e59-fccc-47cc-b945-7976ee7dbb7a)
+      dp: 04 06 14 00 59 0e 97 04 cc fc cc 47 b9 45 79 76 ee 7d bb 7a / 7f ff 04 00
+Boot001F* USB CD	VenMsg(bc7838d2-0f82-4d60-8316-c068ee79d25b,86701296aa5a7848b66cd49dd3ba6a55)
+      dp: 03 0a 24 00 d2 38 78 bc 82 0f 60 4d 83 16 c0 68 ee 79 d2 5b 86 70 12 96 aa 5a 78 48 b6 6c d4 9d d3 ba 6a 55 / 7f ff 04 00
+Boot0020* USB FDD	VenMsg(bc7838d2-0f82-4d60-8316-c068ee79d25b,6ff015a28830b543a8b8641009461e49)
+      dp: 03 0a 24 00 d2 38 78 bc 82 0f 60 4d 83 16 c0 68 ee 79 d2 5b 6f f0 15 a2 88 30 b5 43 a8 b8 64 10 09 46 1e 49 / 7f ff 04 00
+Boot0021* NVMe0	VenMsg(bc7838d2-0f82-4d60-8316-c068ee79d25b,001c199932d94c4eae9aa0b6e98eb8a400)
+      dp: 03 0a 25 00 d2 38 78 bc 82 0f 60 4d 83 16 c0 68 ee 79 d2 5b 00 1c 19 99 32 d9 4c 4e ae 9a a0 b6 e9 8e b8 a4 00 / 7f ff 04 00
+Boot0022* NVMe1	VenMsg(bc7838d2-0f82-4d60-8316-c068ee79d25b,001c199932d94c4eae9aa0b6e98eb8a401)
+      dp: 03 0a 25 00 d2 38 78 bc 82 0f 60 4d 83 16 c0 68 ee 79 d2 5b 00 1c 19 99 32 d9 4c 4e ae 9a a0 b6 e9 8e b8 a4 01 / 7f ff 04 00
+Boot0023* USB HDD	VenMsg(bc7838d2-0f82-4d60-8316-c068ee79d25b,33e821aaaf33bc4789bd419f88c50803)
+      dp: 03 0a 24 00 d2 38 78 bc 82 0f 60 4d 83 16 c0 68 ee 79 d2 5b 33 e8 21 aa af 33 bc 47 89 bd 41 9f 88 c5 08 03 / 7f ff 04 00
+Boot0024* PXE BOOT	VenMsg(bc7838d2-0f82-4d60-8316-c068ee79d25b,78a84aaf2b2afc4ea79cf5cc8f3d3803)
+      dp: 03 0a 24 00 d2 38 78 bc 82 0f 60 4d 83 16 c0 68 ee 79 d2 5b 78 a8 4a af 2b 2a fc 4e a7 9c f5 cc 8f 3d 38 03 / 7f ff 04 00
+Boot0025* LENOVO CLOUD	VenMsg(bc7838d2-0f82-4d60-8316-c068ee79d25b,ad38ccbbf7edf04d959cf42aa74d3650)/Uri(https://download.lenovo.com/pccbbs/cdeploy/efi/boot.efi)
+      dp: 03 0a 24 00 d2 38 78 bc 82 0f 60 4d 83 16 c0 68 ee 79 d2 5b ad 38 cc bb f7 ed f0 4d 95 9c f4 2a a7 4d 36 50 / 03 18 3b 00 68 74 74 70 73 3a 2f 2f 64 6f 77 6e 6c 6f 61 64 2e 6c 65 6e 6f 76 6f 2e 63 6f 6d 2f 70 63 63 62 62 73 2f 63 64 65 70 6c 6f 79 2f 65 66 69 2f 62 6f 6f 74 2e 65 66 69 / 7f ff 04 00
+Boot0026* ON-PREMISE	VenMsg(bc7838d2-0f82-4d60-8316-c068ee79d25b,ad38ccbbf7edf04d959cf42aa74d3650)/Uri()
+      dp: 03 0a 24 00 d2 38 78 bc 82 0f 60 4d 83 16 c0 68 ee 79 d2 5b ad 38 cc bb f7 ed f0 4d 95 9c f4 2a a7 4d 36 50 / 03 18 04 00 / 7f ff 04 00
+Boot0027  Other CD	VenMsg(bc7838d2-0f82-4d60-8316-c068ee79d25b,aea2090adfde214e8b3a5e471856a35400)
+      dp: 03 0a 25 00 d2 38 78 bc 82 0f 60 4d 83 16 c0 68 ee 79 d2 5b ae a2 09 0a df de 21 4e 8b 3a 5e 47 18 56 a3 54 00 / 7f ff 04 00
+Boot0028  Other HDD	VenMsg(bc7838d2-0f82-4d60-8316-c068ee79d25b,ca88c2349e7ae947beeb43038a5aeae700)
+      dp: 03 0a 25 00 d2 38 78 bc 82 0f 60 4d 83 16 c0 68 ee 79 d2 5b ca 88 c2 34 9e 7a e9 47 be eb 43 03 8a 5a ea e7 00 / 7f ff 04 00
+Boot0029* IDER BOOT CDROM	PciRoot(0x0)/Pci(0x14,0x0)/USB(11,1)
+      dp: 02 01 0c 00 d0 41 03 0a 00 00 00 00 / 01 01 06 00 00 14 / 03 05 06 00 0b 01 / 7f ff 04 00
+Boot002A* IDER BOOT Floppy	PciRoot(0x0)/Pci(0x14,0x0)/USB(11,0)
+      dp: 02 01 0c 00 d0 41 03 0a 00 00 00 00 / 01 01 06 00 00 14 / 03 05 06 00 0b 00 / 7f ff 04 00
+Boot002B* ATA HDD	VenMsg(bc7838d2-0f82-4d60-8316-c068ee79d25b,91af625956449f41a7b91f4f892ab0f6)
+      dp: 03 0a 24 00 d2 38 78 bc 82 0f 60 4d 83 16 c0 68 ee 79 d2 5b 91 af 62 59 56 44 9f 41 a7 b9 1f 4f 89 2a b0 f6 / 7f ff 04 00
+Boot002C* ATAPI CD	VenMsg(bc7838d2-0f82-4d60-8316-c068ee79d25b,aea2090adfde214e8b3a5e471856a354)
+      dp: 03 0a 24 00 d2 38 78 bc 82 0f 60 4d 83 16 c0 68 ee 79 d2 5b ae a2 09 0a df de 21 4e 8b 3a 5e 47 18 56 a3 54 / 7f ff 04 00

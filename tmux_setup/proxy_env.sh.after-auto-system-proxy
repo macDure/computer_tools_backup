@@ -1,0 +1,183 @@
+# Shell helpers for refreshing proxy environment variables.
+# Source this file; executing it cannot change the parent shell environment.
+
+proxy_env_show() {
+  local output
+  output=$(
+    env | grep -Ei '^(http|https|all|no)_proxy=' || true
+    env | grep -E '^(HTTP|HTTPS|ALL|NO)_PROXY=' || true
+  )
+  if [ -n "$output" ]; then
+    printf '%s\n' "$output"
+  else
+    printf 'No proxy environment variables are set in this terminal.\n'
+  fi
+}
+
+proxy_env_off() {
+  unset http_proxy https_proxy all_proxy no_proxy
+  unset HTTP_PROXY HTTPS_PROXY ALL_PROXY NO_PROXY
+  printf 'Proxy environment cleared for this terminal.\n'
+}
+
+proxy_env_v2raya() {
+  export http_proxy='http://127.0.0.1:20171'
+  export https_proxy='http://127.0.0.1:20171'
+  export HTTP_PROXY="$http_proxy"
+  export HTTPS_PROXY="$https_proxy"
+  export all_proxy='socks5h://127.0.0.1:20170'
+  export ALL_PROXY="$all_proxy"
+  export no_proxy='localhost,127.0.0.1,127.0.0.0/8,::1,.mkzy.com,mkzy.com,172.20.149.216,172.20.149.0/24'
+  export NO_PROXY="$no_proxy"
+  printf 'Proxy environment set to v2rayA: http=20171 socks=20170\n'
+}
+
+proxy_env_v2rayn() {
+  export http_proxy='http://127.0.0.1:10808'
+  export https_proxy='http://127.0.0.1:10808'
+  export HTTP_PROXY="$http_proxy"
+  export HTTPS_PROXY="$https_proxy"
+  export all_proxy='socks5h://127.0.0.1:10808'
+  export ALL_PROXY="$all_proxy"
+  export no_proxy='localhost,127.0.0.1,127.0.0.0/8,::1,.mkzy.com,mkzy.com,172.20.149.216,172.20.149.0/24'
+  export NO_PROXY="$no_proxy"
+  printf 'Proxy environment set to v2rayN: 10808\n'
+}
+
+proxy_env_port_open() {
+  ss -lnt 2>/dev/null | grep -q "127.0.0.1:$1 "
+}
+
+proxy_system_get() {
+  gsettings get "$1" "$2" 2>/dev/null | tr -d "'"
+}
+
+proxy_system_port_get() {
+  proxy_system_get "$1" "$2" | tr -cd '0-9'
+}
+
+proxy_system_v2rayn() {
+  local mode http_host https_host socks_host http_port https_port socks_port
+
+  command -v gsettings >/dev/null 2>&1 || return 0
+  gsettings get org.gnome.system.proxy mode >/dev/null 2>&1 || return 0
+
+  mode=$(proxy_system_get org.gnome.system.proxy mode)
+  http_host=$(proxy_system_get org.gnome.system.proxy.http host)
+  https_host=$(proxy_system_get org.gnome.system.proxy.https host)
+  socks_host=$(proxy_system_get org.gnome.system.proxy.socks host)
+  http_port=$(proxy_system_port_get org.gnome.system.proxy.http port)
+  https_port=$(proxy_system_port_get org.gnome.system.proxy.https port)
+  socks_port=$(proxy_system_port_get org.gnome.system.proxy.socks port)
+
+  if [ "$mode" != "manual" ]; then
+    gsettings set org.gnome.system.proxy mode 'manual' >/dev/null 2>&1 || return 0
+  fi
+  if [ "$http_host" != "127.0.0.1" ]; then
+    gsettings set org.gnome.system.proxy.http host '127.0.0.1' >/dev/null 2>&1 || return 0
+  fi
+  if [ "$https_host" != "127.0.0.1" ]; then
+    gsettings set org.gnome.system.proxy.https host '127.0.0.1' >/dev/null 2>&1 || return 0
+  fi
+  if [ "$socks_host" != "127.0.0.1" ]; then
+    gsettings set org.gnome.system.proxy.socks host '127.0.0.1' >/dev/null 2>&1 || return 0
+  fi
+  if [ "$http_port" != "10808" ]; then
+    gsettings set org.gnome.system.proxy.http port 10808 >/dev/null 2>&1 || return 0
+  fi
+  if [ "$https_port" != "10808" ]; then
+    gsettings set org.gnome.system.proxy.https port 10808 >/dev/null 2>&1 || return 0
+  fi
+  if [ "$socks_port" != "10808" ]; then
+    gsettings set org.gnome.system.proxy.socks port 10808 >/dev/null 2>&1 || return 0
+  fi
+
+  if [ "$mode" != "manual" ] || [ "$http_host" != "127.0.0.1" ] \
+    || [ "$https_host" != "127.0.0.1" ] || [ "$socks_host" != "127.0.0.1" ] \
+    || [ "$http_port" != "10808" ] || [ "$https_port" != "10808" ] \
+    || [ "$socks_port" != "10808" ]; then
+    printf 'System proxy enabled: v2rayN 127.0.0.1:10808\n'
+  fi
+}
+
+proxy_system_disable_managed() {
+  local mode http_host https_host http_port https_port
+
+  command -v gsettings >/dev/null 2>&1 || return 0
+  gsettings get org.gnome.system.proxy mode >/dev/null 2>&1 || return 0
+
+  mode=$(proxy_system_get org.gnome.system.proxy mode)
+  http_host=$(proxy_system_get org.gnome.system.proxy.http host)
+  https_host=$(proxy_system_get org.gnome.system.proxy.https host)
+  http_port=$(proxy_system_port_get org.gnome.system.proxy.http port)
+  https_port=$(proxy_system_port_get org.gnome.system.proxy.https port)
+
+  # Only disable the exact v2rayN endpoint managed by this helper. Leave any
+  # other manually configured system proxy untouched.
+  if [ "$mode" = "manual" ] && [ "$http_host" = "127.0.0.1" ] \
+    && [ "$https_host" = "127.0.0.1" ] \
+    && [ "$http_port" = "10808" ] && [ "$https_port" = "10808" ]; then
+    if gsettings set org.gnome.system.proxy mode 'none' >/dev/null 2>&1; then
+      printf 'System proxy disabled: v2rayN 127.0.0.1:10808 is not listening.\n'
+    fi
+  fi
+}
+
+proxy_env_auto() {
+  local proxy_vars
+  proxy_vars="${http_proxy:-}${https_proxy:-}${all_proxy:-}${HTTP_PROXY:-}${HTTPS_PROXY:-}${ALL_PROXY:-}"
+
+  # Prefer a live v2rayN HTTP/SOCKS endpoint when a new terminal starts. This
+  # makes normal terminals and tmux panes follow the same startup policy.
+  if proxy_env_port_open 10808; then
+    case "$proxy_vars" in
+      *127.0.0.1:10808*) ;;
+      *) proxy_env_v2rayn ;;
+    esac
+    proxy_system_v2rayn
+    return 0
+  fi
+
+  # Do not leave a dead, managed v2rayN endpoint as the desktop proxy.
+  proxy_system_disable_managed
+
+  # v2rayA tproxy is intentionally system-transparent: it does not need
+  # terminal proxy variables or GNOME manual-proxy mode.
+  if [ -z "$proxy_vars" ]; then
+    if proxy_env_port_open 20171 || proxy_env_port_open 20170; then
+      printf 'v2rayA proxy ports are alive; keeping terminal and GNOME proxy variables unchanged.\n'
+    else
+      printf 'No usable local proxy endpoint detected; proxy variables unchanged.\n'
+    fi
+    return 0
+  fi
+
+  case "$proxy_vars" in
+    *127.0.0.1:10808*)
+      printf 'Proxy environment points to v2rayN 10808, but the port is not listening.\n'
+      proxy_env_off
+      ;;
+    *127.0.0.1:20171*|*127.0.0.1:20170*)
+      if proxy_env_port_open 20171 || proxy_env_port_open 20170; then
+        printf 'Proxy environment points to v2rayA 20171/20170, and v2rayA proxy ports are alive.\n'
+      else
+        printf 'Proxy environment points to v2rayA 20171/20170, but v2rayA proxy ports are not listening.\n'
+        proxy_env_off
+      fi
+      ;;
+    *)
+      printf 'Proxy environment points to an unknown proxy target; leaving it unchanged.\n'
+      ;;
+  esac
+}
+
+alias proxy-show='proxy_env_show'
+alias proxy-off='proxy_env_off'
+alias proxy-v2raya='proxy_env_v2raya'
+alias proxy-v2rayn='proxy_env_v2rayn'
+alias proxy-auto='proxy_env_auto'
+
+proxy_env_auto
+
+export no_proxy="localhost,127.0.0.1,127.0.0.0/8,::1,.mkzy.com,*.mkzy.com,mkzy.com,172.20.149.216,172.20.149.215,172.20.149.0/24"
+export NO_PROXY="$no_proxy"

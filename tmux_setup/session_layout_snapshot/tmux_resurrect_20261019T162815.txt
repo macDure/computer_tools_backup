@@ -1,0 +1,121 @@
+pane	control	0	0	:	0	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core/modules/control	0	bash	:
+pane	control	0	0	:	1	application-core	:/home/mac/mkcode/application-core	1	codex	:codex resume 01a12f6e-0447-7f30-af15-0f493dbc2247
+pane	control	0	0	:	2	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core	0	bash	:
+pane	control	1	0	:	0	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core	1	bash	:
+pane	control	2	1	:*	0	application-core	:/home/mac/mkcode/application-core	1	codex	:codex
+pane	control	3	0	:-	0	:/home/mac/mkcode/application-core/modules/control	1	bash	3368303	:/usr/bin/barriers -f --no-tray --debug INFO --name mac-Gen-3 --disable-crypto --disable-client-cert-checking -c /tmp/Barrier.lolygw --address :24800
+pane	control	3	0	:-	1	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core	0	bash	:
+pane	control	3	0	:-	2	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/apollo_test/application-core/modules/control	0	bash	:
+pane	control	3	0	:-	3	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/apollo_test/application-core	0	bash	:
+pane	develop容器	0	0	:	0	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core	1	bash	:/bin/bash /opt/apollo/aem/aem-enter
+pane	develop容器	0	0	:	1	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core/data/record	0	bash	:
+pane	develop容器	0	0	:	2	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core/data/fr_max_car_record/2026-10-12-14-35-27_middle	0	bash	:
+pane	develop容器	0	0	:	3	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core/data/record	0	bash	:
+pane	develop容器	0	0	:	4	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core/modules/map	0	bash	:
+pane	develop容器	1	0	:	0	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core	1	bash	:
+pane	develop容器	2	0	:	0	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/apollo_test/application-core	1	bash	:/bin/bash /opt/apollo/aem/aem-enter
+pane	develop容器	2	0	:	1	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/apollo_test/application-core	0	bash	:/bin/bash /opt/apollo/aem/aem-enter
+pane	develop容器	2	0	:	2	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core/data	0	bash	:
+pane	develop容器	2	0	:	3	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/apollo_test/application-core/data	0	bash	:
+pane	develop容器	2	0	:	4	:/home/mac/mkcode/apollo_test/application-core	0	bash	529270	:
+pane	develop容器	2	0	:	5	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/apollo_test/application-core/modules	0	bash	:
+pane	develop容器	3	1	:*	0	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core	0	ssh	:ssh mac@172.20.149.215
+pane	develop容器	3	1	:*	1	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core	0	ssh	:ssh mac@172.20.149.215
+pane	develop容器	3	1	:*	2	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core	1	ssh	:ssh mac@172.20.149.215
+pane	develop容器	3	1	:*	3	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core	0	bash	:
+pane	develop容器	4	0	:-	0	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core	1	bash	:
+pane	fr_max	0	0	:-	0	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core	1	bash	:
+pane	fr_max	0	0	:-	1	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core/data/fr_max_car_record	0	bash	:
+pane	fr_max	0	0	:-	2	mac-ThinkPad-T14p-Gen-3	:/home/mac	0	bash	:
+pane	fr_max	0	0	:-	3	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core/data	0	bash	:
+pane	fr_max	0	0	:-	4	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/apollo_test/application-core/data	0	bash	:
+pane	fr_max	0	0	:-	5	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core	0	bash	:
+pane	fr_max	0	0	:-	6	mac-ThinkPad-T14p-Gen-3	:/home/mac	0	bash	:
+pane	fr_max	0	0	:-	7	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core	0	bash	:
+pane	fr_max	0	0	:-	8	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core/modules/control	0	bash	:
+pane	fr_max	1	1	:*	0	mac-ThinkPad-T14p-Gen-3	:/home/mac	0	bash	:
+pane	fr_max	1	1	:*	1	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core	0	bash	:
+pane	fr_max	1	1	:*	2	mac-ThinkPad-T14p-Gen-3	:/home/mac	0	bash	:
+pane	fr_max	1	1	:*	3	mac-ThinkPad-T14p-Gen-3	:/home/mac	0	bash	:
+pane	fr_max	1	1	:*	4	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core	1	bash	:
+pane	other	0	1	:*	0	⠹ 配置 tmux 滚轮翻页 | mac	:/home/mac	1	codex	:codex resume 01a0a53a-ca98-7d73-9294-c0515984ab63
+pane	other	1	0	:	0	:/home/mac	0	bash	74919	:
+pane	other	1	0	:	1	mac-ThinkPad-T14p-Gen-3	:/home/mac/macperson/stock_research_mac	1	bash	:
+pane	other	1	0	:	2	运行暂存集校验 | stock_research_mac	:/home/mac/macperson/stock_research_mac	0	codex	:codex resume 01a0eb6f-517e-70c0-a19a-1934a6d76119
+pane	other	2	0	:	0	生成 GitLab SSH 指纹 | mac	:/home/mac	0	codex	:codex
+pane	other	2	0	:	1	研究 start.sh 是否使用 GPU0 | qwen3.8-deploy	:/home/mac/macperson/qwen3.8-deploy	0	codex	:codex resume 01a09a1d-d1af-75a0-8d17-970a1f6f2532
+pane	other	2	0	:	2	mac-ThinkPad-T14p-Gen-3	:/home/mac	1	ssh	:ssh lenovo@172.20.149.215
+pane	other	2	0	:	3	mac-ThinkPad-T14p-Gen-3	:/home/mac	0	ssh	:ssh mac@172.20.149.215
+pane	other	2	0	:	4	mac-ThinkPad-T14p-Gen-3	:/home/mac	0	ssh	:ssh mac@172.20.149.215
+pane	other	3	0	:-	0	mac-ThinkPad-T14p-Gen-3	:/home/mac/macperson/computer_tools_backup	1	bash	:
+pane	other	3	0	:-	1	mac-ThinkPad-T14p-Gen-3	:/home/mac/macperson/computer_tools_backup	0	agy	:agy --dangerously-skip-permissions
+pane	other	4	0	:	0	mac-ThinkPad-T14p-Gen-3	:/home/mac/macperson/stock	0	bash	:
+pane	other	4	0	:	1	mac-ThinkPad-T14p-Gen-3	:/home/mac	0	bash	:
+pane	other	4	0	:	2	整理并规划 stock 部署 | stock	:/home/mac/macperson/stock	1	codex	:codex
+pane	other_modules	0	0	:	0	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core/modules/dreamview_plus	1	bash	:
+pane	other_modules	0	0	:	1	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/apollo_test/application-core	0	bash	:
+pane	other_modules	0	0	:	2	检查 sim_control 分支差异 | application-core	:/home/mac/mkcode/application-core/modules	0	codex	:codex resume 01a12df5-997c-73a1-b36a-e63e3c9e6c7f
+pane	other_modules	1	0	:-	0	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core/modules/prediction	0	bash	:
+pane	other_modules	1	0	:-	1	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/apollo_test/application-core	1	bash	:
+pane	other_modules	1	0	:-	2	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core/modules/map	0	bash	:
+pane	other_modules	2	1	:*	0	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core/modules/canbus	0	bash	:
+pane	other_modules	2	1	:*	1	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/apollo_test/application-core/modules/canbus	0	bash	:
+pane	other_modules	2	1	:*	2	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core/modules/canbus_vehicle	1	bash	:
+pane	other_modules	2	1	:*	3	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/apollo_test/application-core/modules/canbus_vehicle	0	bash	:
+pane	other_modules	3	0	:	0	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core/modules/external_command	0	bash	:
+pane	other_modules	3	0	:	1	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/apollo_test/application-core/modules	1	bash	:
+pane	other_modules	4	0	:	0	mac-ThinkPad-T14p-Gen-3	:/home/mac	1	bash	:
+pane	planning	0	0	:-	0	分析实车测试异常 | application-core	:/home/mac/mkcode/application-core	1	codex	:codex
+codex resume 01a0f4d2-9b60-7312-b051-a0895356d400
+pane	planning	0	0	:-	1	迁移 iLQR 横向规划算法 | application-core	:/home/mac/mkcode/application-core	0	codex	:codex
+pane	planning	0	0	:-	2	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core/data/fr_max_car_record	0	bash	:
+pane	planning	0	0	:-	3	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core/data/log	0	bash	:
+pane	planning	0	0	:-	4	分析并整理 cyber 改动 | application-core	:/home/mac/mkcode/application-core	0	codex	:codex
+pane	planning	0	0	:-	5	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core/modules/prediction	0	bash	:
+pane	planning	1	0	:	0	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core	1	agy	:agy --dangerously-skip-permissions
+pane	planning	1	0	:	1	:/home/mac/mkcode/application-core	0	agy	192679	:
+pane	planning	2	1	:*	0	梳理并落地planning流程 | application-core	:/home/mac/mkcode/application-core	0	codex	:codex
+codex resume 01a09e83-257b-7ec1-9a49-c1b44ad7c218
+pane	planning	2	1	:*	1	研究仿真文档并分析容器用法 | application-core	:/home/mac/mkcode/application-core	1	codex	:codex
+pane	planning	3	0	:	0	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core	1	bash	:
+pane	planning	3	0	:	1	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core/modules/planning	0	bash	:
+pane	planning	3	0	:	2	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/apollo_test/application-core	0	bash	:
+pane	planning	3	0	:	3	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/apollo_test/application-core/modules/planning	0	bash	:
+pane	planning	4	0	:	0	Check status | application-core	:/home/mac/mkcode/application-core	1	codex	:codex resume 01a0ccc8-a08c-7253-b5a7-ac2a954b650d
+pane	planning	4	0	:	1	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core	0	agy	:agy --dangerously-skip-permissions
+pane	planning	5	0	:	0	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core	1	bash	:
+pane	planning	6	0	:	0	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/application-core	1	bash	:
+pane	ranger_mini_v3_old	0	1	:*	0	mac-ThinkPad-T14p-Gen-3	:/home/mac	0	bash	:
+pane	ranger_mini_v3_old	0	1	:*	1	mac-ThinkPad-T14p-Gen-3	:/home/mac	0	bash	:
+pane	ranger_mini_v3_old	0	1	:*	2	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/apollo_test/application-core/profiles/ranger_mini_v3/modules	1	bash	:
+pane	ranger_mini_v3_old	0	1	:*	3	mac-ThinkPad-T14p-Gen-3	:/home/mac/mkcode/apollo_test/application-core	0	bash	:
+window	control	0	:control	0	:	83bf,203x46,0,0{101x46,0,0[101x23,0,0,3,101x22,0,24,62],101x46,102,0,53}	off
+window	control	1	:bash	0	:	6242,203x46,0,0,13	:
+window	control	2	:底盘适配工具开发	1	:*	6243,203x46,0,0,14	off
+window	control	3	:control 代码管理	0	:-	62ff,203x46,0,0{101x46,0,0[101x23,0,0,56,101x22,0,24,15],101x46,102,0[101x23,102,0,32,101x22,102,24,74]}	off
+window	develop容器	0	:本地develop调试多窗口	0	:	8918,203x46,0,0{101x46,0,0[101x23,0,0,0,101x22,0,24{55x22,0,24,54,45x22,56,24,60}],101x46,102,0[101x23,102,0,28,101x22,102,24,61]}	off
+window	develop容器	1	:本地调试数据log多窗口	0	:	c41e,203x46,0,0,1	off
+window	develop容器	2	:apollo-test容器多窗口develop	0	:	3d05,203x46,0,0{101x46,0,0[101x23,0,0{50x23,0,0,20,50x23,51,0,83},101x22,0,24{50x22,0,24,71,50x22,51,24,79}],101x46,102,0[101x23,102,0,63,101x22,102,24,82]}	off
+window	develop容器	3	:A6000服务器容器多窗口调试	1	:*	ae04,203x46,0,0[203x23,0,0{101x23,0,0,87,101x23,102,0,21},203x22,0,24{101x22,0,24,86,101x22,102,24,88}]	off
+window	develop容器	4	:bash	0	:-	df47,203x54,0,0,85	:
+window	fr_max	0	:ssh多窗口文件处理	0	:-	72e5,203x46,0,0{102x46,0,0[102x23,0,0{63x23,0,0,7,38x23,64,0,51},102x22,0,24{63x22,0,24,35,38x22,64,24[38x11,64,24,52,38x10,64,36,80]}],100x46,103,0[100x23,103,0{62x23,103,0,34,37x23,166,0,38},100x22,103,24{62x22,103,24,36,37x22,166,24,37}]}	off
+window	fr_max	1	:fr_max 多窗口调试	1	:*	3814,203x46,0,0{99x46,0,0[99x23,0,0,39,99x22,0,24,41],103x46,100,0[103x23,100,0{56x23,100,0,40,46x23,157,0,50},103x22,100,24,49]}	off
+window	other	0	:codex-tmux配置	1	:*	c423,203x46,0,0,6	off
+window	other	1	:codex-local-shuimu	0	:	6f5f,203x46,0,0{101x46,0,0,8,101x46,102,0[101x23,102,0,17,101x22,102,24,19]}	off
+window	other	2	:lenovo-ssh	0	:	c933,203x52,0,0{94x52,0,0[94x26,0,0{47x26,0,0,77,46x26,48,0,18},94x25,0,27,16],108x52,95,0[108x26,95,0,76,108x25,95,27,84]}	off
+window	other	3	:computer_tools_backup	0	:-	bf8b,203x46,0,0{101x46,0,0,69,101x46,102,0,70}	off
+window	other	4	:stock	0	:	3f3a,203x54,0,0{101x54,0,0[101x27,0,0,94,101x26,0,28,95],101x54,102,0,96}	off
+window	other_modules	0	:dreamview代码管理	0	:	71fc,203x46,0,0{97x46,0,0[97x23,0,0,5,97x22,0,24,81],105x46,98,0,45}	off
+window	other_modules	1	:prediction代码管理	0	:-	a3c4,203x46,0,0{101x46,0,0[101x23,0,0,9,101x22,0,24,78],101x46,102,0,73}	off
+window	other_modules	2	:canbus代码管理	1	:*	1301,203x46,0,0{101x46,0,0[101x23,0,0,43,101x22,0,24,97],101x46,102,0[101x23,102,0,68,101x22,102,24,98]}	off
+window	other_modules	3	:external_command	0	:	3f8b,203x46,0,0{101x46,0,0,67,101x46,102,0,90}	off
+window	other_modules	4	:bash	0	:	e24b,203x46,0,0,89	:
+window	planning	0	:codex-planning-ilqr	0	:-	e5bf,203x46,0,0{68x46,0,0,2,66x46,69,0[66x23,69,0,22,66x18,69,24,55,66x3,69,43,58],67x46,136,0[67x23,136,0,23,67x22,136,24,59]}	off
+window	planning	1	:agy-回归测试	0	:	7f85,203x46,0,0{101x46,0,0,10,101x46,102,0,31}	off
+window	planning	2	:codex-planning代码闭环流程	1	:*	f2f5,203x46,0,0{94x46,0,0,11,108x46,95,0,66}	off
+window	planning	3	:planning代码管理	0	:	db02,203x54,0,0{98x54,0,0[98x27,0,0,12,98x26,0,28,64],104x54,99,0[104x27,99,0,29,104x26,99,28,65]}	off
+window	planning	4	:codex-agy-reference_as_path	0	:	7f8a,203x46,0,0{101x46,0,0,24,101x46,102,0,27}	off
+window	planning	5	:bash	0	:	df34,183x44,0,0,25	:
+window	planning	6	:bash	0	:	df35,183x44,0,0,26	:
+window	ranger_mini_v3_old	0	:mini_v3多窗口文件管理	1	:*	a300,203x46,0,0{101x46,0,0[101x23,0,0,47,101x22,0,24,92],101x46,102,0[101x23,102,0,91,101x22,102,24,93]}	off
+state	other_modules	control

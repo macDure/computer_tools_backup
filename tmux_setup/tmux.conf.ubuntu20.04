@@ -2,8 +2,8 @@
 set -g mouse on
 set -g history-limit 100000
 
-# Keep OSC 52 clipboard support enabled when the terminal advertises Ms.
-set -s set-clipboard on
+# Use xclip via copy-pipe; disable OSC 52 to avoid conflicting clipboard writes.
+set -s set-clipboard off
 
 # Ubuntu 20.04 ships tmux 3.0a, which does not have the server-level
 # copy-command option used by the Ubuntu 24.04/original configuration.

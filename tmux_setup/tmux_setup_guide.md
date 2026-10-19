@@ -30,7 +30,7 @@
 - `tmux.conf.ubuntu20.04`：Ubuntu 20.04/tmux 3.0a 兼容配置，将 xclip 命令直接写入 5 个复制绑定。
 - `install_tmux_config.sh`：安全安装脚本；自动探测 `copy-command` 是否可用，覆盖已有 `~/.tmux.conf` 前会先备份到 `~/.tmux-config-backups/`。
 - TPM、`tmux-resurrect`、`tmux-continuum`：恢复插件；模板已包含插件配置，换电脑时按本指南安装插件。
-- `session_layout_snapshot/`：2026-10-14 09:23 导出的本机最新 Resurrect 快照及 `last` 链接，不含旧历史；跨电脑复刻布局时复制到 `~/.local/share/tmux/resurrect/`。
+- `session_layout_snapshot/`：2026-10-19 16:28 导出的本机最新 Resurrect 快照及 `last` 链接，并保留上一份迁移快照；当前布局含 7 个 session、29 个 window、89 个 pane。跨电脑复刻布局时复制到 `~/.local/share/tmux/resurrect/`。
 - `ubuntu20.04_local_install_20260916/`：本机 Ubuntu 20.04 的实际安装状态与配置备份。
 - `catppuccin-mocha-20260930/`：独立配色片段和终端配色资源；tmux 3.4 主配置已包含当前配色，Ubuntu 20.04 兼容配置不包含不兼容的颜色选项。
 - 本文档：迁移、使用、验证和排障步骤。
@@ -157,11 +157,11 @@ set -g history-limit 100000
 
 每个窗格最多保留 100000 行历史输出。
 
-```tmux
-set -s set-clipboard on
-```
+本配置通过 `copy-pipe-and-cancel` 调用 `xclip` 写入桌面系统剪贴板，因此关闭 OSC 52：tmux 官方文档提示 `set-clipboard` 与 `copy-pipe` 同时使用时可能冲突。
 
-允许 tmux 使用终端的 OSC 52 剪贴板通道。
+```tmux
+set -s set-clipboard off
+```
 
 ### Ubuntu 24.04/较新 tmux：原始配置
 
@@ -177,7 +177,7 @@ Ubuntu 20.04 官方仓库的 tmux 3.0a 没有 `copy-command`，而且该版本�
 
 由于现有 tmux server 可能是在没有 `DISPLAY` 的 SSH 环境中启动，两种配置都显式指定了 X11 环境。
 
-鼠标拖选和复制模式的 `Enter`/`y` 都绑定到了 `copy-pipe-and-cancel`，因此复制内容同时可用于 tmux buffer 和外部系统剪贴板。
+鼠标拖选和复制模式的 `Enter`/`y` 都绑定到了 `copy-pipe-and-cancel`，因此选中文字会写入 tmux buffer，并通过 xclip 写入桌面系统剪贴板。不要再同时启用 OSC 52。
 
 ## 使用方法
 
@@ -190,6 +190,8 @@ Ubuntu 20.04 官方仓库的 tmux 3.0a 没有 `copy-command`，而且该版本�
 ```text
 Ctrl-Shift-V
 ```
+
+在飞书等普通桌面应用中粘贴请按 `Ctrl-V`；`Ctrl-Shift-V` 是 Terminator 的粘贴快捷键。
 
 ### 键盘复制
 
@@ -210,6 +212,7 @@ Ctrl-b ]
 ```
 
 不要用 `Ctrl-C` 代替复制，它会向正在运行的程序发送中断信号。
+当前默认是 Emacs copy mode，`Enter` 可复制选区；配置中的 `y` 仅在切换到 Vi copy mode 后生效。
 
 ## 配置验证
 
@@ -225,7 +228,6 @@ Ubuntu 24.04/较新 tmux 继续验证原始 server-level 配置：
 
 ```bash
 tmux show-options -s copy-command
-tmux info | rg 'Ms:'
 ```
 
 Ubuntu 20.04/tmux 3.0a 验证兼容绑定和 terminfo：
@@ -233,7 +235,6 @@ Ubuntu 20.04/tmux 3.0a 验证兼容绑定和 terminfo：
 ```bash
 tmux list-keys -T copy-mode | rg 'copy-pipe-and-cancel'
 tmux list-keys -T copy-mode-vi | rg 'copy-pipe-and-cancel'
-infocmp -x "${TERM:-xterm-256color}" | rg 'Ms='
 ```
 
 预期至少看到：
@@ -241,10 +242,10 @@ infocmp -x "${TERM:-xterm-256color}" | rg 'Ms='
 ```text
 mouse on
 history-limit 100000
-set-clipboard on
+set-clipboard off
 ```
 
-24.04/较新 tmux 还应看到 `copy-command` 和 `Ms: (string) ...`；20.04 应看到两个 key table 的相关绑定中包含 `copy-pipe-and-cancel` 与 xclip 命令，以及 `Ms=...`（来自终端 terminfo）。
+24.04/较新 tmux 还应看到 `copy-command`；两个版本的相关绑定都应包含 `copy-pipe-and-cancel`。本配置使用 xclip，不依赖终端的 `Ms`/OSC 52 能力。
 
 测试 xclip 是否能访问系统剪贴板时，可以只读测试，不改写当前剪贴板：
 
@@ -551,6 +552,23 @@ Ubuntu 20.04 自带的 tmux 3.0a 不在此配色片段的支持范围内，不�
 
 配置使用 `tmux-resurrect` 保存 session、window、pane 的名称和布局、pane 顺序及工作目录；`tmux-continuum` 每 60 分钟自动保存，并在 tmux server 启动时自动恢复。自动保存通过 `~/.local/bin/tmux-resurrect-save-low-priority` 执行：CPU niceness 为 15，若系统有 `ionice`，I/O 使用 idle class；没有 `ionice` 时仍会降低 CPU 优先级。这样尽量把资源留给交互式终端，但不能保证高负载下完全无卡顿。恢复快照固定保存在 `~/.local/share/tmux/resurrect/`。自动恢复只会在 server 启动时触发，不是每次重载配置时触发。
 
+### 当前 session/window/pane 清单
+
+以下是 2026-10-19 16:28（Asia/Shanghai）导出的清单。精确 window 名称、pane 顺序、分割方向与尺寸、工作目录和恢复命令以 `session_layout_snapshot/last` 指向的 Resurrect 快照为准；pane 屏幕历史未纳入快照。
+
+| Session | Windows | Panes |
+| --- | ---: | ---: |
+| `control` | 4 | 9 |
+| `develop容器` | 5 | 17 |
+| `fr_max` | 2 | 14 |
+| `other` | 5 | 14 |
+| `other_modules` | 5 | 13 |
+| `planning` | 7 | 18 |
+| `ranger_mini_v3_old` | 1 | 4 |
+| **合计** | **29** | **89** |
+
+仓库只保留当前和上一份迁移快照；本机 `~/.local/share/tmux/resurrect/` 中的自动保存历史不做全量同步。布局有重要变化时，按 `Ctrl-b Ctrl-s` 手动保存，再将最新快照同步到备份目录并更新 `last` 链接。
+
 ### 手动保存与恢复
 
 ```text
@@ -586,6 +604,6 @@ systemctl --user status tmux.service --no-pager
 - session/window/pane 名称、顺序、布局和工作目录可以恢复；pane 的完整屏幕历史默认不保证恢复。
 - 插件只会恢复一小组已知程序。其他程序可以单独加入 `@resurrect-processes`，但应逐个验证；不要启用 `:all:`，以免意外重启不安全的命令。
 - 重新打开程序不等于恢复它断电前的内部状态。Codex、Apollo 工具或容器内的交互进程需要分别验证；程序自己的会话/任务数据应由程序本身保存。
-- 本目录的 `session_layout_snapshot/` 是本机 2026-10-14 09:23 导出的最新快照副本（仅含当前快照和 `last` 链接，不含旧历史）。迁移时先安装配置和恢复插件，再在新机第一次启动 tmux 之前将它复制到 `~/.local/share/tmux/resurrect/`；仅保存配置文件不能还原以前的布局。
+- 本目录的 `session_layout_snapshot/` 是本机 2026-10-19 16:28 导出的最新快照及上一份迁移快照副本，不包含本机完整自动保存历史。迁移时先安装配置和恢复插件，再在新机第一次启动 tmux 之前将它复制到 `~/.local/share/tmux/resurrect/`；仅保存配置文件不能还原以前的布局。
 - 快照包含 session/window 名称、工作目录和 pane 运行命令（可能含内部主机地址）；本目录应只保存在私有代码库，不要公开分享或放入公共仓库。
 - 该机制防止 tmux 布局因意外关机丢失，不替代独立磁盘备份；磁盘损坏时，存于同一磁盘的恢复快照也可能丢失。

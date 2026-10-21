@@ -7,7 +7,7 @@
 
 ## tmux 配置与迁移
 
-- [tmux.conf](./tmux.conf)：本机 Ubuntu 24.04/tmux 3.4 配置，包含滚轮历史、系统剪贴板、Catppuccin Mocha 配色和 session 自动恢复/登录启动；使用 server-level `copy-command` + xclip，并关闭可能冲突的 OSC 52。目标机需按其 `DISPLAY`/`XAUTHORITY` 调整剪贴板命令。
+- [tmux.conf](./tmux.conf)：本机 Ubuntu 24.04/tmux 3.4 配置，包含滚轮历史、系统剪贴板、TUI 鼠标模式下的 tmux 拖选、Catppuccin Mocha 配色和 session 自动恢复/登录启动；使用 server-level `copy-command` + xclip，并关闭可能冲突的 OSC 52。目标机需按其 `DISPLAY`/`XAUTHORITY` 调整剪贴板命令。
 - [tmux.conf.ubuntu20.04](./tmux.conf.ubuntu20.04)：Ubuntu 20.04 的兼容配置，直接向 `copy-pipe-and-cancel` 传入 xclip 命令。
 - [install_tmux_config.sh](./install_tmux_config.sh)：自动探测 `copy-command` 支持情况，选择对应配置；备份旧配置，安装低优先级保存包装脚本并重载当前 server。
 - [tmux-resurrect-save-low-priority](./tmux-resurrect-save-low-priority)：供 Continuum 定时保存使用，以低 CPU／磁盘优先级运行；手动 `Ctrl-b Ctrl-s` 不受影响。

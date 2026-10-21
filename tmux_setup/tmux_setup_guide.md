@@ -26,7 +26,7 @@
 
 ## 文件说明
 
-- `tmux.conf`：与本机 Ubuntu 24.04/tmux 3.4 配置同步，包含滚轮历史、剪贴板、Catppuccin Mocha 配色及恢复/登录启动设置；使用 server-level `copy-command`。
+- `tmux.conf`：与本机 Ubuntu 24.04/tmux 3.4 配置同步，包含滚轮历史、剪贴板、mouse-aware TUI 中的 tmux 拖选、Catppuccin Mocha 配色及恢复/登录启动设置；使用 server-level `copy-command`。
 - `tmux.conf.ubuntu20.04`：Ubuntu 20.04/tmux 3.0a 兼容配置，将 xclip 命令直接写入 5 个复制绑定。
 - `install_tmux_config.sh`：安全安装脚本；自动探测 `copy-command` 是否可用，覆盖已有 `~/.tmux.conf` 前会先备份到 `~/.tmux-config-backups/`。
 - TPM、`tmux-resurrect`、`tmux-continuum`：恢复插件；模板已包含插件配置，换电脑时按本指南安装插件。
@@ -179,13 +179,21 @@ Ubuntu 20.04 官方仓库的 tmux 3.0a 没有 `copy-command`，而且该版本�
 
 鼠标拖选和复制模式的 `Enter`/`y` 都绑定到了 `copy-pipe-and-cancel`，因此选中文字会写入 tmux buffer，并通过 xclip 写入桌面系统剪贴板。不要再同时启用 OSC 52。
 
+root key table 将 `MouseDrag1Pane` 绑定到 `copy-mode -M`，即使 Codex 等 TUI 开启了鼠标报告，拖动选区也由 tmux 接管。配置如下：
+
+```tmux
+bind-key -T root MouseDrag1Pane copy-mode -M
+```
+
+代价是 pane 应用自己的鼠标拖动手势不可用；鼠标点击、切换 pane 和滚轮仍按各自绑定处理。两份配置模板和本机 `~/.tmux.conf` 都应保留这条绑定。
+
 ## 使用方法
 
 默认 tmux 前缀键是 `Ctrl-b`。
 
 ### 鼠标复制
 
-在窗格中按住鼠标左键拖选文字，松开后自动复制。然后在外部 Terminator 中按：
+在任意 pane 中按住鼠标左键拖选文字，松开后自动复制；包括会接管鼠标事件的 Codex 等 TUI。然后在外部 Terminator 中按：
 
 ```text
 Ctrl-Shift-V
@@ -607,3 +615,27 @@ systemctl --user status tmux.service --no-pager
 - 本目录的 `session_layout_snapshot/` 是本机 2026-10-19 16:28 导出的最新快照及上一份迁移快照副本，不包含本机完整自动保存历史。迁移时先安装配置和恢复插件，再在新机第一次启动 tmux 之前将它复制到 `~/.local/share/tmux/resurrect/`；仅保存配置文件不能还原以前的布局。
 - 快照包含 session/window 名称、工作目录和 pane 运行命令（可能含内部主机地址）；本目录应只保存在私有代码库，不要公开分享或放入公共仓库。
 - 该机制防止 tmux 布局因意外关机丢失，不替代独立磁盘备份；磁盘损坏时，存于同一磁盘的恢复快照也可能丢失。
+
+## 实战踩坑：同是 Codex，只有某个 pane 不能鼠标复制（2026-10-19）
+
+这次遇到的问题不是“Codex 在所有 pane 都会抢鼠标”。tmux 按 pane 观察前台程序是否打开了鼠标报告模式；因此界面看起来都是 Codex，pane 的启动路径、SSH/嵌套终端和程序当前状态不同，`mouse_any_flag` 也可能不同。tmux 默认会把这类 pane 的拖动事件交给应用，导致拖选复制表现不一致。
+
+本次排查时，出问题的 `planning:2.1` 显示 `cmd=codex`、`mouse_any_flag=1`、`alternate_on=1`；对照查询到的 `planning:5.0` 显示 `cmd=ssh`、`mouse_any_flag=0`、`alternate_on=0`。这些值是当时的现场证据，不是固定配置，也不表示 Codex 品牌本身是根因。
+
+排查当前所有 pane 的状态：
+
+```bash
+tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index} cmd=#{pane_current_command} mouse_any_flag=#{mouse_any_flag} alternate_on=#{alternate_on} pane_in_mode=#{pane_in_mode}'
+```
+
+确认 tmux 已加载全局拖选绑定及松开鼠标后的复制绑定：
+
+```bash
+tmux list-keys -T root | rg 'MouseDrag1Pane'
+tmux list-keys -T copy-mode | rg 'MouseDragEnd1Pane'
+tmux list-keys -T copy-mode-vi | rg 'MouseDragEnd1Pane'
+```
+
+应看到 root 表中的 `MouseDrag1Pane copy-mode -M`，以及复制模式中的 `copy-pipe-and-cancel`。前者让所有 pane 的鼠标拖动都进入 tmux 选区，不受 `mouse_any_flag` 差异影响；后者在松开鼠标时同时写入 tmux buffer 和系统剪贴板。改完配置后可用 `tmux source-file ~/.tmux.conf` 重载，再在有问题的 pane 实际拖选并到外部应用粘贴验证。
+
+这条全局绑定的明确取舍是：Codex 等 TUI 自己的鼠标拖动手势会被 tmux 选区占用；鼠标点击和滚轮配置不因此改变。迁移到新电脑时，除了复制配置，还要验证目标桌面的 xclip、`DISPLAY` 和 `XAUTHORITY`，因为它们决定复制结果能否进入图形系统剪贴板。

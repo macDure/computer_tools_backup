@@ -9,12 +9,11 @@
 这份 `mkvpn` 备份包含：
 
 ```text
-TRUSTACCESS_APOLLO_GUIDE.md
+TRUSTACCESS_APOLLO_GUIDE.md  # 本文档
+TROUBLESHOOTING_AND_FIXES.md # 实战排坑记录与 5 大技术陷阱根因解决方案
 linuxclient/trustaccess_1.0.1-1_amd64.deb
 linuxclient/*.rpm
-palemoon-trustaccess/       # Pale Moon 34.3.2.1、运行库和专用 profile
-  connect-trustaccess.sh    # 一键检查网络、启动后台并打开登录页
-  install-trustaccess-launcher.sh # 安装桌面/应用菜单快捷方式
+palemoon-trustaccess/        # Pale Moon 34.3.2.1、运行库和专用 profile
 ```
 
 其中 `.deb` 适用于 Ubuntu/Debian 的 x86_64 主机。新电脑先确认：
@@ -32,22 +31,27 @@ Pale Moon 需要在本地图形桌面会话中以普通用户启动，不要使�
 
 ```text
 plugin.state.libnpSecClientAssist=2
+plugin.state.libnpsecclientassist=2
 plugin.default.state=2
 dom.ipc.plugins.enabled=false
+general.useragent.override (Firefox 标识)
 ```
 
-前两项让旧插件始终激活，最后一项让它使用进程内 NPAPI。它们只放在这个专用 Pale Moon profile 中；该 profile 只访问单位 VPN 网关，不要用于普通网页浏览。
+前三项让旧插件始终激活，第四项让它使用进程内 NPAPI。**特别注意**：VPN 网关前端脚本（`jquery.sslvpn.js`）会强校验浏览器的 User-Agent，只有检测到包含 `"Firefox"` 才会向页面插入 `<embed id="secvpnplugin">` 插件节点；Pale Moon 默认的 Goanna UA 会导致网关不插节点、点击登录无任何反应，因此必须通过 UA 覆写伪装成 Firefox。
 
 `user.js` 的完整内容应为：
 
 ```javascript
 // Enable the legacy TrustAccess NPAPI plugin in this dedicated profile.
 user_pref("plugin.state.libnpSecClientAssist", 2);
+user_pref("plugin.state.libnpsecclientassist", 2);
 user_pref("plugin.default.state", 2);
 user_pref("dom.ipc.plugins.enabled", false);
+user_pref("general.useragent.override", "Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0");
+user_pref("general.useragent.override.111.202.232.70", "Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0");
 ```
 
-换电脑后优先复制整个 `palemoon-trustaccess` 目录；如果只复制浏览器压缩包，必须在新电脑的 `profile/user.js` 中恢复这三行。不要把这三个设置写入系统其他浏览器的 profile。
+换电脑后优先复制整个 `palemoon-trustaccess` 目录；如果只复制浏览器压缩包，必须在新电脑的 `profile/user.js` 中恢复这些设置。不要把这些设置写入系统其他浏览器的 profile。
 
 ## 日常速查
 
@@ -64,6 +68,11 @@ fi
 浏览器打开 `https://111.202.232.70:1443/` 并登录。
 
 如果电脑在路上断网，先恢复 Wi-Fi、网线或手机热点；完全没有外部网络时，VPN 没有可连接的入口，不能只靠启动 TrustAccess 建立公司网络。恢复网络后，凡是发生过断网、睡眠唤醒、切换 Wi-Fi/网线或 DHCP 地址变化，都按“外出断网后的恢复”流程重新登录，不要直接沿用旧隧道。
+
+> [!TIP]
+> 更多常见实战陷阱（如使用 3~4 小时后网关超时导致的“假在线”、SSH 连不上、登录点击无反应等），请查阅配套的 [TROUBLESHOOTING_AND_FIXES.md](file:///home/mac/macperson/computer_tools_backup/mkvpn/TROUBLESHOOTING_AND_FIXES.md)。
+> - **会话超时（假在线）快速恢复**：在 Pale Moon 窗口中按 `Ctrl + F5` 强制刷新，重新输入密码登录即可立即恢复，无需重启服务或电脑。
+> - **SSH 超时连不上**：确认系统已建立 `/sbin/iptables` 软链接（`sudo ln -sf /usr/sbin/iptables /sbin/iptables`）。
 
 关闭 VPN：
 
@@ -107,6 +116,10 @@ sudo dpkg -i ./trustaccess_1.0.1-1_amd64.deb
 ```bash
 test -x /usr/lib/mozilla/plugins/libnpSecClientAssist.so \
   && echo 'TrustAccess 浏览器插件已安装'
+
+# 补齐 iptables 软链接（Ubuntu 必须配置）
+# TrustAccess 内部代理 scsProxyd 硬编码调用 /sbin/iptables 进行端口转发；Ubuntu 缺失此路径会导致 SSH 超时
+sudo ln -sf /usr/sbin/iptables /sbin/iptables
 ```
 
 这个 deb 的安装脚本会尝试启动 `secvpnMonitord`，并配置开机启动。因此安装后先检查进程；不要在已有 `secvpnMonitord` 时重复执行 `start`，否则这个旧版脚本可能启动重复进程。
@@ -166,16 +179,6 @@ https://111.202.232.70:1443/
 
 因此，换电脑时不要只启动 `/usr/local/trustaccess/TrustAccess` 就判断登录失败。若 TrustAccess 窗口仍不显示，应打开 Pale Moon 访问上述地址；这是本次已经验证成功的登录方式。
 
-当前机器已经安装桌面快捷方式 **TrustAccess VPN Login**，位置是：
-
-```text
-/home/mac/Desktop/TrustAccess-VPN.desktop
-```
-
-也可以从应用菜单搜索 `TrustAccess VPN Login`。点击它会自动检查普通网络、清理必要的旧 IPsec 状态、启动 `secvpnd`，然后使用专用 Pale Moon profile 打开 VPN 登录页。正常情况下不需要再手动运行 `/usr/local/trustaccess/TrustAccess` 或单独启动 `start-palemoon.sh`。
-
-如果远端 VPN 会话超时，服务器可能让登录窗口退出并要求重新认证。这是网关会话策略，不能通过本地脚本绕过；重新点击同一个 **TrustAccess VPN Login** 图标，重新输入账号密码即可。脚本不会保存 VPN 密码。如果浏览器进程仍然存在但页面已经失效，先关闭该 Pale Moon 窗口，再点击图标。
-
 登录后检查：
 
 ```bash
@@ -199,7 +202,7 @@ sleep 2
 sudo /etc/init.d/secvpnd start
 
 cd /home/mac/Downloads/palemoon-trustaccess
-./connect-trustaccess.sh
+./start-palemoon.sh
 ```
 
 然后重新打开 `https://111.202.232.70:1443/` 登录。确认出现 `172.20.70.*` 地址后，再连接 SSH。
@@ -272,7 +275,7 @@ TCP 22 unreachable            -> 仍未建立正确隧道或路由，暂时不�
 
    ```bash
    cd "$HOME/palemoon-trustaccess"
-   ./connect-trustaccess.sh
+   ./start-palemoon.sh
    ```
 
    如果提示 profile 被占用，确认没有 Pale Moon 进程后再清理锁文件：
@@ -336,6 +339,9 @@ dom.ipc.plugins.enabled=false
    sudo dpkg -i ./trustaccess_1.0.1-1_amd64.deb
    test -x /usr/lib/mozilla/plugins/libnpSecClientAssist.so \
      && echo 'TrustAccess 浏览器插件已安装'
+
+   # 补齐 iptables 软链接（解决 scsProxyd 无法下发 DNAT 规则导致 SSH 等非 Web 流量超时）
+   sudo ln -sf /usr/sbin/iptables /sbin/iptables
    ```
 
    本机备份的实际路径是 `/home/mac/macperson/computer_tools_backup/mkvpn`；新电脑不要照抄这个路径，替换为 U 盘、移动硬盘或新电脑上的实际路径。也不要在 Ubuntu/Debian 上使用同目录中的 RPM。
@@ -351,17 +357,6 @@ dom.ipc.plugins.enabled=false
    ```bash
    chmod +x "$HOME/palemoon-trustaccess/palemoon/palemoon"
    ```
-
-   安装一次桌面和应用菜单快捷方式：
-
-   ```bash
-   chmod +x "$HOME/palemoon-trustaccess/connect-trustaccess.sh" \
-     "$HOME/palemoon-trustaccess/install-trustaccess-launcher.sh"
-   cd "$HOME/palemoon-trustaccess"
-   ./install-trustaccess-launcher.sh
-   ```
-
-   以后直接点击桌面的 `TrustAccess VPN Login`。如果服务器会话超时导致登录窗口退出，再次点击同一个图标并重新输入账号密码。
 
    可先检查新电脑是否缺少系统库：
 
@@ -403,14 +398,14 @@ dom.ipc.plugins.enabled=false
      "$HOME/palemoon-trustaccess/profile/prefs.js"
    ```
 
-   这只修正 Pale Moon 的扩展路径记录，不会修改 VPN 地址、用户名或密码。不要删除 profile 中的 `user.js`，其中包含本次验证成功所需的三个插件设置。确认设置没有丢失：
+   这只修正 Pale Moon 的扩展路径记录，不会修改 VPN 地址、用户名或密码。不要删除 profile 中的 `user.js`，其中包含本次验证成功所需的插件激活与 Firefox User-Agent 伪装配置（网关 JS 强制要求 Firefox UA 才会注入 `<embed>` 插件节点）。确认设置没有丢失：
 
    ```bash
-   rg -n 'plugin.state.libnpSecClientAssist|plugin.default.state|dom.ipc.plugins.enabled' \
+   rg -n 'plugin.state.libnpSecClientAssist|general.useragent.override' \
      "$HOME/palemoon-trustaccess/profile/user.js"
    ```
 
-   输出应包含三行 `user_pref`。如果只使用 `palemoon.tar.xz`，用文本编辑器打开或创建上述 `user.js`，写入“新电脑部署边界”中的完整内容；只解压浏览器本体而不恢复 profile，是本次最容易遗漏的配置。
+   输出应包含相关 `user_pref` 配置。如果只使用 `palemoon.tar.xz`，用文本编辑器打开或创建上述 `user.js`，写入“新电脑部署边界”中的完整内容；只解压浏览器本体而不恢复 profile，是本次最容易遗漏的配置。
 
    ```bash
    chmod +x "$HOME/palemoon-trustaccess/start-palemoon.sh" \
@@ -427,23 +422,23 @@ dom.ipc.plugins.enabled=false
    fi
    ```
 
-4. 如果不使用桌面图标，也可以使用一键连接脚本：
+4. 使用专用 profile 和专用浏览器实例启动 Pale Moon。启动脚本不带参数时会自动打开 VPN 登录页：
 
    ```bash
    cd "$HOME/palemoon-trustaccess"
-   ./connect-trustaccess.sh
+   ./start-palemoon.sh
    ```
 
-   该脚本会使用 `-no-remote -profile ... -new-window` 启动专用 Pale Moon，并打开 VPN 登录页；不能改为普通浏览器启动方式，这样才能让本地 TrustAccess 插件连接到 `secvpnServerd`。`start-palemoon.sh` 仍可作为只启动浏览器的底层脚本使用，但不负责自动启动后台服务。
+   该脚本实际使用 `-no-remote -profile ... -new-window`，不能改为普通浏览器启动方式；这样才能让本地 TrustAccess 插件连接到 `secvpnServerd`。
 
    当前机器也可以直接执行：
 
    ```bash
    cd /home/mac/Downloads/palemoon-trustaccess
-   ./connect-trustaccess.sh
+   ./start-palemoon.sh
    ```
 
-   新电脑复制完整目录后，运行 `install-trustaccess-launcher.sh` 即可生成对应路径的桌面快捷方式；不要直接复制旧电脑中写死 `/home/mac/Downloads/...` 路径的 `.desktop` 文件。
+   也可以双击当前桌面的 `TrustAccess-Pale-Moon.desktop`。如果文件管理器第一次询问“运行还是显示”，选择“运行”。新电脑不会自动得到当前桌面快捷方式，但复制过来的目录中有同一个 `start-palemoon.sh`，执行方式不变。
 
 5. 在 Pale Moon 中打开：
 
@@ -480,8 +475,6 @@ dom.ipc.plugins.enabled=false
 palemoon/                 # Pale Moon 34.3.2.1 可执行程序及运行库
 profile/                  # 专用 profile，含插件设置、证书例外和登录状态
 start-palemoon.sh         # 跟随目录移动仍可用的启动脚本
-connect-trustaccess.sh    # 一键检查网络、启动后台并打开登录页
-install-trustaccess-launcher.sh # 按当前目录生成桌面/应用菜单快捷方式
 palemoon.tar.xz           # 浏览器压缩包
 palemoon-eu.tar.xz、part.* # 原目录中已有的其他归档文件
 ```
@@ -838,14 +831,14 @@ Build did NOT complete successfully
 
    ```bash
    cd /home/mac/Downloads/palemoon-trustaccess
-   ./connect-trustaccess.sh
+   ./start-palemoon.sh
    ```
 
    如果目录已复制到用户主目录，则使用：
 
    ```bash
    cd "$HOME/palemoon-trustaccess"
-   ./connect-trustaccess.sh
+   ./start-palemoon.sh
    ```
 
 4. 在 Pale Moon 中打开并重新登录：

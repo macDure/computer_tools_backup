@@ -27,7 +27,7 @@ proxy_env_v2raya() {
   export HTTPS_PROXY="$https_proxy"
   export all_proxy='socks5h://127.0.0.1:20170'
   export ALL_PROXY="$all_proxy"
-  export no_proxy='localhost,127.0.0.0/8,::1'
+  export no_proxy='localhost,127.0.0.0/8,::1,mkzy.com,.mkzy.com,172.20.0.0/16,192.168.0.0/16'
   export NO_PROXY="$no_proxy"
   printf 'Proxy environment set to v2rayA: http=20171 socks=20170\n'
 }
@@ -39,7 +39,7 @@ proxy_env_v2rayn() {
   export HTTPS_PROXY="$https_proxy"
   export all_proxy='socks5h://127.0.0.1:10808'
   export ALL_PROXY="$all_proxy"
-  export no_proxy='localhost,127.0.0.0/8,::1'
+  export no_proxy='localhost,127.0.0.0/8,::1,mkzy.com,.mkzy.com,172.20.0.0/16,192.168.0.0/16'
   export NO_PROXY="$no_proxy"
   printf 'Proxy environment set to v2rayN: 10808\n'
 }
@@ -62,6 +62,8 @@ proxy_env_auto() {
   case "$proxy_vars" in
     *127.0.0.1:10808*)
       if proxy_env_port_open 10808; then
+        export no_proxy='localhost,127.0.0.0/8,::1,mkzy.com,.mkzy.com,172.20.0.0/16,192.168.0.0/16'
+        export NO_PROXY="$no_proxy"
         printf 'Proxy environment points to v2rayN 10808, and the port is alive.\n'
       else
         printf 'Proxy environment points to v2rayN 10808, but the port is not listening.\n'
@@ -70,6 +72,8 @@ proxy_env_auto() {
       ;;
     *127.0.0.1:20171*|*127.0.0.1:20170*)
       if proxy_env_port_open 20171 || proxy_env_port_open 20170; then
+        export no_proxy='localhost,127.0.0.0/8,::1,mkzy.com,.mkzy.com,172.20.0.0/16,192.168.0.0/16'
+        export NO_PROXY="$no_proxy"
         printf 'Proxy environment points to v2rayA 20171/20170, and v2rayA proxy ports are alive.\n'
       else
         printf 'Proxy environment points to v2rayA 20171/20170, but v2rayA proxy ports are not listening.\n'

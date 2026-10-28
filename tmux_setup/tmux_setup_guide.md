@@ -30,7 +30,7 @@
 - `tmux.conf.ubuntu20.04`：Ubuntu 20.04/tmux 3.0a 兼容配置，将 xclip 命令直接写入 5 个复制绑定。
 - `install_tmux_config.sh`：安全安装脚本；自动探测 `copy-command` 是否可用，覆盖已有 `~/.tmux.conf` 前会先备份到 `~/.tmux-config-backups/`。
 - TPM、`tmux-resurrect`、`tmux-continuum`：恢复插件；模板已包含插件配置，换电脑时按本指南安装插件。
-- `session_layout_snapshot/`：2026-10-19 16:28 导出的本机最新 Resurrect 快照及 `last` 链接，并保留上一份迁移快照；当前布局含 7 个 session、29 个 window、89 个 pane。跨电脑复刻布局时复制到 `~/.local/share/tmux/resurrect/`。
+- `session_layout_snapshot/`：本机最新 Resurrect 快照（2026-10-28 22:41）及 `last` 链接，同时保留 2026-10-19 和 2026-10-14 两份旧快照；当前布局含 8 个 session、30 个 window、112 个 pane。跨电脑复刻布局时复制到 `~/.local/share/tmux/resurrect/`。
 - `ubuntu20.04_local_install_20260916/`：本机 Ubuntu 20.04 的实际安装状态与配置备份。
 - `catppuccin-mocha-20260930/`：独立配色片段和终端配色资源；tmux 3.4 主配置已包含当前配色，Ubuntu 20.04 兼容配置不包含不兼容的颜色选项。
 - 本文档：迁移、使用、验证和排障步骤。
@@ -562,20 +562,21 @@ Ubuntu 20.04 自带的 tmux 3.0a 不在此配色片段的支持范围内，不�
 
 ### 当前 session/window/pane 清单
 
-以下是 2026-10-19 16:28（Asia/Shanghai）导出的清单。精确 window 名称、pane 顺序、分割方向与尺寸、工作目录和恢复命令以 `session_layout_snapshot/last` 指向的 Resurrect 快照为准；pane 屏幕历史未纳入快照。
+以下是 2026-10-28 22:41（Asia/Shanghai）导出的清单。相比 2026-10-19 快照，新增 `ranger_mini_v4` session，并调整了多个 window 的 pane 数量和布局。精确 window 名称、pane 顺序、分割方向与尺寸、工作目录和恢复命令以 `session_layout_snapshot/last` 指向的 Resurrect 快照为准；pane 屏幕历史未纳入快照。
 
 | Session | Windows | Panes |
 | --- | ---: | ---: |
-| `control` | 4 | 9 |
-| `develop容器` | 5 | 17 |
-| `fr_max` | 2 | 14 |
-| `other` | 5 | 14 |
-| `other_modules` | 5 | 13 |
-| `planning` | 7 | 18 |
-| `ranger_mini_v3_old` | 1 | 4 |
-| **合计** | **29** | **89** |
+| `control` | 4 | 16 |
+| `develop容器` | 5 | 18 |
+| `fr_max` | 2 | 16 |
+| `other` | 5 | 16 |
+| `other_modules` | 5 | 14 |
+| `planning` | 7 | 19 |
+| `ranger_mini_v3_old` | 1 | 7 |
+| `ranger_mini_v4` | 1 | 6 |
+| **合计** | **30** | **112** |
 
-仓库只保留当前和上一份迁移快照；本机 `~/.local/share/tmux/resurrect/` 中的自动保存历史不做全量同步。布局有重要变化时，按 `Ctrl-b Ctrl-s` 手动保存，再将最新快照同步到备份目录并更新 `last` 链接。
+仓库只保留当前及前两份迁移快照；本机 `~/.local/share/tmux/resurrect/` 中的自动保存历史不做全量同步。布局有重要变化时，按 `Ctrl-b Ctrl-s` 手动保存，再将最新快照同步到备份目录并更新 `last` 链接。
 
 ### 手动保存与恢复
 
@@ -612,7 +613,7 @@ systemctl --user status tmux.service --no-pager
 - session/window/pane 名称、顺序、布局和工作目录可以恢复；pane 的完整屏幕历史默认不保证恢复。
 - 插件只会恢复一小组已知程序。其他程序可以单独加入 `@resurrect-processes`，但应逐个验证；不要启用 `:all:`，以免意外重启不安全的命令。
 - 重新打开程序不等于恢复它断电前的内部状态。Codex、Apollo 工具或容器内的交互进程需要分别验证；程序自己的会话/任务数据应由程序本身保存。
-- 本目录的 `session_layout_snapshot/` 是本机 2026-10-19 16:28 导出的最新快照及上一份迁移快照副本，不包含本机完整自动保存历史。迁移时先安装配置和恢复插件，再在新机第一次启动 tmux 之前将它复制到 `~/.local/share/tmux/resurrect/`；仅保存配置文件不能还原以前的布局。
+- 本目录的 `session_layout_snapshot/` 是本机 2026-10-28 22:41 导出的最新快照，并保留 2026-10-19 和 2026-10-14 两份旧快照；不包含本机完整自动保存历史。迁移时先安装配置和恢复插件，再在新机第一次启动 tmux 之前将它复制到 `~/.local/share/tmux/resurrect/`；仅保存配置文件不能还原以前的布局。
 - 快照包含 session/window 名称、工作目录和 pane 运行命令（可能含内部主机地址）；本目录应只保存在私有代码库，不要公开分享或放入公共仓库。
 - 该机制防止 tmux 布局因意外关机丢失，不替代独立磁盘备份；磁盘损坏时，存于同一磁盘的恢复快照也可能丢失。
 

@@ -7,13 +7,15 @@
 
 ## tmux 配置与迁移
 
-- [tmux.conf](./tmux.conf)：本机 Ubuntu 24.04/tmux 3.4 配置，包含滚轮历史、系统剪贴板、TUI 鼠标模式下的 tmux 拖选、Catppuccin Mocha 配色和 session 自动恢复/登录启动；使用 server-level `copy-command` + xclip，并关闭可能冲突的 OSC 52。目标机需按其 `DISPLAY`/`XAUTHORITY` 调整剪贴板命令。
+- [tmux.conf](./tmux.conf)：本机 Ubuntu 24.04/tmux 3.4 配置，包含滚轮历史、系统剪贴板、TUI 鼠标模式下的 tmux 拖选、Catppuccin Mocha 配色、session 自动恢复/登录启动和 pane 可见画面保存；使用 server-level `copy-command` + xclip，并关闭可能冲突的 OSC 52。目标机需按其 `DISPLAY`/`XAUTHORITY` 调整剪贴板命令。
 - [tmux.conf.ubuntu20.04](./tmux.conf.ubuntu20.04)：Ubuntu 20.04 的兼容配置，直接向 `copy-pipe-and-cancel` 传入 xclip 命令。
 - [install_tmux_config.sh](./install_tmux_config.sh)：自动探测 `copy-command` 支持情况，选择对应配置；备份旧配置，安装低优先级保存包装脚本并重载当前 server。
 - [tmux-resurrect-save-low-priority](./tmux-resurrect-save-low-priority)：供 Continuum 定时保存使用，以低 CPU／磁盘优先级运行；手动 `Ctrl-b Ctrl-s` 不受影响。
 - [tmux_setup_guide.md](./tmux_setup_guide.md)：完整迁移、使用、验证和排障文档。
+- [tmux_pane_paths_20261111.md](./tmux_pane_paths_20261111.md)：2026-11-11 当前 8 个 session、31 个 window、120 个 pane 的分布和逐 pane 绝对路径清单，附 Codex 恢复 ID。
+- [codex_pane_inventory_20261110.md](./codex_pane_inventory_20261110.md)：2026-11-10 当前运行 Codex 的 16 个 pane 清单，记录 tmux 定位目标、工作目录、任务线索和 10 个从 `codex resume` 启动参数确认的对话 ID。
 - tmux-resurrect + tmux-continuum：每 60 分钟以低优先级自动保存 session/window/pane 布局；Linux 用户登录时由 systemd 自动启动 tmux server，并自动恢复最近快照。
-- [session_layout_snapshot](./session_layout_snapshot/)：2026-10-19 16:28 导出的本机最新 Resurrect 布局快照及 `last` 链接；包含 7 个 session、29 个 window、89 个 pane。快照含工作目录和 pane 命令，只应保存在私有仓库；新电脑恢复步骤见迁移指南。
+- [session_layout_snapshot](./session_layout_snapshot/)：本机最新 Resurrect 布局快照为 2026-11-11 08:51，含 8 个 session、31 个 window、120 个 pane；pane 可见内容于 08:58 刷新归档，并保留 08:51 的前一份画面归档。另保留 2026-10-28、10-19、10-14 历史快照。布局和屏幕归档只应保存在私有代码库；新电脑恢复步骤见迁移指南。
 - [ubuntu20.04_local_install_20260916](./ubuntu20.04_local_install_20260916/)：本机 Ubuntu 20.04 的实际安装状态和生效配置备份。
 - [catppuccin-mocha-20260930](./catppuccin-mocha-20260930/README.md)：独立配色片段及 iTerm2 配色资源；主 `tmux.conf` 已包含本机 tmux 配色，Ubuntu 20.04 兼容配置不包含不兼容的配色选项。
 

@@ -1,0 +1,14 @@
+[Unit]
+Description=Collect laptop resume evidence without restarting the desktop
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 -B %h/.local/lib/laptop-resume/resume_helper.py monitor
+Restart=on-failure
+RestartSec=10
+UMask=0077
+Nice=10
+
+[Install]
+WantedBy=graphical-session.target

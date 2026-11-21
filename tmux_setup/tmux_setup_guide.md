@@ -30,7 +30,7 @@
 - `tmux.conf.ubuntu20.04`：Ubuntu 20.04/tmux 3.0a 兼容配置，将 xclip 命令直接写入 5 个复制绑定。
 - `install_tmux_config.sh`：安全安装脚本；自动探测 `copy-command` 是否可用，覆盖已有 `~/.tmux.conf` 前会先备份到 `~/.tmux-config-backups/`。
 - TPM、`tmux-resurrect`、`tmux-continuum`：恢复插件；模板已包含插件配置，换电脑时按本指南安装插件。
-- `session_layout_snapshot/`：本机最新 Resurrect 快照（2026-11-19 00:02）及 `last` 链接，pane 可见内容归档于 00:02 刷新；保留 2026-11-17、11-12、11-11、10-28、10-19 和 10-14 历史快照。当前布局含 9 个 session、38 个 window、141 个 pane。跨电脑复刻布局时复制到 `~/.local/share/tmux/resurrect/`。
+- `session_layout_snapshot/`：本机最新 Resurrect 快照（2026-11-22 01:18）及 `last` 链接，pane 可见内容归档于 01:18 刷新；保留 2026-11-19、11-17、11-12、11-11、10-28、10-19 和 10-14 历史快照。当前布局含 9 个 session、38 个 window、143 个 pane。跨电脑复刻布局时复制到 `~/.local/share/tmux/resurrect/`。
 - `ubuntu20.04_local_install_20260916/`：本机 Ubuntu 20.04 的实际安装状态与配置备份。
 - `catppuccin-mocha-20260930/`：独立配色片段和终端配色资源；tmux 3.4 主配置已包含当前配色，Ubuntu 20.04 兼容配置不包含不兼容的颜色选项。
 - 本文档：迁移、使用、验证和排障步骤。
@@ -564,20 +564,20 @@ Ubuntu 20.04 自带的 tmux 3.0a 不在此配色片段的支持范围内，不�
 
 ### 当前 session/window/pane 清单
 
-以下是 2026-11-19 00:02（Asia/Shanghai）导出的布局清单；00:02 保存了 141 个 pane 的可见画面。逐 pane 的绝对工作目录、前台命令和 Codex 恢复信息见 [tmux_pane_paths_20261119.md](./tmux_pane_paths_20261119.md)。本次检测到 19 个 Codex pane，其中 16 个对话 ID 可从快照保存的启动命令确认，另外 3 个未能确认。精确 window 名称、pane 顺序、分割方向与尺寸、工作目录和恢复命令以 `session_layout_snapshot/last` 指向的 Resurrect 快照为准；每个 pane 的可见画面在配套 `pane_contents.tar.gz` 中，完整 scrollback 不在快照中。
+以下是 2026-11-22 01:18（Asia/Shanghai）导出的布局清单；01:18 保存了 143 个 pane 的可见画面。逐 pane 的宿主机绝对工作目录按 session、window 名称及编号、pane 编号列在 [tmux_pane_host_paths_20261122.md](./tmux_pane_host_paths_20261122.md)。精确 window 名称、pane 顺序、分割方向与尺寸和恢复命令以 `session_layout_snapshot/last` 指向的 Resurrect 快照为准；每个 pane 的可见画面在配套 `pane_contents.tar.gz` 中，完整 scrollback 不在快照中。
 
 | Session | Windows | Panes |
 | --- | ---: | ---: |
-| `control` | 7 | 26 |
+| `control` | 7 | 27 |
 | `develop容器` | 5 | 19 |
 | `fr_max` | 2 | 20 |
 | `other` | 8 | 20 |
 | `other_modules` | 5 | 15 |
-| `planning` | 7 | 19 |
+| `planning` | 7 | 20 |
 | `ranger_mini_v3_old` | 1 | 7 |
 | `ranger_mini_v4` | 1 | 6 |
 | `榆林车` | 2 | 9 |
-| **合计** | **38** | **141** |
+| **合计** | **38** | **143** |
 
 仓库保留当前快照及历史快照；本机 `~/.local/share/tmux/resurrect/` 中的自动保存历史不做全量同步。布局有重要变化时，按 `Ctrl-b Ctrl-s` 手动保存，再将最新 `.txt` 快照和配套 `pane_contents.tar.gz` 一起同步到备份目录，并更新 `last` 与 `pane_contents.tar.gz` 链接。
 
@@ -616,7 +616,7 @@ systemctl --user status tmux.service --no-pager
 - session/window/pane 名称、顺序、布局和工作目录可以恢复；当前可见屏幕画面通过 `pane_contents.tar.gz` 以静态文本恢复，完整 scrollback 不保存。
 - 插件只会恢复一小组已知程序。其他程序可以单独加入 `@resurrect-processes`，但应逐个验证；不要启用 `:all:`，以免意外重启不安全的命令。
 - 重新打开程序不等于恢复它断电前的内部状态。Codex、Apollo 工具或容器内的交互进程需要分别验证；程序自己的会话/任务数据应由程序本身保存。
-- 本目录的 `session_layout_snapshot/` 最新布局快照为 2026-11-19 00:02，配套 pane 可见画面归档于 00:02 刷新，并保留 2026-11-17、11-12、11-11、10-28、10-19 和 10-14 历史快照；不包含本机完整自动保存历史。迁移时先安装配置和恢复插件，再在新机第一次启动 tmux 之前将整个目录复制到 `~/.local/share/tmux/resurrect/`，保留 `last`、`pane_contents.tar.gz` 链接及其目标文件。
+- 本目录的 `session_layout_snapshot/` 最新布局快照为 2026-11-22 01:18，配套 pane 可见画面归档于 01:18 刷新，并保留 2026-11-19、11-17、11-12、11-11、10-28、10-19 和 10-14 历史快照；不包含本机完整自动保存历史。迁移时先安装配置和恢复插件，再在新机第一次启动 tmux 之前将整个目录复制到 `~/.local/share/tmux/resurrect/`，保留 `last`、`pane_contents.tar.gz` 链接及其目标文件。
 - 快照和可见画面归档包含 session/window 名称、工作目录、pane 命令和终端上显示的文本（可能含内部主机地址、命令或对话内容）；本目录应只保存在私有代码库，不要公开分享或放入公共仓库。
 - 该机制防止 tmux 布局因意外关机丢失，不替代独立磁盘备份；磁盘损坏时，存于同一磁盘的恢复快照也可能丢失。
 

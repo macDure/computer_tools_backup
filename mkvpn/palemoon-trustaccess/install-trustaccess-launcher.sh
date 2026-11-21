@@ -26,12 +26,21 @@ write_entry() {
         'Type=Application' \
         'Name=TrustAccess VPN Login' \
         'Comment=Start TrustAccess and open the VPN login page' \
-        "Exec=$CONNECT" \
+        "Exec=\"$CONNECT\"" \
         "Path=$BASE" \
         'Terminal=false' \
         'Icon=web-browser' \
         'Categories=Network;' \
-        'StartupNotify=true' > "$TMP"
+        'StartupNotify=true' \
+        'Actions=Reconnect;Check;' \
+        '' \
+        '[Desktop Action Reconnect]' \
+        'Name=换网后重连（关闭 VPN 登录窗口）' \
+        "Exec=\"$CONNECT\" --reconnect" \
+        '' \
+        '[Desktop Action Check]' \
+        'Name=检查 VPN 连通性' \
+        "Exec=gnome-terminal -- \"$CONNECT\" --check --samples 2 --interval 5 --pause" > "$TMP"
     mv "$TMP" "$TARGET"
     chmod +x "$TARGET"
     if command -v gio >/dev/null 2>&1; then

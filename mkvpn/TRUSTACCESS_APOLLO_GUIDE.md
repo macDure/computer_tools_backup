@@ -2,6 +2,8 @@
 
 更新时间：2026-09-07
 
+2026-11-10 本机 Ubuntu 24.04 适配与实际验证状态见 [THIS_MACHINE_SETUP.md](THIS_MACHINE_SETUP.md)。下文为旧部署记录；新系统先检查现状，不能直接照搬软链接和卸载步骤。
+
 本文记录本次在 Ubuntu 主机上安装 TrustAccess、登录单位 VPN、修复 Apollo 容器内部依赖下载并完成 `modules/canbus` 编译的过程。
 
 ## 新电脑部署边界
@@ -72,7 +74,7 @@ fi
 > [!TIP]
 > 更多常见实战陷阱（如使用 3~4 小时后网关超时导致的“假在线”、SSH 连不上、登录点击无反应等），请查阅配套的 [TROUBLESHOOTING_AND_FIXES.md](file:///home/mac/macperson/computer_tools_backup/mkvpn/TROUBLESHOOTING_AND_FIXES.md)。
 > - **会话超时（假在线）快速恢复**：在 Pale Moon 窗口中按 `Ctrl + F5` 强制刷新，重新输入密码登录即可立即恢复，无需重启服务或电脑。
-> - **SSH 超时连不上**：确认系统已建立 `/sbin/iptables` 软链接（`sudo ln -sf /usr/sbin/iptables /sbin/iptables`）。
+> - **SSH 超时连不上**：先检查 `test -x /sbin/iptables` 和客户端错误日志。本机 `/sbin` 与 `/usr/sbin` 已合并，无需创建软链接。
 
 关闭 VPN：
 
@@ -117,9 +119,9 @@ sudo dpkg -i ./trustaccess_1.0.1-1_amd64.deb
 test -x /usr/lib/mozilla/plugins/libnpSecClientAssist.so \
   && echo 'TrustAccess 浏览器插件已安装'
 
-# 补齐 iptables 软链接（Ubuntu 必须配置）
-# TrustAccess 内部代理 scsProxyd 硬编码调用 /sbin/iptables 进行端口转发；Ubuntu 缺失此路径会导致 SSH 超时
-sudo ln -sf /usr/sbin/iptables /sbin/iptables
+# TrustAccess 会调用 /sbin/iptables；先检查，不覆盖现有 alternatives。
+test -x /sbin/iptables && readlink -f /sbin/iptables
+# 仅在 /sbin 是独立目录、目标路径缺失且 /usr/sbin/iptables 有效时另行补链。
 ```
 
 这个 deb 的安装脚本会尝试启动 `secvpnMonitord`，并配置开机启动。因此安装后先检查进程；不要在已有 `secvpnMonitord` 时重复执行 `start`，否则这个旧版脚本可能启动重复进程。
@@ -340,8 +342,8 @@ dom.ipc.plugins.enabled=false
    test -x /usr/lib/mozilla/plugins/libnpSecClientAssist.so \
      && echo 'TrustAccess 浏览器插件已安装'
 
-   # 补齐 iptables 软链接（解决 scsProxyd 无法下发 DNAT 规则导致 SSH 等非 Web 流量超时）
-   sudo ln -sf /usr/sbin/iptables /sbin/iptables
+   # 先检查已有 iptables；Ubuntu 24.04 的 /sbin 通常已合并到 /usr/sbin。
+   test -x /sbin/iptables && readlink -f /sbin/iptables
    ```
 
    本机备份的实际路径是 `/home/mac/macperson/computer_tools_backup/mkvpn`；新电脑不要照抄这个路径，替换为 U 盘、移动硬盘或新电脑上的实际路径。也不要在 Ubuntu/Debian 上使用同目录中的 RPM。
@@ -438,7 +440,7 @@ dom.ipc.plugins.enabled=false
    ./start-palemoon.sh
    ```
 
-   也可以双击当前桌面的 `TrustAccess-Pale-Moon.desktop`。如果文件管理器第一次询问“运行还是显示”，选择“运行”。新电脑不会自动得到当前桌面快捷方式，但复制过来的目录中有同一个 `start-palemoon.sh`，执行方式不变。
+   也可以执行目录中的 `install-trustaccess-launcher.sh` 后双击桌面的 `TrustAccess-VPN.desktop`。若 GNOME 提示，选择“允许运行”。旧 `TrustAccess-Pale-Moon.desktop` 入口不再推荐使用。
 
 5. 在 Pale Moon 中打开：
 

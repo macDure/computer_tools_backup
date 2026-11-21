@@ -3,6 +3,8 @@
 更新时间：2026-09-17  
 适用系统：Ubuntu 20.04 LTS (x86_64) / Debian 系列
 
+2026-11-10：本文保留旧电脑排坑经过。当前 Ubuntu 24.04 的兼容性检查和部署结果见 [THIS_MACHINE_SETUP.md](THIS_MACHINE_SETUP.md)。旧故障不表示每台电脑都需要相同修改。
+
 ---
 
 ## 一、本次部署遇到的核心问题与解决方案
@@ -85,9 +87,9 @@
 - **解决方案**：
   在系统根目录下补全软链接（跨重启永久生效）：
   ```bash
-  sudo ln -sf /usr/sbin/iptables /sbin/iptables
-  sudo ln -sf /usr/sbin/iptables-legacy /sbin/iptables-legacy 2>/dev/null || true
-  sudo ln -sf /usr/sbin/ip6tables /sbin/ip6tables 2>/dev/null || true
+  # 先检查；合并 /usr 的系统无需补链，切勿覆盖现有 alternatives。
+  test -x /sbin/iptables && readlink -f /sbin/iptables
+  # 只有 /sbin 是独立目录且路径确实缺失时，才考虑旧系统的补链方案。
   ```
 
 ---
@@ -122,15 +124,15 @@
 
 ## 二、新电脑部署极简操作 Checklist
 
-当您未来将 `/home/mac/macperson/computer_tools_backup/mkvpn` 拷贝到全新电脑（Ubuntu/Debian x86_64）时，请按以下 4 步顺序执行，保证 100% 一次成功：
+将 `/home/mac/macperson/computer_tools_backup/mkvpn` 拷贝到全新电脑（Ubuntu/Debian x86_64）时，先核查依赖、已有 VPN 和网络路径，再执行下面步骤；最终仍需外网登录与业务验收。
 
 ### 第一步：清理可能存在的冲突 VPN 并补全系统软链接
 ```bash
-# 1. 确保 iptables 软链接存在（解决 scsProxyd DNAT 报错）
-sudo ln -sf /usr/sbin/iptables /sbin/iptables
+# 1. 检查 iptables 是否已可执行，不覆盖现有软链接
+test -x /sbin/iptables && readlink -f /sbin/iptables
 
-# 2. 如果新机预装了深信服 aTrust/EasyConnect，务必先卸载
-sudo dpkg --purge cn.com.sangfor.atrust easyconnect 2>/dev/null || true
+# 2. 仅检查其他企业 VPN；确认实际冲突及保留需求后再决定是否卸载
+dpkg -l | rg -i 'atrust|sangfor|easyconnect'
 ```
 
 ### 第二步：安装 TrustAccess deb 底层服务
@@ -147,20 +149,8 @@ cp -a /path/to/mkvpn/palemoon-trustaccess "$HOME/palemoon-trustaccess"
 chmod +x "$HOME/palemoon-trustaccess/palemoon/palemoon"
 chmod +x "$HOME/palemoon-trustaccess/start-palemoon.sh"
 
-# 创建桌面快捷方式
-cat << 'EOF' > "$HOME/Desktop/TrustAccess-Pale-Moon.desktop"
-[Desktop Entry]
-Version=1.0
-Type=Application
-Name=TrustAccess VPN (Pale Moon)
-Comment=Launch Pale Moon for TrustAccess VPN Login
-Exec=/home/mac/palemoon-trustaccess/start-palemoon.sh https://111.202.232.70:1443/
-Icon=/home/mac/palemoon-trustaccess/palemoon/browser/icons/mozicon128.png
-Terminal=false
-Categories=Network;WebBrowser;
-StartupNotify=true
-EOF
-chmod +x "$HOME/Desktop/TrustAccess-Pale-Moon.desktop"
+# 按当前目录生成登录、重连与检查入口
+"$HOME/palemoon-trustaccess/install-trustaccess-launcher.sh"
 ```
 
 ### 第四步：配置内部域名并登录验证

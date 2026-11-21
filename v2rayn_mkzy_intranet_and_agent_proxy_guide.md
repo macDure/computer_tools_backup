@@ -152,3 +152,70 @@ http://172.20.149.215:30410/?record=%2Fapollo_workspace%2Fdata%2Fsimulation%2Fre
 | **仿真页面加载极慢后报 502 / 超时** | 页面请求误走了代理，送往了境外 VPS | 检查 v2rayN 参数设置中的“系统代理例外”，去除所有空格，必须包含 `172.20.*` 和 `*.mkzy.com`。 |
 | **页面正常显示，但没有任何登录弹窗** | Chrome 拦截了弹出窗口 | 查看 Chrome 地址栏右侧是否有拦截图标，勾选“始终允许弹窗”并刷新。 |
 | **终端中 `curl` 内网服务连不上** | 终端环境的 `no_proxy` 未生效 | 执行 `proxy-v2rayn` 刷新环境变量，或 `echo $no_proxy` 检查是否包含 `mkzy.com`。 |
+
+---
+
+## 四、本机配置结果（2026-11-10）
+
+机器：`mac-ThinkPad-T14p-Gen-3`，Ubuntu 24.04.4。此次全程未停止、终止或重启 v2rayN / xray，也未切换代理节点、改动现有 Agent 负载均衡器或重置 VPN。
+
+### 已落实的配置
+
+| 配置 | 本机修改 |
+| :--- | :--- |
+| `/etc/hosts` | 保留既有映射，只补充缺失的 `apt.mkzy.com`、`sso.mkzy.com`、`platform.mkzy.com` → `172.20.149.216` |
+| GNOME `ignore-hosts` | 清除每个规则值的前导空格，合并原有例外与本文完整规则；保持手动代理 `127.0.0.1:10808` |
+| v2rayN 持久配置 | 仅更新 `/home/mac/v2rayN-linux-64/guiConfigs/guiNConfig.json` 的 `SystemProxyItem.SystemProxyExceptions`，用无空格逗号分隔 |
+| 终端 helper | 更新实际由 `.bashrc` 加载的 `/home/mac/v2raya-tproxy-kit/scripts/proxy_env.sh`，保留本机原有自动检测端口、设置桌面代理等函数，仅更新三处 `no_proxy` 值 |
+| Shell 启动文件 | 更新 `.bashrc` 和 `.profile` 末尾的既有 `no_proxy` 覆盖行，避免启动后又缩回旧白名单；同步 `NO_PROXY` |
+| 仿真弹窗 | 写入 `/etc/opt/chrome/policies/managed/mkzy-intranet-popups.json`，仅允许 `http://172.20.149.215:30410` 弹窗；不直接修改运行中 Chrome 的 Preferences |
+| 仓库备份 | 同步仓库 `v2raya-tproxy-kit/scripts/proxy_env.sh` 的对应白名单，没有用仓库旧 helper 覆盖本机新增的自动配置逻辑 |
+
+实际终端白名单为：
+
+```text
+localhost,127.0.0.1,127.0.0.0/8,::1,mkzy.com,.mkzy.com,172.20.149.215,172.20.149.216,172.20.0.0/16,192.168.0.0/16
+```
+
+显式 IP 保证常用目标也能被 Python 标准库识别；网段规则已验证 curl 8.5 / requests，其他客户端是否支持 CIDR 取决于其实现。终端不依赖 `*.mkzy.com` 通配写法，用 `mkzy.com,.mkzy.com` 匹配本域和子域。
+
+### 实际验证
+
+- 修复前，Gio 将 SSO、仿真 IP、其他公司网段和 `192.168.*` 目标全部判为走 `10808`；修复后这些目标均返回 `direct://`，Google 仍返回 `http://127.0.0.1:10808`。
+- requests 的域名及网段绕过检查通过，Python 标准库的 SSO、平台和两个常用内部 IP 绕过检查通过。
+- 新增三个域名的 `getent hosts` 结果均为 `172.20.149.216`。最终直连 `http://sso.mkzy.com/welcome` 返回 **HTTP 200**。
+- 修改前后，外网经 `10808` 访问 `https://www.gstatic.com/generate_204` 均为 **HTTP 204 / CONNECT 200**。
+- xray 核心 **PID 91114**、启动时间 **2026-10-09 09:41:52**、进程 start ticks **366515** 均保持不变。原 API/代理 socket inode 分别为 **494911 / 494914 / 494916**，修改后逐一核对一致。
+- Shell 语法及 `git diff --check` 通过。Chrome 策略文件已核查，浏览器内策略页面是否已加载、实际飞书扫码弹窗和登录流程仍需在服务可用后验证。
+
+**剩余业务限制**：`172.20.149.215:30410` 在最终直连检查中仍为连接被拒绝，未获得 HTTP 响应。该结果只能确认目标端口当前不可连接，需要服务端核查监听进程、端口或访问策略；本次没有启动或重启远端仿真服务。
+
+### 已有终端与 Chrome 的使用
+
+新终端会自动使用更新后的 helper；已经打开的终端运行一次：
+
+```bash
+source "$HOME/v2raya-tproxy-kit/scripts/proxy_env.sh"
+```
+
+此操作只刷新当前 shell 环境和桌面代理配置，不操作代理内核。已经运行的 Agent 进程仍保留启动时继承的环境；此次保持其外网代理可用，没有为了刷新环境而重启 Agent。
+
+Chrome 的单站点 `PopupsAllowedForUrls` 策略支持动态更新。可在 `chrome://policy` 中点击“重新加载政策”，确认该项后刷新仿真页面，无需退出浏览器。策略语义及动态更新能力见 [Chromium 官方定义](https://raw.githubusercontent.com/chromium/chromium/main/components/policy/resources/templates/policy_definitions/ContentSettings/PopupsAllowedForUrls.yaml)。
+
+本文的内核路由兜底是可选项，此次没有热替换运行中的路由表。本机 Xray 24.11.5 的 `adrules` 默认替换会重建规则及 balancer，简单追加又会排在现有最终规则之后；为保持当前 Agent 路由，未执行该操作。当前生效的是桌面及终端分流，不能将其表述为“任意强制使用代理的软件也已经完成内核直连”。相关行为见 [对应版本官方实现](https://github.com/XTLS/Xray-core/blob/v24.11.5/app/router/router.go#L107)。
+
+### 备份
+
+用户配置原件：
+
+```text
+/home/mac/.local/state/mkzy-proxy-setup/20261110-224349/
+```
+
+系统 `/etc/hosts` 原件：
+
+```text
+/var/backups/mkzy-proxy-20261110-224500/hosts
+```
+
+Chrome 弹窗策略为此次新建文件。回滚时应仅恢复上述此次修改项，继续遵守本文最高禁令，不停止或杀死 v2rayN / xray。
